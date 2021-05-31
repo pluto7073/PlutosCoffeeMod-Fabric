@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "xx",
+    "xx"
+  ],
+  "key": {
+    "x": {
+      "item": "plutoscoffee:roasted_coffee_bean"
+    }
+  },
+  "result": {
+    "item": "plutoscoffee:ground_coffee",
+    "count": 4
+  }
+}

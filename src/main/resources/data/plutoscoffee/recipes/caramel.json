@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "xxx",
+    "xxx",
+    " y "
+  ],
+  "key": {
+    "x": {
+      "item": "minecraft:sugar"
+    },
+    "y": {
+      "item": "minecraft:glass_bottle"
+    }
+  },
+  "result": {
+    "item": "plutoscoffee:caramel",
+    "count": 1
+  }
+}

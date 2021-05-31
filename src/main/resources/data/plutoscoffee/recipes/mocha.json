@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " x ",
+    "xyx",
+    " z "
+  ],
+  "key": {
+    "x": {
+      "item": "plutoscoffee:chocolate_ground_coffee"
+    },
+    "y": {
+      "item": "minecraft:glass_bottle"
+    },
+    "z": {
+      "item": "minecraft:water_bucket"
+    }
+  },
+  "result": {
+    "item": "plutoscoffee:mocha",
+    "count": 1
+  }
+}

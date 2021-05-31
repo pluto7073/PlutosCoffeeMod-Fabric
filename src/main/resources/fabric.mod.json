@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "plutoscoffee",
+  "version": "${version}",
+
+  "name": "The Coffee Mod",
+  "description": "Adds coffee, coffee beans, plants, berries, and coffee drinks",
+  "authors": [
+    "Pluto7073"
+  ],
+  "contact": {
+    "homepage": "https://pluto7073-main.web.app/",
+    "sources": ""
+  },
+
+  "license": "CC0-1.0",
+  "icon": "assets/plutoscoffee/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.pluto7073.plutoscoffee.PlutosCoffee"
+    ],
+    "client": [
+      "com.pluto7073.plutoscoffee.Client"
+    ]
+  },
+  "mixins": [
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.16.x"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}

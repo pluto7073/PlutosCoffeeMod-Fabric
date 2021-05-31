@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "xy",
+    "yx"
+  ],
+  "key": {
+    "x": {
+      "item": "plutoscoffee:roasted_coffee_bean"
+    },
+    "y": {
+      "item": "minecraft:cocoa_beans"
+    }
+  },
+  "result": {
+    "item": "plutoscoffee:chocolate_coffee_bean",
+    "count": 2
+  }
+}
