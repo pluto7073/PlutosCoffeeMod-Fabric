@@ -1,9 +1,22 @@
-# Fabric Example Mod
+# Pluto's Coffee Mod
 
-## Setup
+Create your very own starbucks!
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+Pluto's Coffee Mod adds coffee and related features into the game
 
-## License
+## Features
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+- Coffee Berries, Beans, and Ground Beans
+- Craft a Milk Bucket with 4 glass bottles to get a Milk Bottle
+- Craft 6 Sugar and 1 Glass Bottle to get a bottle of Carmel
+- Make Coffee, Milk Coffee, Mochas, and Lattes
+
+## Cross Mod Features
+- None right now, but I have plans
+
+### More Information on [The Wiki](https://github.com/pluto7073/PlutosCoffeeMod-Fabric/wiki)
+
+### Forge Version?
+Not Happening, Sorry.
+
+[Report a Bug](https://www.curseforge.com/linkout?remoteUrl=https%253a%252f%252fforms.gle%252fKN9RQkvNEv16wcV46)
