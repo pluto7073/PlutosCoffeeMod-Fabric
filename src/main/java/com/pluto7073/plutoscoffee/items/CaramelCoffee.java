@@ -43,10 +43,10 @@ public class CaramelCoffee extends Item {
         if (stack.isEmpty()) {
             return new ItemStack(Items.GLASS_BOTTLE);
         } else {
-            if (user instanceof PlayerEntity && !((PlayerEntity)user).abilities.creativeMode) {
+            if (user instanceof PlayerEntity && !((PlayerEntity)user).isCreative()) {
                 ItemStack itemStack = new ItemStack(Items.GLASS_BOTTLE);
                 PlayerEntity playerEntity = (PlayerEntity)user;
-                if (!playerEntity.inventory.insertStack(itemStack)) {
+                if (!playerEntity.getInventory().insertStack(itemStack)) {
                     playerEntity.dropItem(itemStack, false);
                 }
             }
