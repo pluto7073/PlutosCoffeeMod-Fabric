@@ -4,13 +4,14 @@
   "version": "${version}",
 
   "name": "The Coffee Mod",
-  "description": "Adds coffee, coffee beans, plants, berries, and coffee drinks",
+  "description": "Make your very own starbucks!",
   "authors": [
     "Pluto7073"
   ],
   "contact": {
-    "homepage": "https://pluto7073-main.web.app/",
-    "sources": "https://github.com/pluto7073/PlutosCoffeeMod-Fabric"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/plutoscoffeemod",
+    "sources": "https://github.com/pluto7073/PlutosCoffeeMod-Fabric",
+    "issues": "https://github.com/pluto7073/PlutosCoffeeMod-Fabric/issues"
   },
 
   "license": "CC0-1.0",
