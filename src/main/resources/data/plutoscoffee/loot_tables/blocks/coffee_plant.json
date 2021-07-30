@@ -2,7 +2,8 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
+      "rolls": 1,
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -11,10 +12,12 @@
       ]
     },
     {
-      "rolls": 1.0,
+      "rolls": 1,
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:item",
+          "name": "plutoscoffee:coffee_berry",
           "functions": [
             {
               "function": "minecraft:apply_bonus",
@@ -25,14 +28,13 @@
                 "probability": 0.5714286
               }
             }
-          ],
-          "name": "plutoscoffee:coffee_berry"
+          ]
         }
       ],
       "conditions": [
         {
           "condition": "minecraft:block_state_property",
-          "block": "plutoscoffee:coffee_plant",
+          "block": "minecraft:potatoes",
           "properties": {
             "age": "7"
           }
