@@ -1,10 +1,16 @@
 # Pluto's Coffee Mod
 
+
+
 Create your very own starbucks!
 
 Pluto's Coffee Mod adds coffee and related features into the game
 
+
+
 ## Features
+
+
 
 - Coffee Berries, Beans, and Ground Beans
 - Craft a Milk Bucket with 4 glass bottles to get a Milk Bottle
@@ -16,7 +22,12 @@ Pluto's Coffee Mod adds coffee and related features into the game
 
 ### More Information on [The Wiki](https://github.com/pluto7073/PlutosCoffeeMod-Fabric/wiki)
 
+
 ### Forge Version?
 Not Happening, Sorry.
+
+
+### Modpacks?
+Feel free to use in modpacks as long as you credit me!
 
 [Report a Bug](https://www.curseforge.com/linkout?remoteUrl=https%253a%252f%252fforms.gle%252fKN9RQkvNEv16wcV46)
