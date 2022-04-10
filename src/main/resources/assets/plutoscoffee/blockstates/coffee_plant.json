@@ -1,19 +1,19 @@
 {
   "variants": {
     "age=0": {
-      "model": "plutoscoffee:block/coffee_stage0"
+      "model": "plutoscoffee:block/coffee_seed"
     },
     "age=1": {
       "model": "plutoscoffee:block/coffee_stage0"
     },
     "age=2": {
-      "model": "plutoscoffee:block/coffee_stage1"
+      "model": "plutoscoffee:block/coffee_stage0"
     },
     "age=3": {
       "model": "plutoscoffee:block/coffee_stage1"
     },
     "age=4": {
-      "model": "plutoscoffee:block/coffee_stage2"
+      "model": "plutoscoffee:block/coffee_stage1"
     },
     "age=5": {
       "model": "plutoscoffee:block/coffee_stage2"

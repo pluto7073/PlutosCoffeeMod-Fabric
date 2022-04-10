@@ -20,13 +20,9 @@
           "name": "plutoscoffee:coffee_berry",
           "functions": [
             {
-              "function": "minecraft:apply_bonus",
-              "enchantment": "minecraft:fortune",
-              "formula": "minecraft:binomial_with_bonus_count",
-              "parameters": {
-                "extra": 3,
-                "probability": 0.5714286
-              }
+              "function": "minecraft:set_count",
+              "count": 3,
+              "add": true
             }
           ]
         }
@@ -34,7 +30,7 @@
       "conditions": [
         {
           "condition": "minecraft:block_state_property",
-          "block": "minecraft:potatoes",
+          "block": "plutoscoffee:coffee_plant",
           "properties": {
             "age": "7"
           }
