@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "ml.pluto7073.plutoscoffee.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "PotionItemMixin",
+    "PotionRecipeMixin",
+    "PotionUtilMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
