@@ -3,13 +3,17 @@
   "item.plutoscoffee.coffee_bean": "Coffee Bean",
   "item.plutoscoffee.roasted_coffee_bean": "Roasted Coffee Bean",
   "item.plutoscoffee.ground_coffee": "Ground Coffee",
-  "item.plutoscoffee.coffee": "Coffee",
   "block.plutoscoffee.coffee_plant": "Coffee Plant",
   "item.plutoscoffee.chocolate_coffee_bean": "Mocha Bean",
   "item.plutoscoffee.chocolate_ground_coffee": "Ground Mocha Bean",
-  "item.plutoscoffee.mocha": "Mocha",
-  "item.plutoscoffee.milk_coffee": "Coffee With Milk",
   "item.plutoscoffee.caramel": "Caramel",
-  "item.plutoscoffee.caramel_coffee": "Caramel Latte",
-  "item.plutoscoffee.milk_bottle": "Bottle of Milk"
+  "item.plutoscoffee.milk_bottle": "Bottle of Milk",
+  "effect.plutoscoffee.caffeine_high": "The Power of Caffeine",
+  "effect.plutoscoffee.clear_all_effects": "The Power of Milk",
+  "effect.plutoscoffee.chocolate_food": "The Power of Chocolate",
+  "effect.plutoscoffee.caramel_food": "The Power of Caramel",
+  "item.minecraft.potion.effect.coffee": "Black Coffee",
+  "item.minecraft.potion.effect.milk_coffee": "Coffee With Milk",
+  "item.minecraft.potion.effect.mocha": "Mocha",
+  "item.minecraft.potion.effect.caramel_latte": "Caramel Latte"
 }
