@@ -1,9 +1,8 @@
-package com.pluto7073.plutoscoffee.registry;
+package ml.pluto7073.plutoscoffee.registry;
 
-import com.pluto7073.plutoscoffee.PlutosCoffee;
-import com.pluto7073.plutoscoffee.registry.ModBlocks;
+import ml.pluto7073.plutoscoffee.PlutosCoffee;
+import ml.pluto7073.plutoscoffee.items.*;
 import net.minecraft.item.AliasedBlockItem;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
@@ -23,6 +22,7 @@ public class ModItems {
     public static final Item CARAMEL = new Caramel();
     public static final Item CARAMEL_COFFEE = new CaramelCoffee();
     public static final Item MILK_BOTTLE = new MilkBottle();
+    public static final Item COFFEE_MACHINE_ITEM = new AliasedBlockItem(ModBlocks.COFFEE_MACHINE, new Item.Settings().group(ItemGroup.BREWING));
 
     public static void registerItems() {
         Registry.register(Registry.ITEM, new Identifier(PlutosCoffee.MOD_ID, "ground_coffee"), GROUND_COFFEE);
@@ -37,6 +37,7 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier(PlutosCoffee.MOD_ID, "caramel"), CARAMEL);
         Registry.register(Registry.ITEM, new Identifier(PlutosCoffee.MOD_ID, "caramel_coffee"), CARAMEL_COFFEE);
         Registry.register(Registry.ITEM, new Identifier(PlutosCoffee.MOD_ID, "milk_bottle"), MILK_BOTTLE);
+        Registry.register(Registry.ITEM, new Identifier(PlutosCoffee.MOD_ID, "coffee_machine"), COFFEE_MACHINE_ITEM);
     }
 
 }
