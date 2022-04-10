@@ -3,7 +3,7 @@
   "id": "plutoscoffee",
   "version": "${version}",
 
-  "name": "The Coffee Mod",
+  "name": "Pluto's Coffee Mod",
   "description": "Make your very own starbucks!",
   "authors": [
     "Pluto7073"
@@ -20,20 +20,21 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.pluto7073.plutoscoffee.PlutosCoffee"
+      "ml.pluto7073.plutoscoffee.PlutosCoffee"
     ],
     "client": [
-      "com.pluto7073.plutoscoffee.Client"
+      "ml.pluto7073.plutoscoffee.Client"
     ]
   },
   "mixins": [
+    "plutoscoffee.mixins.json"
   ],
 
   "depends": {
-    "fabricloader": ">=0.11.3",
+    "fabricloader": ">=0.13.3",
     "fabric": "*",
-    "minecraft": "1.17.x",
-    "java": ">=16"
+    "minecraft": "1.18.x",
+    "java": ">=17"
   },
   "suggests": {
     "flamingo": "*"
