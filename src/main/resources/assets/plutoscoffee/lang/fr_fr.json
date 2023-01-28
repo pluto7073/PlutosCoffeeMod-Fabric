@@ -8,12 +8,15 @@
   "item.plutoscoffee.chocolate_ground_coffee": "Haricot du Moka a Moulu",
   "item.plutoscoffee.caramel": "Caramel",
   "item.plutoscoffee.milk_bottle": "Bouteille du Lait",
-  "effect.plutoscoffee.caffeine_high": "The Power of Caffeine",
+  "effect.plutoscoffee.caffeine_high": "Le Pouvoir du Caféine",
   "effect.plutoscoffee.clear_all_effects": "Le Pouvoir du Lait",
   "effect.plutoscoffee.chocolate_food": "Le Pouvoir du Chocolat",
   "effect.plutoscoffee.caramel_food": "Le Pouvoir du Caramel",
   "item.minecraft.potion.effect.coffee": "Café Noir",
   "item.minecraft.potion.effect.milk_coffee": "Café au Lait",
   "item.minecraft.potion.effect.mocha": "Mocaccino",
-  "item.minecraft.potion.effect.caramel_latte": "Café Crème du Caramel"
+  "item.minecraft.potion.effect.caramel_latte": "Café Crème du Caramel",
+  "plutoscoffee.version.header": "Pluto's Coffee Mod est obsolète",
+  "plutoscoffee.version.message": "S'il vous plaît, Téléchargez la nouvelle version par Curseforge ou Github",
+  "plutoscoffee.version.okay": "D'accord"
 }
