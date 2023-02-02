@@ -1,10 +1,10 @@
 package ml.pluto7073.plutoscoffee.version;
 
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
+import ml.pluto7073.plutoscoffee.gui.VersionWarningScreen;
 import net.minecraft.client.MinecraftClient;
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class VersionChecker {
