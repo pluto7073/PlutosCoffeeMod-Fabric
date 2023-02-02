@@ -1,7 +1,32 @@
 package ml.pluto7073.plutoscoffee;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import ml.pluto7073.plutoscoffee.coffee.CoffeeAddition;
+import ml.pluto7073.plutoscoffee.coffee.CoffeeAdditions;
+import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
+import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
+import ml.pluto7073.plutoscoffee.items.BrewedCoffee;
+import ml.pluto7073.plutoscoffee.registry.ModItems;
+import ml.pluto7073.plutoscoffee.tags.ModItemTags;
+import net.fabricmc.fabric.api.tag.convention.v1.TagUtil;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.potion.PotionUtil;
+import net.minecraft.potion.Potions;
+import net.minecraft.tag.TagBuilder;
+import net.minecraft.tag.TagKey;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.JsonHelper;
+import org.jetbrains.annotations.Nullable;
+
+import java.awt.*;
+import java.util.*;
 import java.util.List;
 
 public final class Utils {
@@ -18,6 +43,90 @@ public final class Utils {
             l2.remove(t);
         }
         return (l1.size() == 0) && (l2.size() == 0);
+    }
+
+    public static CoffeeType getCoffeeType(ItemStack stack) {
+        return getCoffeeType(stack.getSubNbt("Coffee"));
+    }
+
+    public static ItemStack setCoffeeType(ItemStack stack, CoffeeType type) {
+        Identifier id = CoffeeTypes.getIdentifier(type);
+        if (type == CoffeeTypes.EMPTY) {
+            stack.removeSubNbt("Coffee");
+        } else {
+            stack.getOrCreateSubNbt("Coffee").putString("CoffeeType", id.toString());
+        }
+        return stack;
+    }
+
+    public static CoffeeType getCoffeeType(@Nullable NbtCompound nbt) {
+        return nbt == null ? CoffeeTypes.EMPTY : CoffeeType.byId(nbt.getString("CoffeeType"));
+    }
+
+    public static NbtElement stringAsNbt(String s) {
+        NbtCompound compound = new NbtCompound();
+        compound.putString("string", s);
+        return compound.get("string");
+    }
+
+    public static boolean isItemACoffeeGround(Item item) {
+        return TagUtil.isIn(ModItemTags.COFFEE_GROUNDS, item);
+    }
+
+    @Nullable
+    public static CoffeeAddition[] getCoffeeAddIns(ItemStack stack) {
+        return getCoffeeAddIns(stack.getOrCreateSubNbt("Coffee"));
+    }
+
+    @Nullable
+    public static CoffeeAddition[] getCoffeeAddIns(@Nullable NbtCompound nbt) {
+        if (nbt == null) return null;
+        NbtList list = nbt.getList("Additions", NbtElement.STRING_TYPE);
+        if (list == null) return null;
+        if (list.isEmpty()) return null;
+        CoffeeAddition[] addIns = new CoffeeAddition[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            String addIn = list.getString(i);
+            Identifier id = new Identifier(addIn);
+            if (!CoffeeAdditions.REGISTRY.containsKey(id)) {
+                addIns[i] = CoffeeAdditions.EMPTY;
+                continue;
+            }
+            addIns[i] = CoffeeAdditions.REGISTRY.get(id);
+        }
+        return addIns;
+    }
+
+    public static int getCoffeeColour(ItemStack stack) {
+        CoffeeAddition[] addIns = getCoffeeAddIns(stack);
+        if (addIns == null) {
+            return BrewedCoffee.DEFAULT_COLOUR;
+        }
+        return getCoffeeColour(addIns);
+    }
+
+    public static int getCoffeeColour(CoffeeAddition[] addIns) {
+        int colour = BrewedCoffee.DEFAULT_COLOUR;
+        if (Arrays.stream(addIns).anyMatch(coffeeAddition -> coffeeAddition == CoffeeAdditions.MILK_BOTTLE)) {
+            colour = BrewedCoffee.COLOUR_WITH_MILK;
+        }
+        float r = (colour >> 16 & 255) / 255.0F;
+        float g = (colour >> 8 & 255) / 255.0F;
+        float b = (colour >> 0 & 255) / 255.0F;
+        int colourCount = 1;
+        for (CoffeeAddition addition : addIns) {
+            if (!addition.changesColour()) continue;
+            if (addition == CoffeeAdditions.MILK_BOTTLE) continue;
+            int additionColour = addition.getColour();
+            r += (additionColour >> 16 & 255) / 255.0F;
+            g += (additionColour >> 8 & 255) / 255.0F;
+            b += (additionColour >> 0 & 255) / 255.0F;
+            colourCount += 1;
+        }
+        r = r / (float) colourCount * 255.0F;
+        g = g / (float) colourCount * 255.0F;
+        b = b / (float) colourCount * 255.0F;
+        return (int) r << 16 | (int) g << 8 | (int) b;
     }
 
 }
