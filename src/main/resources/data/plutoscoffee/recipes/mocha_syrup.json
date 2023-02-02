@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "xzx",
+    "zxz",
+    " y "
+  ],
+  "key": {
+    "x": {
+      "item": "minecraft:sugar"
+    },
+    "y": {
+      "item": "minecraft:glass_bottle"
+    },
+    "z": {
+      "item": "minecraft:cocoa_beans"
+    }
+  },
+  "result": {
+    "item": "plutoscoffee:mocha_syrup",
+    "count": 1
+  }
+}
