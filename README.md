@@ -30,4 +30,4 @@ Not Happening, Sorry.
 ### Modpacks?
 Feel free to use in modpacks as long as you credit me!
 
-[Report a Bug](https://www.curseforge.com/linkout?remoteUrl=https%253a%252f%252fforms.gle%252fKN9RQkvNEv16wcV46)
+[Report a Bug](https://github.com/pluto7073/PlutosCoffeeMod-Fabric/issues)
