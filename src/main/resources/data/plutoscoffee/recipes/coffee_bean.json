@@ -9,6 +9,7 @@
     }
   },
   "result": {
-    "item": "plutoscoffee:coffee_bean"
+    "item": "plutoscoffee:coffee_bean",
+    "count": 2
   }
 }
