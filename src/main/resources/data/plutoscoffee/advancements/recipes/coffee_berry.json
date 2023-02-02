@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:stone"
+    },
+    "title": "",
+    "description": "",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": true
+  },
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "plutoscoffee:coffee_berry"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "recipes": [
+      "plutoscoffee:roasted_coffee_bean",
+      "plutoscoffee:medium_roast",
+      "plutoscoffee:dark_roast",
+      "plutoscoffee:coffee_berry",
+      "plutoscoffee:coffee_bean"
+    ]
+  }
+}
