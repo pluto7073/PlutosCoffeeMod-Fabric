@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "bottle=0": {
+      "model": "plutoscoffee:block/coffee_brewer_empty"
+    },
+    "bottle=1": {
+      "model": "plutoscoffee:block/coffee_brewer_bottle"
+    },
+    "bottle=2": {
+      "model": "plutoscoffee:block/coffee_brewer_full"
+    }
+  }
+}
