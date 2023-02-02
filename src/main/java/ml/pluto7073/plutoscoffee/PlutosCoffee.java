@@ -1,10 +1,6 @@
 package ml.pluto7073.plutoscoffee;
 
-import ml.pluto7073.plutoscoffee.effects.ModStatusEffects;
-import ml.pluto7073.plutoscoffee.registry.ModBlocks;
-import ml.pluto7073.plutoscoffee.registry.ModItems;
-import ml.pluto7073.plutoscoffee.potions.ModPotions;
-import ml.pluto7073.plutoscoffee.registry.ModStats;
+import ml.pluto7073.plutoscoffee.registry.*;
 import ml.pluto7073.plutoscoffee.version.VersionChecker;
 import net.fabricmc.api.ModInitializer;
 import org.apache.logging.log4j.LogManager;
@@ -15,18 +11,18 @@ public class PlutosCoffee implements ModInitializer {
     public static PlutosCoffee MOD;
     public static final String MOD_ID = "plutoscoffee";
     public static final Logger logger = LogManager.getLogger("PlutosCoffeeMod");
-    public static final int MOD_VERSION = 6;
+    public static final int MOD_VERSION = 7;
 
     private static boolean loadLaterDone = false;
 
     @Override
     public void onInitialize() {
         MOD = this;
-        ModBlocks.registerBlocks();
-        ModItems.registerItems();
-        ModPotions.registerPotions();
+        ModBlocks.init();
+        ModItems.init();
+        ModMisc.init();
+        ModScreens.init();
         ModStats.registerStats();
-        ModStatusEffects.init();
         logger.info("Pluto's Coffee Mod Initialized");
     }
 
