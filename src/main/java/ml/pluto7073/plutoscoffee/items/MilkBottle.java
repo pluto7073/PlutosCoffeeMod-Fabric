@@ -18,13 +18,12 @@ public class MilkBottle extends Item {
     private static final FoodComponent MilkFood = (new FoodComponent.Builder()).alwaysEdible().hunger(1).saturationModifier(5).build();
 
     public MilkBottle() {
-        super(new Item.Settings().group(ItemGroup.FOOD).maxCount(16).food(MilkFood).recipeRemainder(Items.GLASS_BOTTLE));
+        super(new Item.Settings().maxCount(16).food(MilkFood).recipeRemainder(Items.GLASS_BOTTLE));
     }
 
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         super.finishUsing(stack, world, user);
-        if (user instanceof ServerPlayerEntity) {
-            ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity)user;
+        if (user instanceof ServerPlayerEntity serverPlayerEntity) {
             Criteria.CONSUME_ITEM.trigger(serverPlayerEntity, stack);
             serverPlayerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
         }
@@ -36,9 +35,8 @@ public class MilkBottle extends Item {
         if (stack.isEmpty()) {
             return new ItemStack(Items.GLASS_BOTTLE);
         } else {
-            if (user instanceof PlayerEntity && !((PlayerEntity)user).isCreative()) {
+            if (user instanceof PlayerEntity playerEntity && !((PlayerEntity)user).isCreative()) {
                 ItemStack itemStack = new ItemStack(Items.GLASS_BOTTLE);
-                PlayerEntity playerEntity = (PlayerEntity)user;
                 if (!playerEntity.getInventory().insertStack(itemStack)) {
                     playerEntity.dropItem(itemStack, false);
                 }

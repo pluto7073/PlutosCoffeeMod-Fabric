@@ -4,7 +4,6 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
 
 public class CoffeeBean extends Item {
 
@@ -18,7 +17,7 @@ public class CoffeeBean extends Item {
             .statusEffect(new StatusEffectInstance(StatusEffects.HASTE, 20 * 10), 1);
 
     public CoffeeBean() {
-        super(new Item.Settings().group(ItemGroup.FOOD));
+        super(new Item.Settings());
     }
 
 }
