@@ -12,10 +12,11 @@ import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.datafixer.TypeReferences;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
-import net.minecraft.util.registry.Registry;
 
 public class ModBlocks {
 
@@ -26,12 +27,12 @@ public class ModBlocks {
     public static BlockEntityType<CoffeeBrewerBlockEntity> COFFEE_BREWER_BLOCK_ENTITY_TYPE;
 
     private static Block register(String id, Block block) {
-        return Registry.register(Registry.BLOCK, new Identifier(PlutosCoffee.MOD_ID, id), block);
+        return Registry.register(Registries.BLOCK, new Identifier(PlutosCoffee.MOD_ID, id), block);
     }
 
     private static <T extends BlockEntity> BlockEntityType<T> create(String id, BlockEntityType.Builder<T> builder) {
         Type<?> type = Util.getChoiceType(TypeReferences.BLOCK_ENTITY, id);
-        return Registry.register(Registry.BLOCK_ENTITY_TYPE, id, builder.build(type));
+        return Registry.register(Registries.BLOCK_ENTITY_TYPE, id, builder.build(type));
     }
 
     public static void init() {

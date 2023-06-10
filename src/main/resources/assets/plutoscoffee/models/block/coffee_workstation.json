@@ -2,11 +2,11 @@
   "parent": "minecraft:block/cube",
   "textures": {
     "particle": "minecraft:block/oak_planks",
-    "north": "plutoscoffee:blocks/coffee_workstation_front_back",
-    "south": "plutoscoffee:blocks/coffee_workstation_side",
-    "east": "plutoscoffee:blocks/coffee_workstation_side",
-    "west": "plutoscoffee:blocks/coffee_workstation_front_back",
+    "north": "plutoscoffee:block/coffee_workstation_front_back",
+    "south": "plutoscoffee:block/coffee_workstation_side",
+    "east": "plutoscoffee:block/coffee_workstation_side",
+    "west": "plutoscoffee:block/coffee_workstation_front_back",
     "up": "minecraft:block/smithing_table_top",
-    "down": "plutoscoffee:blocks/coffee_workstation_bottom"
+    "down": "plutoscoffee:block/coffee_workstation_bottom"
   }
 }

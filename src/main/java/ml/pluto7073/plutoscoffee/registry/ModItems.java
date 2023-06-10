@@ -2,10 +2,12 @@ package ml.pluto7073.plutoscoffee.registry;
 
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.items.*;
+import net.fabricmc.fabric.api.registry.VillagerPlantableRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.*;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class ModItems {
 
@@ -31,16 +33,17 @@ public class ModItems {
     public static Item BREWED_COFFEE;
 
     private static Item register(String id, Item item) {
-        return Registry.register(Registry.ITEM, new Identifier(PlutosCoffee.MOD_ID, id), item);
+        return Registry.register(Registries.ITEM, new Identifier(PlutosCoffee.MOD_ID, id), item);
     }
 
     private static Item register(Block block) {
-        return Registry.register(Registry.ITEM, Registry.BLOCK.getId(block), new BlockItem(block, new Item.Settings()));
+        return Registry.register(Registries.ITEM, Registries.BLOCK.getId(block), new BlockItem(block, new Item.Settings()));
     }
 
     public static void init() {
         COFFEE_BEAN = register("coffee_bean", new CoffeeBean());
         COFFEE_BERRY = register("coffee_berry", new AliasedBlockItem(ModBlocks.COFFEE_CROP, new Item.Settings()));
+        VillagerPlantableRegistry.register(COFFEE_BERRY);
         GROUND_LIGHT_ROAST = register("ground_coffee", new Item(new Item.Settings()));
         LIGHT_ROAST_BEAN = register("roasted_coffee_bean", new Item(new Item.Settings().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.build())));
         MOCHA_BEAN = register("chocolate_coffee_bean", new Item(new Item.Settings().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.hunger(3).saturationModifier(2.5f).build())));

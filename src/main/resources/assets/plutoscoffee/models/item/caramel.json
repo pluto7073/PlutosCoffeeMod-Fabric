@@ -1,6 +1,6 @@
 {
 	"parent": "minecraft:item/generated",
 	"textures": {
-		"layer0": "plutoscoffee:items/caramel"
+		"layer0": "plutoscoffee:item/caramel"
 	}
 }

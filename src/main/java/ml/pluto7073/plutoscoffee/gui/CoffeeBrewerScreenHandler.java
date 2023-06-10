@@ -52,7 +52,7 @@ public class CoffeeBrewerScreenHandler extends ScreenHandler {
         return inventory.canPlayerUse(player);
     }
 
-    public ItemStack transferSlot(PlayerEntity player, int index) {
+    public ItemStack quickMove(PlayerEntity player, int index) {
         ItemStack stack = ItemStack.EMPTY;
         Slot slot = slots.get(index);
         if (slot != null && slot.hasStack()) {

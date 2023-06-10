@@ -34,11 +34,11 @@ public class VersionWarningScreen extends WarningScreen {
 
     @Override
     protected void initButtons(int yOffset) {
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - 155, 100 + yOffset, 150, 20, Text.translatable("plutoscoffee.version.okay"),
+        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("plutosmods.version.okay"),
                 (buttonWidget) -> {
             this.client.setScreen(null);
-        }));
-        this.addDrawableChild(new ButtonWidget(this.width / 2 + 5, 100 + yOffset, 150, 20, Text.translatable("plutoscoffee.version.open_mod_page"),
+        }).dimensions(this.width / 2 - 155, 100 + yOffset, 150, 20).build());
+        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("plutosmods.version.open_mod_page"),
                 (buttonWidget) -> {
                     URI uRI;
                     try {
@@ -53,7 +53,7 @@ public class VersionWarningScreen extends WarningScreen {
                         this.openLink(uRI);
                         this.client.setScreen(null);
                     }
-        }));
+        }).dimensions(this.width / 2 + 5, 100 + yOffset, 150, 20).build());
     }
 
     @Override
@@ -75,8 +75,8 @@ public class VersionWarningScreen extends WarningScreen {
     }
 
     static {
-        HEADER = Text.translatable("plutoscoffee.version.header").formatted(Formatting.BOLD);
-        MESSAGE = Text.translatable("plutoscoffee.version.message");
+        HEADER = Text.translatable("plutosmods.version.header.plutoscoffee").formatted(Formatting.BOLD);
+        MESSAGE = Text.translatable("plutosmods.version.message");
         NARRATED = HEADER.copy().append("\n").append(MESSAGE);
     }
 

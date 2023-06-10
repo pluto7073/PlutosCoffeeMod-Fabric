@@ -1,6 +1,6 @@
 {
 	"parent": "minecraft:block/crop",
 	"textures": {
-		"crop": "plutoscoffee:blocks/coffee_stage0"
+		"crop": "plutoscoffee:block/coffee_stage0"
 	}
 }

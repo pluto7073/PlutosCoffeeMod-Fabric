@@ -5,8 +5,8 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +46,7 @@ public class CoffeeTypes {
                 return REGISTRY.get(i);
             }
         }
-        throw new IllegalArgumentException("No Such CoffeeType with Grounds: " + Registry.ITEM.getId(grounds));
+        throw new IllegalArgumentException("No Such CoffeeType with Grounds: " + Registries.ITEM.getId(grounds));
     }
 
     static {

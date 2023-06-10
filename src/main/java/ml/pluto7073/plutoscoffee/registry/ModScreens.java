@@ -3,10 +3,11 @@ package ml.pluto7073.plutoscoffee.registry;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.gui.CoffeeBrewerScreenHandler;
 import ml.pluto7073.plutoscoffee.gui.CoffeeWorkstationScreenHandler;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class ModScreens {
 
@@ -16,7 +17,7 @@ public class ModScreens {
     public static void init() {}
 
     private static <T extends ScreenHandler> ScreenHandlerType<T> register(String id, ScreenHandlerType.Factory<T> factory) {
-        return Registry.register(Registry.SCREEN_HANDLER, new Identifier(PlutosCoffee.MOD_ID, id), new ScreenHandlerType<>(factory));
+        return Registry.register(Registries.SCREEN_HANDLER, new Identifier(PlutosCoffee.MOD_ID, id), new ScreenHandlerType<>(factory));
     }
 
     static {

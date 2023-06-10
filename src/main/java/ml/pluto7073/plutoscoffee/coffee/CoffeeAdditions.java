@@ -9,8 +9,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -44,7 +44,7 @@ public class CoffeeAdditions {
         for (Identifier i : REGISTRY.keySet()) {
             if (ingredient.isOf(REGISTRY.get(i).getIngredient())) return REGISTRY.get(i);
         }
-        throw new IllegalArgumentException("No Such Coffee Ingredient with Item: " + Registry.ITEM.getId(ingredient.getItem()));
+        throw new IllegalArgumentException("No Such Coffee Ingredient with Item: " + Registries.ITEM.getId(ingredient.getItem()));
     }
 
     static {
