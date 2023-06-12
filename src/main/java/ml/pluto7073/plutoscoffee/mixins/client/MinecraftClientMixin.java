@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MinecraftClientMixin {
 
     @Inject(at = @At("HEAD"), method = "tick")
-    public void onFirstTick(CallbackInfo ci) {
+    public void plutoscoffee_onFirstTick(CallbackInfo ci) {
         PlutosCoffee.MOD.loadLater();
     }
 

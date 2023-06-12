@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ItemColorsMixin {
 
     @Inject(at = @At("TAIL"), method = "create", cancellable = true)
-    private static void createInject(BlockColors blockColors, CallbackInfoReturnable<ItemColors> cir) {
+    private static void plutoscoffee_createInject(BlockColors blockColors, CallbackInfoReturnable<ItemColors> cir) {
         ItemColors itemColors = cir.getReturnValue();
         itemColors.register((stack, tintIndex) -> tintIndex > 0 ? -1 : Utils.getCoffeeColour(stack), ModItems.BREWED_COFFEE);
         cir.setReturnValue(itemColors);

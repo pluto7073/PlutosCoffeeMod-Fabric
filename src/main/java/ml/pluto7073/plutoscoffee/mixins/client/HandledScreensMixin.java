@@ -25,7 +25,7 @@ public class HandledScreensMixin {
     }
 
     @Inject(at = @At("TAIL"), method = "<clinit>")
-    private static void clInitInject(CallbackInfo ci) {
+    private static void plutoscoffee_clInitInject(CallbackInfo ci) {
         register(ModScreens.BREWER_SCREEN_HANDLER_TYPE, CoffeeBrewerScreen::new);
         register(ModScreens.WORKSTATION_HANDLER_TYPE, CoffeeWorkstationScreen::new);
     }

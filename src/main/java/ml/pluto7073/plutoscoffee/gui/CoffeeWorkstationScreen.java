@@ -5,6 +5,7 @@ import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import net.minecraft.client.gui.screen.ingame.ForgingScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.screen.SmithingScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -21,6 +22,17 @@ public class CoffeeWorkstationScreen extends ForgingScreen<CoffeeWorkstationScre
     protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
         RenderSystem.disableBlend();
         super.drawForeground(matrices, mouseX, mouseY);
+    }
+
+    protected void drawInvalidRecipeArrow(MatrixStack matrices, int x, int y) {
+        if (this.hasInvalidRecipe()) {
+            drawTexture(matrices, x + 65, y + 46, this.backgroundWidth, 0, 28, 21);
+        }
+
+    }
+
+    private boolean hasInvalidRecipe() {
+        return (this.handler).getSlot(0).hasStack() && (this.handler).getSlot(1).hasStack() && (this.handler).getSlot(2).hasStack() && !(this.handler).getSlot((this.handler).getResultSlotIndex()).hasStack();
     }
 
 }

@@ -8,14 +8,17 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.SmithingRecipe;
 import net.minecraft.screen.ForgingScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.screen.slot.ForgingSlotsManager;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 public class CoffeeWorkstationScreenHandler extends ForgingScreenHandler {
 
@@ -85,8 +88,31 @@ public class CoffeeWorkstationScreenHandler extends ForgingScreenHandler {
     }
 
     @Override
-    protected boolean isUsableAsAddition(ItemStack stack) {
-        return recipes.stream().anyMatch((recipe) -> recipe.testAddition(stack));
+    protected ForgingSlotsManager getForgingSlotsManager() {
+        return ForgingSlotsManager.create().input(0, 27, 47, stack -> {
+            return this.recipes.stream().anyMatch(recipe -> {
+                return recipe.testBase(stack);
+            });
+        }).input(1, 76, 47, stack -> {
+            return this.recipes.stream().anyMatch(recipe -> {
+                return recipe.testAddition(stack);
+            });
+        }).output(2, 134, 47).build();
+    }
+
+    private static Optional<Integer> getQuickMoveSlot(CoffeeWorkstationRecipe recipe, ItemStack stack) {
+        if (recipe.testBase(stack)) {
+            return Optional.of(0);
+        } else {
+            return recipe.testAddition(stack) ? Optional.of(1) : Optional.empty();
+        }
+    }
+
+    @Override
+    protected boolean isValidIngredient(ItemStack stack) {
+        return this.recipes.stream().map((recipe) -> {
+            return getQuickMoveSlot(recipe, stack);
+        }).anyMatch(Optional::isPresent);
     }
 
     @Override

@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ResourceReloadLoggerMixin {
 
     @Inject(at = @At("TAIL"), method = "finish")
-    public void onFinishResourceReload(CallbackInfo ci) {
+    public void plutoscoffee_onFinishResourceReload(CallbackInfo ci) {
         VersionChecker.showWarningScreen();
     }
 

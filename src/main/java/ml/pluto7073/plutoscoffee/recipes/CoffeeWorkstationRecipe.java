@@ -13,6 +13,7 @@ import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.*;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.world.World;
@@ -39,6 +40,10 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
     }
 
     @Override
+    public ItemStack craft(Inventory inventory, DynamicRegistryManager registryManager) {
+        return craft(inventory);
+    }
+
     public ItemStack craft(Inventory inventory) {
         ItemStack stack = result.copy();
         NbtList sourceAdds = inventory.getStack(0).getOrCreateSubNbt("Coffee").getList("Additions", NbtElement.STRING_TYPE);
@@ -57,7 +62,7 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
     }
 
     @Override
-    public ItemStack getOutput() {
+    public ItemStack getOutput(DynamicRegistryManager registryManager) {
         return this.result;
     }
 
@@ -68,6 +73,10 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
 
     public boolean testAddition(ItemStack stack) {
         return addition.test(stack);
+    }
+
+    public boolean testBase(ItemStack stack) {
+        return base.test(stack);
     }
 
     public ItemStack createIcon() {
