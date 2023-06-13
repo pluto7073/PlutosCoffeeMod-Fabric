@@ -18,7 +18,7 @@ Pluto's Coffee Mod adds coffee and related features into the game
 - Make Coffee, Milk Coffee, Mochas, and Lattes
 
 ## Cross Mod Features
-- None right now, but I have plans
+- Coffee will hydrate you in the [Dehydration](https://www.curseforge.com/minecraft/mc-mods/dehydration) mod
 
 ### More Information on [The Wiki](https://github.com/pluto7073/PlutosCoffeeMod-Fabric/wiki)
 
