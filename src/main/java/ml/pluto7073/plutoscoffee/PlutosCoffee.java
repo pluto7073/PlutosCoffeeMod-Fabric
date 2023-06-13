@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 
 public class PlutosCoffee implements ModInitializer {
 
-    public static PlutosCoffee MOD;
     public static final String MOD_ID = "plutoscoffee";
     public static final Logger logger = LogManager.getLogger("PlutosCoffeeMod");
     public static final int MOD_VERSION = 7;
@@ -17,7 +16,6 @@ public class PlutosCoffee implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        MOD = this;
         ModBlocks.init();
         ModItems.init();
         ModMisc.init();
@@ -26,7 +24,7 @@ public class PlutosCoffee implements ModInitializer {
         logger.info("Pluto's Coffee Mod Initialized");
     }
 
-    public void loadLater() {
+    public static void loadLater() {
         if (loadLaterDone) return;
         VersionChecker.checkOutdated();
         if (VersionChecker.isOutdated()) {

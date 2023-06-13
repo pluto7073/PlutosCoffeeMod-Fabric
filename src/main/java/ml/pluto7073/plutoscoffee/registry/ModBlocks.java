@@ -8,9 +8,11 @@ import ml.pluto7073.plutoscoffee.blocks.CoffeeCrop;
 import ml.pluto7073.plutoscoffee.blocks.CoffeeWorkstationBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.Material;
+import net.minecraft.block.MapColor;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.enums.Instrument;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.datafixer.TypeReferences;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -36,9 +38,9 @@ public class ModBlocks {
     }
 
     public static void init() {
-        COFFEE_CROP = register("coffee_plant", new CoffeeCrop(AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP).nonOpaque()));
-        COFFEE_BREWER = register("coffee_brewer", new CoffeeBrewerBlock(AbstractBlock.Settings.of(Material.METAL).requiresTool().strength(0.5F).luminance((state) -> 1).nonOpaque()));
-        COFFEE_WORKSTATION = register("coffee_workstation", new CoffeeWorkstationBlock(AbstractBlock.Settings.of(Material.WOOD).strength(2.5F).sounds(BlockSoundGroup.WOOD)));
+        COFFEE_CROP = register("coffee_plant", new CoffeeCrop(AbstractBlock.Settings.create().mapColor(MapColor.DARK_GREEN).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP).pistonBehavior(PistonBehavior.DESTROY)));
+        COFFEE_BREWER = register("coffee_brewer", new CoffeeBrewerBlock(AbstractBlock.Settings.create().mapColor(MapColor.IRON_GRAY).requiresTool().strength(0.5F).luminance((state) -> 1).nonOpaque()));
+        COFFEE_WORKSTATION = register("coffee_workstation", new CoffeeWorkstationBlock(AbstractBlock.Settings.create().mapColor(MapColor.OAK_TAN).instrument(Instrument.BASS).strength(2.5F).sounds(BlockSoundGroup.WOOD).burnable().sounds(BlockSoundGroup.WOOD)));
         COFFEE_BREWER_BLOCK_ENTITY_TYPE = create("coffee_brewer", BlockEntityType.Builder.create(CoffeeBrewerBlockEntity::new, COFFEE_BREWER));
     }
 }

@@ -2,6 +2,7 @@ package ml.pluto7073.plutoscoffee.gui;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.WarningScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -57,8 +58,8 @@ public class VersionWarningScreen extends WarningScreen {
     }
 
     @Override
-    protected void drawTitle(MatrixStack matrices) {
-        drawTextWithShadow(matrices, this.textRenderer, this.title, (this.width / 2) - (this.textRenderer.getWidth(this.title) / 2), 30, 16777215);
+    protected void drawTitle(DrawContext context) {
+        context.drawTextWithShadow(this.textRenderer, this.title, (this.width / 2) - (this.textRenderer.getWidth(this.title) / 2), 30, 16777215);
     }
 
     private void confirmLink(boolean open) {

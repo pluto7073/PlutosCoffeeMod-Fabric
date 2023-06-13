@@ -11,11 +11,14 @@ import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class ModMisc {
 
-    public static final ItemGroup PC_GROUP;
+    public static final RegistryKey<ItemGroup> PC_GROUP;
 
     public static final RecipeSerializer<CoffeeWorkstationRecipe> COFFEE_WORK_RECIPE_SERIALIZER;
 
@@ -28,8 +31,10 @@ public class ModMisc {
     }
 
     static {
-        PC_GROUP = FabricItemGroup.builder(new Identifier(PlutosCoffee.MOD_ID, "pc_group"))
-                .icon(() -> new ItemStack(ModItems.MEDIUM_ROAST_BEAN)).build();
+        PC_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(PlutosCoffee.MOD_ID, "pc_group"));
+        Registry.register(Registries.ITEM_GROUP, PC_GROUP, FabricItemGroup.builder().icon(() -> new ItemStack(ModItems.MEDIUM_ROAST_BEAN))
+                .displayName(Text.translatable("itemGroup.plutoscoffee.pc_group"))
+                .build());
         ItemGroupEvents.modifyEntriesEvent(PC_GROUP).register(stacks -> {
             stacks.add(new ItemStack(ModItems.COFFEE_BREWER, 1));
             stacks.add(new ItemStack(ModItems.COFFEE_WORKSTATION, 1));

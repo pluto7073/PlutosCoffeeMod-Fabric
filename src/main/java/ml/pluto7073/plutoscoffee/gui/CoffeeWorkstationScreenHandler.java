@@ -32,7 +32,7 @@ public class CoffeeWorkstationScreenHandler extends ForgingScreenHandler {
 
     public CoffeeWorkstationScreenHandler(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context) {
         super(ModScreens.WORKSTATION_HANDLER_TYPE, syncId, playerInventory, context);
-        this.world = playerInventory.player.world;
+        this.world = playerInventory.player.getWorld();
         this.recipes = this.world.getRecipeManager().listAllOfType(ModMisc.COFFEE_WORK_RECIPE_TYPE);
     }
 
@@ -43,8 +43,8 @@ public class CoffeeWorkstationScreenHandler extends ForgingScreenHandler {
 
     @Override
     protected void onTakeOutput(PlayerEntity player, ItemStack stack) {
-        stack.onCraft(player.world, player, stack.getCount());
-        output.unlockLastRecipe(player);
+        stack.onCraft(player.getWorld(), player, stack.getCount());
+        this.output.unlockLastRecipe(player, List.of(getSlot(0).getStack(), getSlot(1).getStack()));
         decrementStack(0, player);
         decrementStack(1, player);
         context.run((world, pos) -> {

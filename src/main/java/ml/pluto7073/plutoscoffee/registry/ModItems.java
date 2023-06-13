@@ -2,7 +2,7 @@ package ml.pluto7073.plutoscoffee.registry;
 
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.items.*;
-import net.fabricmc.fabric.api.registry.VillagerPlantableRegistry;
+import net.fabricmc.fabric.api.registry.VillagerInteractionRegistries;
 import net.minecraft.block.Block;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
@@ -43,7 +43,6 @@ public class ModItems {
     public static void init() {
         COFFEE_BEAN = register("coffee_bean", new CoffeeBean());
         COFFEE_BERRY = register("coffee_berry", new AliasedBlockItem(ModBlocks.COFFEE_CROP, new Item.Settings()));
-        VillagerPlantableRegistry.register(COFFEE_BERRY);
         GROUND_LIGHT_ROAST = register("ground_coffee", new Item(new Item.Settings()));
         LIGHT_ROAST_BEAN = register("roasted_coffee_bean", new Item(new Item.Settings().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.build())));
         MOCHA_BEAN = register("chocolate_coffee_bean", new Item(new Item.Settings().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.hunger(3).saturationModifier(2.5f).build())));

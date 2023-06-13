@@ -15,7 +15,7 @@ public class MinecraftClientMixin {
 
     @Inject(at = @At("HEAD"), method = "tick")
     public void plutoscoffee_onFirstTick(CallbackInfo ci) {
-        PlutosCoffee.MOD.loadLater();
+        PlutosCoffee.loadLater();
     }
 
 }

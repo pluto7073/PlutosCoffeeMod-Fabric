@@ -2,6 +2,7 @@ package ml.pluto7073.plutoscoffee.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.ForgingScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
@@ -19,14 +20,13 @@ public class CoffeeWorkstationScreen extends ForgingScreen<CoffeeWorkstationScre
         this.titleY = 18;
     }
 
-    protected void drawForeground(MatrixStack matrices, int mouseX, int mouseY) {
-        RenderSystem.disableBlend();
-        super.drawForeground(matrices, mouseX, mouseY);
+    protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
+        super.drawForeground(context, mouseX, mouseY);
     }
 
-    protected void drawInvalidRecipeArrow(MatrixStack matrices, int x, int y) {
+    protected void drawInvalidRecipeArrow(DrawContext context, int x, int y) {
         if (this.hasInvalidRecipe()) {
-            drawTexture(matrices, x + 65, y + 46, this.backgroundWidth, 0, 28, 21);
+            context.drawTexture(TEXTURE, x + 65, y + 46, this.backgroundWidth, 0, 28, 21);
         }
 
     }
