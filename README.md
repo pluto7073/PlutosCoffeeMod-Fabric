@@ -1,11 +1,8 @@
-# Pluto's Coffee Mod
-
-
+![](https://img.shields.io/github/v/release/pluto7073/PlutosCoffeeMod-Fabric?label=Latest%20Release&style=for-the-badge) ![](https://img.shields.io/badge/enviornment-both-brightgreen?style=for-the-badge) ![](https://img.shields.io/badge/modloader-fabric-blue?style=for-the-badge)
 
 Create your very own starbucks!
 
 Pluto's Coffee Mod adds coffee and related features into the game
-
 
 
 ## Features
@@ -22,6 +19,7 @@ Pluto's Coffee Mod adds coffee and related features into the game
 
 ### More Information on [The Wiki](https://github.com/pluto7073/PlutosCoffeeMod-Fabric/wiki)
 
+![](https://github.com/pluto7073/pluto7073.github.io/blob/main/files/68747470733a2f2f692e696d6775722e636f6d2f4f6c31546366382e706e67.png?raw=true)
 
 ### Forge Version?
 Not Happening, Sorry.
