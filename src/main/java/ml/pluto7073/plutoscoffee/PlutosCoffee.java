@@ -10,7 +10,7 @@ public class PlutosCoffee implements ModInitializer {
 
     public static final String MOD_ID = "plutoscoffee";
     public static final Logger logger = LogManager.getLogger("PlutosCoffeeMod");
-    public static final int MOD_VERSION = 7;
+    public static final int MOD_VERSION = 8;
 
     private static boolean loadLaterDone = false;
 

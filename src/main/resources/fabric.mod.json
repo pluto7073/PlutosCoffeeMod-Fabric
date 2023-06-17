@@ -9,9 +9,10 @@
     "Pluto7073"
   ],
   "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/plutoscoffeemod",
+    "homepage": "https://modrinth.com/mod/plutos-coffee-mod",
     "sources": "https://github.com/pluto7073/PlutosCoffeeMod-Fabric",
-    "issues": "https://github.com/pluto7073/PlutosCoffeeMod-Fabric/issues"
+    "issues": "https://github.com/pluto7073/PlutosCoffeeMod-Fabric/issues",
+    "wiki": "https://github.com/pluto7073/PlutosCoffeeMod-Fabric/wiki"
   },
 
   "license": "CC0-1.0",
@@ -33,7 +34,7 @@
   "depends": {
     "fabricloader": ">=0.14.8",
     "fabric": "*",
-    "minecraft": "1.20.x",
+    "minecraft": "~1.20.1",
     "java": ">=17"
   },
   "suggests": {
