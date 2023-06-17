@@ -20,19 +20,14 @@ public class CoffeeWorkstationScreen extends ForgingScreen<CoffeeWorkstationScre
         this.titleY = 18;
     }
 
-    protected void drawForeground(DrawContext context, int mouseX, int mouseY) {
-        super.drawForeground(context, mouseX, mouseY);
-    }
-
     protected void drawInvalidRecipeArrow(DrawContext context, int x, int y) {
         if (this.hasInvalidRecipe()) {
             context.drawTexture(TEXTURE, x + 65, y + 46, this.backgroundWidth, 0, 28, 21);
         }
-
     }
 
     private boolean hasInvalidRecipe() {
-        return (this.handler).getSlot(0).hasStack() && (this.handler).getSlot(1).hasStack() && (this.handler).getSlot(2).hasStack() && !(this.handler).getSlot((this.handler).getResultSlotIndex()).hasStack();
+        return (this.handler).getSlot(0).hasStack() && (this.handler).getSlot(1).hasStack() && !(this.handler).getSlot((this.handler).getResultSlotIndex()).hasStack();
     }
 
 }
