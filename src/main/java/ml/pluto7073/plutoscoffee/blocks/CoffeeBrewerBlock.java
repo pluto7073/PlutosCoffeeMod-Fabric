@@ -57,7 +57,7 @@ public class CoffeeBrewerBlock extends BlockWithEntity {
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return world.isClient ? null : checkType(type, ModBlocks.COFFEE_BREWER_BLOCK_ENTITY_TYPE, CoffeeBrewerBlockEntity::tick);
+        return world.isClient ? null : validateTicker(type, ModBlocks.COFFEE_BREWER_BLOCK_ENTITY_TYPE, CoffeeBrewerBlockEntity::tick);
     }
 
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
