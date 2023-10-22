@@ -6,9 +6,5 @@
   "addition": {
     "item": "plutoscoffee:caramel"
   },
-  "result": {
-    "item": "plutoscoffee:brewed_coffee",
-    "count": 1,
-    "addition": "plutoscoffee:caramel"
-  }
+  "result": "plutoscoffee:caramel"
 }

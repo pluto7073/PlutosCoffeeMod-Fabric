@@ -1,15 +1,17 @@
 package ml.pluto7073.plutoscoffee.recipes;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import ml.pluto7073.plutoscoffee.Utils;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
+import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.registry.ModMisc;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.*;
@@ -24,14 +26,13 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
 
     final Ingredient base;
     final Ingredient addition;
-    final ItemStack result;
-    private final Identifier id;
+    final CoffeeStackBuilder result;
+    //public final Identifier id;
 
-    public CoffeeWorkstationRecipe(Identifier id, Ingredient base, Ingredient addition, ItemStack result) {
+    public CoffeeWorkstationRecipe(Ingredient base, Ingredient addition, CoffeeStackBuilder result) {
         this.base = base;
         this.addition = addition;
         this.result = result;
-        this.id = id;
     }
 
     @Override
@@ -44,11 +45,12 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
         return craft(inventory);
     }
 
-    public ItemStack craft(Inventory inventory) {
-        ItemStack stack = result.copy();
+    public ItemStack craft(Inventory inventory) {;
+        ItemStack stack = new ItemStack(ModItems.BREWED_COFFEE, 1);
         NbtList sourceAdds = inventory.getStack(0).getOrCreateSubNbt("Coffee").getList("Additions", NbtElement.STRING_TYPE);
-        NbtList resAdds = stack.getOrCreateSubNbt("Coffee").getList("Additions", NbtElement.STRING_TYPE);
+        NbtList resAdds = new NbtList();
         resAdds.addAll(sourceAdds);
+        resAdds.add(Utils.stringAsNbt(result.addition()));
         String coffeeType = inventory.getStack(0).getOrCreateSubNbt("Coffee").getString("CoffeeType");
         stack.getOrCreateSubNbt("Coffee").put("Additions", resAdds);
         stack.getOrCreateSubNbt("Coffee").putString("CoffeeType", coffeeType);
@@ -62,13 +64,8 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
     }
 
     @Override
-    public ItemStack getOutput(DynamicRegistryManager registryManager) {
-        return this.result;
-    }
-
-    @Override
-    public Identifier getId() {
-        return this.id;
+    public ItemStack getResult(DynamicRegistryManager registryManager) {
+        return this.result.example();
     }
 
     public boolean testAddition(ItemStack stack) {
@@ -99,35 +96,52 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
 
     public static class Serializer implements RecipeSerializer<CoffeeWorkstationRecipe> {
 
+        private static final MapCodec<CoffeeStackBuilder> RESULT_STACK_CODEC = RecordCodecBuilder.mapCodec(instance -> {
+            return instance.group(Codec.STRING.fieldOf("result").forGetter(CoffeeStackBuilder::addition)).apply(instance, CoffeeStackBuilder::new);
+        });
+
+        private static final Codec<CoffeeWorkstationRecipe> CODEC = RecordCodecBuilder.create(instance -> {
+            return instance.group(Ingredient.ALLOW_EMPTY_CODEC.fieldOf("base").forGetter((recipe) -> {
+                return recipe.base;
+            }), Ingredient.ALLOW_EMPTY_CODEC.fieldOf("addition").forGetter((recipe) -> {
+                return recipe.addition;
+            }), RESULT_STACK_CODEC.forGetter(recipe -> {
+                return recipe.result;
+            })).apply(instance, CoffeeWorkstationRecipe::new);
+        });
+
         public Serializer() {}
 
         @Override
-        public CoffeeWorkstationRecipe read(Identifier id, JsonObject jsonObject) {
-            Ingredient ingredient = Ingredient.fromJson(JsonHelper.getObject(jsonObject, "base"));
-            Ingredient ingredient2 = Ingredient.fromJson(JsonHelper.getObject(jsonObject, "addition"));
-            JsonObject resultObject = JsonHelper.getObject(jsonObject, "result");
-            Item item = ShapedRecipe.getItem(resultObject);
-            int count = JsonHelper.getInt(resultObject, "count", 1);
-            ItemStack itemStack = new ItemStack(item, count);
-            NbtList list = new NbtList();
-            list.add(Utils.stringAsNbt(JsonHelper.getString(resultObject, "addition")));
-            itemStack.getOrCreateSubNbt("Coffee").put("Additions", list);
-            return new CoffeeWorkstationRecipe(id, ingredient, ingredient2, itemStack);
+        public Codec<CoffeeWorkstationRecipe> codec() {
+            return CODEC;
         }
 
         @Override
-        public CoffeeWorkstationRecipe read(Identifier id, PacketByteBuf buf) {
+        public CoffeeWorkstationRecipe read(PacketByteBuf buf) {
             Ingredient ingredient = Ingredient.fromPacket(buf);
             Ingredient ingredient2 = Ingredient.fromPacket(buf);
-            ItemStack itemStack = buf.readItemStack();
-            return new CoffeeWorkstationRecipe(id, ingredient, ingredient2, itemStack);
+            String result = buf.readString();
+            return new CoffeeWorkstationRecipe(ingredient, ingredient2, new CoffeeStackBuilder(result));
         }
 
         @Override
         public void write(PacketByteBuf buf, CoffeeWorkstationRecipe recipe) {
             recipe.base.write(buf);
             recipe.addition.write(buf);
-            buf.writeItemStack(recipe.result);
+            buf.writeString(recipe.result.addition());
+        }
+
+    }
+
+    public record CoffeeStackBuilder(String addition) {
+
+        ItemStack example() {
+            ItemStack example = new ItemStack(ModItems.BREWED_COFFEE, 1);
+            NbtList list = new NbtList();
+            list.add(Utils.stringAsNbt(addition()));
+            example.getOrCreateSubNbt("Coffee").put("Additions", list);
+            return example;
         }
 
     }

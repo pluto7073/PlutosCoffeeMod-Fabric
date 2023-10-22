@@ -8,6 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.recipe.SmithingRecipe;
 import net.minecraft.screen.ForgingScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
@@ -23,8 +24,8 @@ import java.util.Optional;
 public class CoffeeWorkstationScreenHandler extends ForgingScreenHandler {
 
     private final World world;
-    private CoffeeWorkstationRecipe currentRecipe;
-    private final List<CoffeeWorkstationRecipe> recipes;
+    private RecipeEntry<CoffeeWorkstationRecipe> currentRecipe;
+    private final List<RecipeEntry<CoffeeWorkstationRecipe>> recipes;
 
     public CoffeeWorkstationScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(syncId, playerInventory, ScreenHandlerContext.EMPTY);
@@ -38,7 +39,7 @@ public class CoffeeWorkstationScreenHandler extends ForgingScreenHandler {
 
     @Override
     protected boolean canTakeOutput(PlayerEntity player, boolean present) {
-        return currentRecipe != null && currentRecipe.matches(input, world);
+        return currentRecipe != null && currentRecipe.value().matches(input, world);
     }
 
     @Override
@@ -76,12 +77,12 @@ public class CoffeeWorkstationScreenHandler extends ForgingScreenHandler {
 
     @Override
     public void updateResult() {
-        List<CoffeeWorkstationRecipe> list = world.getRecipeManager().getAllMatches(ModMisc.COFFEE_WORK_RECIPE_TYPE, input, world);
+        List<RecipeEntry<CoffeeWorkstationRecipe>> list = world.getRecipeManager().getAllMatches(ModMisc.COFFEE_WORK_RECIPE_TYPE, input, world);
         if (list.isEmpty()) {
             output.setStack(0, ItemStack.EMPTY);
         } else {
             currentRecipe = list.get(0);
-            ItemStack stack = currentRecipe.craft(input);
+            ItemStack stack = currentRecipe.value().craft(input);
             output.setLastRecipe(currentRecipe);
             output.setStack(0, stack);
         }
@@ -91,11 +92,11 @@ public class CoffeeWorkstationScreenHandler extends ForgingScreenHandler {
     protected ForgingSlotsManager getForgingSlotsManager() {
         return ForgingSlotsManager.create().input(0, 27, 47, stack -> {
             return this.recipes.stream().anyMatch(recipe -> {
-                return recipe.testBase(stack);
+                return recipe.value().testBase(stack);
             });
         }).input(1, 76, 47, stack -> {
             return this.recipes.stream().anyMatch(recipe -> {
-                return recipe.testAddition(stack);
+                return recipe.value().testAddition(stack);
             });
         }).output(2, 134, 47).build();
     }
@@ -111,7 +112,7 @@ public class CoffeeWorkstationScreenHandler extends ForgingScreenHandler {
     @Override
     protected boolean isValidIngredient(ItemStack stack) {
         return this.recipes.stream().map((recipe) -> {
-            return getQuickMoveSlot(recipe, stack);
+            return getQuickMoveSlot(recipe.value(), stack);
         }).anyMatch(Optional::isPresent);
     }
 

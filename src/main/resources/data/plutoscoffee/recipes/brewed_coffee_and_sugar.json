@@ -6,9 +6,5 @@
   "addition": {
     "item": "minecraft:sugar"
   },
-  "result": {
-    "item": "plutoscoffee:brewed_coffee",
-    "count": 1,
-    "addition": "plutoscoffee:sugar"
-  }
+  "result": "plutoscoffee:sugar"
 }
