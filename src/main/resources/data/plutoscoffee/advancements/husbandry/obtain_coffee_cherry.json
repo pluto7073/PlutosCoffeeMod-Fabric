@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "item": "plutoscoffee:coffee_berry"
+    },
+    "title": "That's not a cherry!",
+    "description": "Find a coffee cherry in a village",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "minecraft:husbandry/plant_seed",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "plutoscoffee:coffee_berry"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

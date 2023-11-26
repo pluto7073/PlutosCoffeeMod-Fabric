@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:sugar"
+    },
+    "title": "Do you want some coffee with your sugar?",
+    "description": "Drink a coffee with 10 Milk and 10 Sugar",
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "plutoscoffee:husbandry/obtain_coffee_cherry",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": [
+            "plutoscoffee:brewed_coffee"
+          ],
+          "nbt": "{Coffee:{Additions:[\"plutoscoffee:milk\",\"plutoscoffee:milk\",\"plutoscoffee:milk\",\"plutoscoffee:milk\",\"plutoscoffee:milk\",\"plutoscoffee:milk\",\"plutoscoffee:milk\",\"plutoscoffee:milk\",\"plutoscoffee:milk\",\"plutoscoffee:milk\",\"plutoscoffee:sugar\",\"plutoscoffee:sugar\",\"plutoscoffee:sugar\",\"plutoscoffee:sugar\",\"plutoscoffee:sugar\",\"plutoscoffee:sugar\",\"plutoscoffee:sugar\",\"plutoscoffee:sugar\",\"plutoscoffee:sugar\",\"plutoscoffee:sugar\"]}}"
+        }
+      }
+    }
+  }
+}
