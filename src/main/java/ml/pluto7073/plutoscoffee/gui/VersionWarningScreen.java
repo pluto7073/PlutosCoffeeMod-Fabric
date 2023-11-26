@@ -6,15 +6,10 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.WarningScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
-import net.minecraft.text.TextContent;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 
-import java.awt.*;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -37,7 +32,8 @@ public class VersionWarningScreen extends WarningScreen {
     protected void initButtons(int yOffset) {
         this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("plutosmods.version.okay"),
                 (buttonWidget) -> {
-            this.client.setScreen(null);
+            if (this.client != null)
+                this.client.setScreen(null);
         }).dimensions(this.width / 2 - 155, 100 + yOffset, 150, 20).build());
         this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("plutosmods.version.open_mod_page"),
                 (buttonWidget) -> {
@@ -47,6 +43,7 @@ public class VersionWarningScreen extends WarningScreen {
                     } catch (URISyntaxException e) {
                         throw new RuntimeException(e);
                     }
+                    //noinspection DataFlowIssue
                     if (this.client.options.getChatLinksPrompt().getValue()) {
                         this.link = uRI;
                         this.client.setScreen(new ConfirmLinkScreen(this::confirmLink, LATEST_RELEASE_LINK, false));
@@ -68,7 +65,8 @@ public class VersionWarningScreen extends WarningScreen {
         }
 
         this.link = null;
-        this.client.setScreen(null);
+        if (this.client != null)
+            this.client.setScreen(null);
     }
 
     private void openLink(URI link) {

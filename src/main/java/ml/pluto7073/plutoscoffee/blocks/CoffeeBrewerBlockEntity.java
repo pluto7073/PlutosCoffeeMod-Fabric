@@ -51,16 +51,16 @@ public class CoffeeBrewerBlockEntity extends LockableContainerBlockEntity implem
         propertyDelegate = new PropertyDelegate() {
             public int get(int index) {
                 return switch (index) {
-                    case 0 -> CoffeeBrewerBlockEntity.this.brewTime;
-                    case 1 -> CoffeeBrewerBlockEntity.this.fuel;
+                    case BREW_TIME_PROPERTY_INDEX -> CoffeeBrewerBlockEntity.this.brewTime;
+                    case FUEL_PROPERTY_INDEX -> CoffeeBrewerBlockEntity.this.fuel;
                     default -> 0;
                 };
             }
 
             public void set(int index, int value) {
                 switch (index) {
-                    case 0 -> CoffeeBrewerBlockEntity.this.brewTime = value;
-                    case 1 -> CoffeeBrewerBlockEntity.this.fuel = value;
+                    case BREW_TIME_PROPERTY_INDEX -> CoffeeBrewerBlockEntity.this.brewTime = value;
+                    case FUEL_PROPERTY_INDEX -> CoffeeBrewerBlockEntity.this.fuel = value;
                 }
             }
 
@@ -95,6 +95,7 @@ public class CoffeeBrewerBlockEntity extends LockableContainerBlockEntity implem
         ItemStack fuelStack = blockEntity.inventory.get(FUEL_SLOT_INDEX);
         if (blockEntity.fuel <= 0 && fuelStack.isOf(Items.WATER_BUCKET)) {
             blockEntity.fuel = MAX_FUEL_USES;
+            //noinspection DataFlowIssue
             fuelStack = new ItemStack(Items.WATER_BUCKET.getRecipeRemainder(), 1);
             blockEntity.inventory.set(FUEL_SLOT_INDEX, fuelStack);
             markDirty(world, pos, state);
@@ -206,6 +207,7 @@ public class CoffeeBrewerBlockEntity extends LockableContainerBlockEntity implem
         }
     }
     public boolean canPlayerUse(PlayerEntity player) {
+        //noinspection DataFlowIssue
         if (world.getBlockEntity(pos) != this) {
             return false;
         } else {

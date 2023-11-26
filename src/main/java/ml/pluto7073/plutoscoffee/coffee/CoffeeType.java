@@ -1,16 +1,11 @@
 package ml.pluto7073.plutoscoffee.coffee;
 
-import com.google.common.collect.ImmutableList;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 public class CoffeeType {
 

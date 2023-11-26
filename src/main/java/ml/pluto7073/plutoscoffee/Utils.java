@@ -1,30 +1,23 @@
 package ml.pluto7073.plutoscoffee;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeAddition;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeAdditions;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
 import ml.pluto7073.plutoscoffee.items.BrewedCoffee;
-import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.tags.ModItemTags;
 import net.fabricmc.fabric.api.tag.convention.v1.TagUtil;
-import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.potion.PotionUtil;
-import net.minecraft.potion.Potions;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 public final class Utils {
@@ -40,7 +33,7 @@ public final class Utils {
         for (T t : c1) {
             l2.remove(t);
         }
-        return (l1.size() == 0) && (l2.size() == 0);
+        return (l1.isEmpty()) && (l2.isEmpty());
     }
 
     public static CoffeeType getCoffeeType(ItemStack stack) {
@@ -110,7 +103,7 @@ public final class Utils {
         }
         float r = (colour >> 16 & 255) / 255.0F;
         float g = (colour >> 8 & 255) / 255.0F;
-        float b = (colour >> 0 & 255) / 255.0F;
+        float b = (colour & 255) / 255.0F;
         int colourCount = 1;
         for (CoffeeAddition addition : addIns) {
             if (!addition.changesColour()) continue;
@@ -118,7 +111,7 @@ public final class Utils {
             int additionColour = addition.getColour();
             r += (additionColour >> 16 & 255) / 255.0F;
             g += (additionColour >> 8 & 255) / 255.0F;
-            b += (additionColour >> 0 & 255) / 255.0F;
+            b += (additionColour & 255) / 255.0F;
             colourCount += 1;
         }
         r = r / (float) colourCount * 255.0F;

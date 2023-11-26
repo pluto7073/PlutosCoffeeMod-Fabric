@@ -2,7 +2,6 @@ package ml.pluto7073.plutoscoffee.blocks;
 
 import ml.pluto7073.plutoscoffee.gui.CoffeeWorkstationScreenHandler;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CraftingTableBlock;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,7 +10,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
-import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -19,7 +17,6 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 public class CoffeeWorkstationBlock extends CraftingTableBlock {
 
@@ -42,9 +39,7 @@ public class CoffeeWorkstationBlock extends CraftingTableBlock {
 
     @Override
     public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
-        return new SimpleNamedScreenHandlerFactory((syncId, playerInventory, playerEntity) -> {
-            return new CoffeeWorkstationScreenHandler(syncId, playerInventory, ScreenHandlerContext.create(world, pos));
-        }, TITLE);
+        return new SimpleNamedScreenHandlerFactory((syncId, playerInventory, playerEntity) -> new CoffeeWorkstationScreenHandler(syncId, playerInventory, ScreenHandlerContext.create(world, pos)), TITLE);
     }
 
     @Override

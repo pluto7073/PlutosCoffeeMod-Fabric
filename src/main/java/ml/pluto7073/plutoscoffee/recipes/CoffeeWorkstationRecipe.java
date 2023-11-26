@@ -1,6 +1,5 @@
 package ml.pluto7073.plutoscoffee.recipes;
 
-import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -9,15 +8,15 @@ import ml.pluto7073.plutoscoffee.registry.ModBlocks;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.registry.ModMisc;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.recipe.*;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.Recipe;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
 import net.minecraft.world.World;
 
 import java.util.stream.Stream;
@@ -45,7 +44,7 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
         return craft(inventory);
     }
 
-    public ItemStack craft(Inventory inventory) {;
+    public ItemStack craft(Inventory inventory) {
         ItemStack stack = new ItemStack(ModItems.BREWED_COFFEE, 1);
         NbtList sourceAdds = inventory.getStack(0).getOrCreateSubNbt("Coffee").getList("Additions", NbtElement.STRING_TYPE);
         NbtList resAdds = new NbtList();
@@ -96,19 +95,9 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
 
     public static class Serializer implements RecipeSerializer<CoffeeWorkstationRecipe> {
 
-        private static final MapCodec<CoffeeStackBuilder> RESULT_STACK_CODEC = RecordCodecBuilder.mapCodec(instance -> {
-            return instance.group(Codec.STRING.fieldOf("result").forGetter(CoffeeStackBuilder::addition)).apply(instance, CoffeeStackBuilder::new);
-        });
+        private static final MapCodec<CoffeeStackBuilder> RESULT_STACK_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(Codec.STRING.fieldOf("result").forGetter(CoffeeStackBuilder::addition)).apply(instance, CoffeeStackBuilder::new));
 
-        private static final Codec<CoffeeWorkstationRecipe> CODEC = RecordCodecBuilder.create(instance -> {
-            return instance.group(Ingredient.ALLOW_EMPTY_CODEC.fieldOf("base").forGetter((recipe) -> {
-                return recipe.base;
-            }), Ingredient.ALLOW_EMPTY_CODEC.fieldOf("addition").forGetter((recipe) -> {
-                return recipe.addition;
-            }), RESULT_STACK_CODEC.forGetter(recipe -> {
-                return recipe.result;
-            })).apply(instance, CoffeeWorkstationRecipe::new);
-        });
+        private static final Codec<CoffeeWorkstationRecipe> CODEC = RecordCodecBuilder.create(instance -> instance.group(Ingredient.ALLOW_EMPTY_CODEC.fieldOf("base").forGetter((recipe) -> recipe.base), Ingredient.ALLOW_EMPTY_CODEC.fieldOf("addition").forGetter((recipe) -> recipe.addition), RESULT_STACK_CODEC.forGetter(recipe -> recipe.result)).apply(instance, CoffeeWorkstationRecipe::new));
 
         public Serializer() {}
 

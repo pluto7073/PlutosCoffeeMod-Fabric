@@ -1,7 +1,6 @@
 package ml.pluto7073.plutoscoffee.gui;
 
 import ml.pluto7073.plutoscoffee.Utils;
-import ml.pluto7073.plutoscoffee.blocks.CoffeeBrewerBlockEntity;
 import ml.pluto7073.plutoscoffee.registry.ModScreens;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -12,7 +11,6 @@ import net.minecraft.item.Items;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
 
 public class CoffeeBrewerScreenHandler extends ScreenHandler {
@@ -55,7 +53,7 @@ public class CoffeeBrewerScreenHandler extends ScreenHandler {
     public ItemStack quickMove(PlayerEntity player, int index) {
         ItemStack stack = ItemStack.EMPTY;
         Slot slot = slots.get(index);
-        if (slot != null && slot.hasStack()) {
+        if (slot.hasStack()) {
             ItemStack slotStack = slot.getStack();
             stack = slotStack.copy();
             if (index != 2 && index != 1 && index != 0) { // Source is from Player Inventory or Hotbar

@@ -1,10 +1,14 @@
 package ml.pluto7073.plutoscoffee.registry;
 
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
-import ml.pluto7073.plutoscoffee.items.*;
-import net.fabricmc.fabric.api.registry.VillagerInteractionRegistries;
+import ml.pluto7073.plutoscoffee.items.BrewedCoffee;
+import ml.pluto7073.plutoscoffee.items.CoffeeBean;
+import ml.pluto7073.plutoscoffee.items.MilkBottle;
 import net.minecraft.block.Block;
-import net.minecraft.item.*;
+import net.minecraft.item.AliasedBlockItem;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
