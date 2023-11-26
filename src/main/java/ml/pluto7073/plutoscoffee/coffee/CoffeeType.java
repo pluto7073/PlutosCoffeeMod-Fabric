@@ -13,6 +13,8 @@ public class CoffeeType {
     private final Item grounds;
     private final OnDrink action;
 
+    public static final String ZELDA = null;
+
     public static CoffeeType byId(String id) {
         return CoffeeTypes.REGISTRY.get(new Identifier(PlutosCoffee.MOD_ID, id.replace("\"", "")));
     }
