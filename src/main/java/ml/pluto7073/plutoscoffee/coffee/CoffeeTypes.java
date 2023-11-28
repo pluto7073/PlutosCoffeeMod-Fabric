@@ -70,7 +70,6 @@ public class CoffeeTypes {
             //TODO: Dark roast exclusives
         }, 115F));
         ESPRESSO = register("espresso", new CoffeeType("espresso", ModItems.GROUND_ESPRESSO_ROAST, (stack, world, user) -> {
-            //TODO: Caffeine Levels
         }, 250F));
     }
 
