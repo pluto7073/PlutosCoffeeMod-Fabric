@@ -5,8 +5,10 @@ import ml.pluto7073.plutoscoffee.coffee.CoffeeAdditions;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
 import ml.pluto7073.plutoscoffee.items.BrewedCoffee;
+import ml.pluto7073.plutoscoffee.registry.ModMisc;
 import ml.pluto7073.plutoscoffee.tags.ModItemTags;
 import net.fabricmc.fabric.api.tag.convention.v1.TagUtil;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -21,6 +23,8 @@ import java.util.Collection;
 import java.util.List;
 
 public final class Utils {
+
+    private static final double CAFFEINE_HALF_LIFE_TICKS = 2500.0;
 
     private Utils(){}
 
@@ -118,6 +122,17 @@ public final class Utils {
         g = g / (float) colourCount * 255.0F;
         b = b / (float) colourCount * 255.0F;
         return (int) r << 16 | (int) g << 8 | (int) b;
+    }
+
+    public static void setPlayerCaffeine(PlayerEntity player, float caffeine) {
+        player.getDataTracker().set(ModMisc.PLAYER_CAFFEINE_AMOUNT, caffeine);
+        player.getDataTracker().set(ModMisc.PLAYER_ORIGINAL_CAFFEINE_AMOUNT, caffeine);
+        player.getDataTracker().set(ModMisc.PLAYER_TICKS_SINCE_LAST_CAFFEINE, 0);
+    }
+
+    public static float calculateCaffeineDecay(int ticks, float originalCaffeine) {
+        double exp = Math.pow(0.5, ticks / CAFFEINE_HALF_LIFE_TICKS);
+        return (float) (exp * originalCaffeine);
     }
 
 }

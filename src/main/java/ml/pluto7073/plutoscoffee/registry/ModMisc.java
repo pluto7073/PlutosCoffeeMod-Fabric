@@ -4,6 +4,10 @@ import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.recipes.CoffeeWorkstationRecipe;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Recipe;
@@ -18,11 +22,19 @@ import net.minecraft.util.Identifier;
 
 public class ModMisc {
 
+    // Item Groups
     public static final RegistryKey<ItemGroup> PC_GROUP;
 
+    // Recipe Serializers
     public static final RecipeSerializer<CoffeeWorkstationRecipe> COFFEE_WORK_RECIPE_SERIALIZER;
 
+    // Recipe Types
     public static final RecipeType<CoffeeWorkstationRecipe> COFFEE_WORK_RECIPE_TYPE;
+
+    // Data Trackers
+    public static final TrackedData<Float> PLAYER_CAFFEINE_AMOUNT;
+    public static final TrackedData<Float> PLAYER_ORIGINAL_CAFFEINE_AMOUNT;
+    public static final TrackedData<Integer> PLAYER_TICKS_SINCE_LAST_CAFFEINE;
 
     public static void init() {}
 
@@ -31,6 +43,7 @@ public class ModMisc {
     }
 
     static {
+        // Item Groups
         PC_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, new Identifier(PlutosCoffee.MOD_ID, "pc_group"));
         Registry.register(Registries.ITEM_GROUP, PC_GROUP, FabricItemGroup.builder().icon(() -> new ItemStack(ModItems.MEDIUM_ROAST_BEAN))
                 .displayName(Text.translatable("itemGroup.plutoscoffee.pc_group"))
@@ -60,12 +73,21 @@ public class ModMisc {
             stacks.add(new ItemStack(ModItems.MILK_BOTTLE));
             stacks.add(new ItemStack(ModItems.MOCHA_SAUCE));
         });
+
+        // Recipe Serializers
         COFFEE_WORK_RECIPE_SERIALIZER = registerRecipeSerializer("coffee_workstation", new CoffeeWorkstationRecipe.Serializer());
+
+        // Recipe Types
         COFFEE_WORK_RECIPE_TYPE = Registry.register(Registries.RECIPE_TYPE, new Identifier(PlutosCoffee.MOD_ID, "coffee_workstation"), new RecipeType<CoffeeWorkstationRecipe>() {
             public String toString() {
                 return "plutoscoffee:coffee_workstation";
             }
         });
+
+        // Data Trackers
+        PLAYER_CAFFEINE_AMOUNT = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.FLOAT);
+        PLAYER_ORIGINAL_CAFFEINE_AMOUNT = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.FLOAT);
+        PLAYER_TICKS_SINCE_LAST_CAFFEINE = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.INTEGER);
     }
 
 }

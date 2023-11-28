@@ -30,6 +30,7 @@
   "coffee_addition.plutoscoffee.mocha_syrup": "Mocha Syrup",
   "container.coffee_workstation": "Coffee Workstation",
   "container.coffee_brewer": "Coffee Brewer",
+  "tooltip.plutoscoffee.caffeine_content": "Caffeine Content: ",
   "itemGroup.plutoscoffee.pc_group": "PlutosCoffeeMod Items",
   "stat.plutoscoffee.drink_coffee": "Bottles of Coffee Drank",
   "stat.plutoscoffee.interact_with_coffee_brewer": "Interactions with Coffee Brewer",

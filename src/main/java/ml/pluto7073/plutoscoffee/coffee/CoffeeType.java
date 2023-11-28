@@ -12,17 +12,27 @@ public class CoffeeType {
     private final String baseName;
     private final Item grounds;
     private final OnDrink action;
+    private final float caffeineContent;
 
+    @SuppressWarnings("unused")
     public static final String ZELDA = null;
 
     public static CoffeeType byId(String id) {
         return CoffeeTypes.REGISTRY.get(new Identifier(PlutosCoffee.MOD_ID, id.replace("\"", "")));
     }
 
-    public CoffeeType(String baseName, Item grounds, OnDrink action) {
+    /**
+     *
+     * @param baseName - the id used in registering the coffee type
+     * @param grounds - the item to be used to brew the coffee
+     * @param action - do this when this coffee type is drank
+     * @param caffeineContent - amount in mg of caffeine to add to the drinker.
+     */
+    public CoffeeType(String baseName, Item grounds, OnDrink action, float caffeineContent) {
         this.baseName = baseName;
         this.grounds = grounds;
         this.action = action;
+        this.caffeineContent = caffeineContent;
     }
 
     public String getTranslationKey() {
@@ -35,6 +45,10 @@ public class CoffeeType {
 
     public void onDrink(ItemStack stack, World world, LivingEntity user) {
         action.onDrink(stack, world, user);
+    }
+
+    public float getCaffeineContent() {
+        return caffeineContent;
     }
 
 }

@@ -5,6 +5,7 @@ import ml.pluto7073.plutoscoffee.coffee.CoffeeAddition;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeAdditions;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
+import ml.pluto7073.plutoscoffee.registry.ModMisc;
 import ml.pluto7073.plutoscoffee.registry.ModStats;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.client.item.TooltipContext;
@@ -45,7 +46,7 @@ public class BrewedCoffee extends Item {
 
     @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        PlayerEntity playerEntity = user instanceof PlayerEntity ? (PlayerEntity)user : null;
+        PlayerEntity playerEntity = user instanceof PlayerEntity ? (PlayerEntity) user : null;
         if (playerEntity instanceof ServerPlayerEntity) {
             Criteria.CONSUME_ITEM.trigger((ServerPlayerEntity)playerEntity, stack);
         }
@@ -58,6 +59,11 @@ public class BrewedCoffee extends Item {
                 for (CoffeeAddition addition : additions) {
                     addition.onDrink(stack, world, user);
                 }
+            }
+            if (playerEntity != null) {
+                float currentCaffeine = playerEntity.getDataTracker().get(ModMisc.PLAYER_CAFFEINE_AMOUNT);
+                currentCaffeine += type.getCaffeineContent();
+                Utils.setPlayerCaffeine(playerEntity, currentCaffeine);
             }
         }
 
@@ -78,7 +84,6 @@ public class BrewedCoffee extends Item {
                 playerEntity.getInventory().insertStack(new ItemStack(Items.GLASS_BOTTLE));
             }
         }
-
         user.emitGameEvent(GameEvent.DRINK);
         return stack;
     }
@@ -100,8 +105,10 @@ public class BrewedCoffee extends Item {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        if (Utils.getCoffeeType(stack) != CoffeeTypes.EMPTY && Utils.getCoffeeType(stack) != null)
+        if (Utils.getCoffeeType(stack) != CoffeeTypes.EMPTY && Utils.getCoffeeType(stack) != null) {
             tooltip.add(Text.translatable(Utils.getCoffeeType(stack).getTranslationKey()).formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("tooltip.plutoscoffee.caffeine_content").append("" + Utils.getCoffeeType(stack).getCaffeineContent()).formatted(Formatting.AQUA));
+        }
         CoffeeAddition[] addIns = Utils.getCoffeeAddIns(stack);
         if (addIns != null) {
             for (CoffeeAddition addIn : addIns) {
