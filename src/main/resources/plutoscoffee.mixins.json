@@ -10,6 +10,7 @@
   ],
   "client": [
     "client.HandledScreensMixin",
+    "client.InGameHudMixin",
     "client.ItemColorsMixin",
     "client.MinecraftClientMixin",
     "client.ResourceReloadLoggerMixin"

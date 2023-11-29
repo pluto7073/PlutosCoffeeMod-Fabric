@@ -18,6 +18,9 @@ public class CoffeeType {
     public static final String ZELDA = null;
 
     public static CoffeeType byId(String id) {
+        if (id.contains(":")) {
+            return CoffeeTypes.REGISTRY.get(new Identifier(id.replace("\"", "")));
+        }
         return CoffeeTypes.REGISTRY.get(new Identifier(PlutosCoffee.MOD_ID, id.replace("\"", "")));
     }
 

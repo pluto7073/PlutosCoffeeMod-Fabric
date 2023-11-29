@@ -130,6 +130,18 @@ public final class Utils {
         player.getDataTracker().set(ModMisc.PLAYER_TICKS_SINCE_LAST_CAFFEINE, 0);
     }
 
+    public static float getPlayerCaffeine(PlayerEntity player) {
+        return player.getDataTracker().get(ModMisc.PLAYER_CAFFEINE_AMOUNT);
+    }
+
+    public static float getPlayerOriginalCaffeine(PlayerEntity player) {
+        return player.getDataTracker().get(ModMisc.PLAYER_ORIGINAL_CAFFEINE_AMOUNT);
+    }
+
+    public static int getPlayerCaffeineTicks(PlayerEntity player) {
+        return player.getDataTracker().get(ModMisc.PLAYER_TICKS_SINCE_LAST_CAFFEINE);
+    }
+
     public static float calculateCaffeineDecay(int ticks, float originalCaffeine) {
         double exp = Math.pow(0.5, ticks / CAFFEINE_HALF_LIFE_TICKS);
         return (float) (exp * originalCaffeine);

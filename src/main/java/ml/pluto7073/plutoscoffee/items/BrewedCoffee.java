@@ -61,7 +61,7 @@ public class BrewedCoffee extends Item {
                 }
             }
             if (playerEntity != null) {
-                float currentCaffeine = playerEntity.getDataTracker().get(ModMisc.PLAYER_CAFFEINE_AMOUNT);
+                float currentCaffeine = Utils.getPlayerCaffeine(playerEntity);
                 currentCaffeine += type.getCaffeineContent();
                 Utils.setPlayerCaffeine(playerEntity, currentCaffeine);
             }
