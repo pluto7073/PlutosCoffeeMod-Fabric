@@ -47,8 +47,8 @@ public abstract class InGameHudMixin {
         float currentCaffeine = Math.min(3000f, Utils.getPlayerCaffeine(playerEntity));
         int scaledCaffeineOutput = Math.round(currentCaffeine * (71f/3000f));
 
-        context.drawGuiTexture(CAFFEINE_OUTLINE_TEXTURE, centerX + 9, baseYValue, 80, 8);
-        context.drawGuiTexture(CAFFEINE_FILL_TEXTURE, 80, 8, 0, 0, centerX + 9, baseYValue, scaledCaffeineOutput, 8);
+        context.drawGuiTexture(CAFFEINE_OUTLINE_TEXTURE, centerX + 10, baseYValue, 80, 8);
+        context.drawGuiTexture(CAFFEINE_FILL_TEXTURE, 80, 8, 0, 0, centerX + 10, baseYValue, scaledCaffeineOutput, 8);
 
         this.client.getProfiler().pop();
     }

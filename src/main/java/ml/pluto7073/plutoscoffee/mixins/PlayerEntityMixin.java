@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerEntity.class)
-public class PlayerEntityMixin extends EntityMixin {
+public abstract class PlayerEntityMixin extends LivingEntityMixin {
 
     @Inject(at = @At("TAIL"), method = "initDataTracker")
     public void plutoscoffee_initCustomDataTrackers(CallbackInfo ci) {
