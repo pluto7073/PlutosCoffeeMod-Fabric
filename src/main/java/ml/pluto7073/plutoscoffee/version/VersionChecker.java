@@ -22,7 +22,8 @@ public class VersionChecker {
             bis.close();
             outdated = recentVersion > PlutosCoffee.MOD_VERSION;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            PlutosCoffee.logger.error("An error occurred in loading VersionChecker, will assume mod is up-to-date.", e);
+            outdated = false;
         }
     }
 
