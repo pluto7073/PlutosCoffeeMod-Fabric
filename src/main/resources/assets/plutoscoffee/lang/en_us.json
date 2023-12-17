@@ -24,15 +24,17 @@
   "coffee_type.plutoscoffee.light_roast": "Light Roast",
   "coffee_type.plutoscoffee.medium_roast": "Medium Roast",
   "coffee_type.plutoscoffee.dark_roast": "Dark Roast",
+  "coffee_type.plutoscoffee.espresso": "Espresso",
   "coffee_addition.plutoscoffee.milk": "Milk",
   "coffee_addition.plutoscoffee.caramel": "Caramel",
   "coffee_addition.plutoscoffee.sugar": "Sugar",
   "coffee_addition.plutoscoffee.mocha_syrup": "Mocha Syrup",
   "container.coffee_workstation": "Coffee Workstation",
   "container.coffee_brewer": "Coffee Brewer",
-  "tooltip.plutoscoffee.caffeine_content": "Caffeine Content: ",
-  "itemGroup.plutoscoffee.pc_group": "PlutosCoffeeMod Items",
+  "tooltip.plutoscoffee.caffeine_content": "Contains %1$smg of Caffeine",
+  "itemGroup.plutoscoffee.pc_group": "Pluto's Coffee Mod Items",
   "stat.plutoscoffee.drink_coffee": "Bottles of Coffee Drank",
   "stat.plutoscoffee.interact_with_coffee_brewer": "Interactions with Coffee Brewer",
-  "stat.plutoscoffee.interact_with_coffee_workstation": "Interactions with Coffee Workstation"
+  "stat.plutoscoffee.interact_with_coffee_workstation": "Interactions with Coffee Workstation",
+  "death.attack.caffeine_overdose": "%1$s drank too much caffeine"
 }

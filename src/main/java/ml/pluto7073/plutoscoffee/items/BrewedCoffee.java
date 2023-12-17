@@ -107,7 +107,7 @@ public class BrewedCoffee extends Item {
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         if (Utils.getCoffeeType(stack) != CoffeeTypes.EMPTY && Utils.getCoffeeType(stack) != null) {
             tooltip.add(Text.translatable(Utils.getCoffeeType(stack).getTranslationKey()).formatted(Formatting.GRAY));
-            tooltip.add(Text.translatable("tooltip.plutoscoffee.caffeine_content").append("" + Utils.getCoffeeType(stack).getCaffeineContent()).formatted(Formatting.AQUA));
+            tooltip.add(Text.translatable("tooltip.plutoscoffee.caffeine_content", Utils.getCoffeeType(stack).getCaffeineContent()).formatted(Formatting.AQUA));
         }
         CoffeeAddition[] addIns = Utils.getCoffeeAddIns(stack);
         if (addIns != null) {

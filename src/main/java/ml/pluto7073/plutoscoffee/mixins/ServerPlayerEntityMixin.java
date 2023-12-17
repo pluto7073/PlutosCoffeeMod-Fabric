@@ -2,6 +2,7 @@ package ml.pluto7073.plutoscoffee.mixins;
 
 import ml.pluto7073.plutoscoffee.Utils;
 import ml.pluto7073.plutoscoffee.registry.ModMisc;
+import ml.pluto7073.plutoscoffee.registry.ModStatusEffects;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.nbt.NbtCompound;
@@ -72,9 +73,10 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntityMixin {
     
     @Inject(at = @At("TAIL"), method = "tick")
     public void plutoscoffee_caffeinePoisoningFunctionality(CallbackInfo ci) {
+        if (getAbilities().creativeMode) return;
         float caffeine = this.dataTracker.get(ModMisc.PLAYER_CAFFEINE_AMOUNT);
         if (caffeine < 3000.0F) return;
-        this.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 20 * 60));
+        this.addStatusEffect(new StatusEffectInstance(ModStatusEffects.CAFFEINE_OVERDOSE, 20 * 60));
     }
     
 }
