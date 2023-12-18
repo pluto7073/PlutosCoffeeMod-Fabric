@@ -1,22 +1,21 @@
 package ml.pluto7073.plutoscoffee.recipes;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.google.gson.JsonObject;
 import ml.pluto7073.plutoscoffee.Utils;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
-import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.registry.ModMisc;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.Recipe;
-import net.minecraft.recipe.RecipeSerializer;
-import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.*;
 import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.JsonHelper;
 import net.minecraft.world.World;
 
 import java.util.stream.Stream;
@@ -25,13 +24,14 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
 
     final Ingredient base;
     final Ingredient addition;
-    final CoffeeStackBuilder result;
-    //public final Identifier id;
+    final ItemStack result;
+    private final Identifier id;
 
-    public CoffeeWorkstationRecipe(Ingredient base, Ingredient addition, CoffeeStackBuilder result) {
+    public CoffeeWorkstationRecipe(Identifier id, Ingredient base, Ingredient addition, ItemStack result) {
         this.base = base;
         this.addition = addition;
         this.result = result;
+        this.id = id;
     }
 
     @Override
@@ -45,11 +45,10 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
     }
 
     public ItemStack craft(Inventory inventory) {
-        ItemStack stack = new ItemStack(ModItems.BREWED_COFFEE, 1);
+        ItemStack stack = result.copy();
         NbtList sourceAdds = inventory.getStack(0).getOrCreateSubNbt("Coffee").getList("Additions", NbtElement.STRING_TYPE);
-        NbtList resAdds = new NbtList();
+        NbtList resAdds = stack.getOrCreateSubNbt("Coffee").getList("Additions", NbtElement.STRING_TYPE);
         resAdds.addAll(sourceAdds);
-        resAdds.add(Utils.stringAsNbt(result.addition()));
         String coffeeType = inventory.getStack(0).getOrCreateSubNbt("Coffee").getString("CoffeeType");
         stack.getOrCreateSubNbt("Coffee").put("Additions", resAdds);
         stack.getOrCreateSubNbt("Coffee").putString("CoffeeType", coffeeType);
@@ -63,8 +62,13 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
     }
 
     @Override
-    public ItemStack getResult(DynamicRegistryManager registryManager) {
-        return this.result.example();
+    public ItemStack getOutput(DynamicRegistryManager registryManager) {
+        return this.result;
+    }
+
+    @Override
+    public Identifier getId() {
+        return this.id;
     }
 
     public boolean testAddition(ItemStack stack) {
@@ -95,42 +99,35 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
 
     public static class Serializer implements RecipeSerializer<CoffeeWorkstationRecipe> {
 
-        private static final MapCodec<CoffeeStackBuilder> RESULT_STACK_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(Codec.STRING.fieldOf("result").forGetter(CoffeeStackBuilder::addition)).apply(instance, CoffeeStackBuilder::new));
-
-        private static final Codec<CoffeeWorkstationRecipe> CODEC = RecordCodecBuilder.create(instance -> instance.group(Ingredient.ALLOW_EMPTY_CODEC.fieldOf("base").forGetter((recipe) -> recipe.base), Ingredient.ALLOW_EMPTY_CODEC.fieldOf("addition").forGetter((recipe) -> recipe.addition), RESULT_STACK_CODEC.forGetter(recipe -> recipe.result)).apply(instance, CoffeeWorkstationRecipe::new));
-
         public Serializer() {}
 
         @Override
-        public Codec<CoffeeWorkstationRecipe> codec() {
-            return CODEC;
+        public CoffeeWorkstationRecipe read(Identifier id, JsonObject jsonObject) {
+            Ingredient ingredient = Ingredient.fromJson(JsonHelper.getObject(jsonObject, "base"));
+            Ingredient ingredient2 = Ingredient.fromJson(JsonHelper.getObject(jsonObject, "addition"));
+            JsonObject resultObject = JsonHelper.getObject(jsonObject, "result");
+            Item item = ShapedRecipe.getItem(resultObject);
+            int count = JsonHelper.getInt(resultObject, "count", 1);
+            ItemStack itemStack = new ItemStack(item, count);
+            NbtList list = new NbtList();
+            list.add(Utils.stringAsNbt(JsonHelper.getString(resultObject, "addition")));
+            itemStack.getOrCreateSubNbt("Coffee").put("Additions", list);
+            return new CoffeeWorkstationRecipe(id, ingredient, ingredient2, itemStack);
         }
 
         @Override
-        public CoffeeWorkstationRecipe read(PacketByteBuf buf) {
+        public CoffeeWorkstationRecipe read(Identifier id, PacketByteBuf buf) {
             Ingredient ingredient = Ingredient.fromPacket(buf);
             Ingredient ingredient2 = Ingredient.fromPacket(buf);
-            String result = buf.readString();
-            return new CoffeeWorkstationRecipe(ingredient, ingredient2, new CoffeeStackBuilder(result));
+            ItemStack itemStack = buf.readItemStack();
+            return new CoffeeWorkstationRecipe(id, ingredient, ingredient2, itemStack);
         }
 
         @Override
         public void write(PacketByteBuf buf, CoffeeWorkstationRecipe recipe) {
             recipe.base.write(buf);
             recipe.addition.write(buf);
-            buf.writeString(recipe.result.addition());
-        }
-
-    }
-
-    public record CoffeeStackBuilder(String addition) {
-
-        ItemStack example() {
-            ItemStack example = new ItemStack(ModItems.BREWED_COFFEE, 1);
-            NbtList list = new NbtList();
-            list.add(Utils.stringAsNbt(addition()));
-            example.getOrCreateSubNbt("Coffee").put("Additions", list);
-            return example;
+            buf.writeItemStack(recipe.result);
         }
 
     }

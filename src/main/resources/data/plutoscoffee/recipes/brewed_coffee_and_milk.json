@@ -6,5 +6,9 @@
   "addition": {
     "item": "plutoscoffee:milk_bottle"
   },
-  "result": "plutoscoffee:milk"
+  "result": {
+    "item": "plutoscoffee:brewed_coffee",
+    "count": 1,
+    "addition": "plutoscoffee:milk"
+  }
 }

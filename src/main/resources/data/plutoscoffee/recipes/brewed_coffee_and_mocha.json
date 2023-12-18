@@ -6,5 +6,9 @@
   "addition": {
     "item": "plutoscoffee:mocha_syrup"
   },
-  "result": "plutoscoffee:mocha_syrup"
+  "result": {
+    "item": "plutoscoffee:brewed_coffee",
+    "count": 1,
+    "addition": "plutoscoffee:mocha_syrup"
+  }
 }

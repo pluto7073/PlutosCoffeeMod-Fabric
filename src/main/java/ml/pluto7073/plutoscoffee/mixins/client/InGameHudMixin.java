@@ -24,8 +24,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
 
-    @Unique private static final Identifier CAFFEINE_OUTLINE_TEXTURE = new Identifier(PlutosCoffee.MOD_ID, "hud/caffeine_content_outline");
-    @Unique private static final Identifier CAFFEINE_FILL_TEXTURE = new Identifier(PlutosCoffee.MOD_ID, "hud/caffeine_content_fill");
+    @Unique private static final Identifier CAFFEINE_OUTLINE_TEXTURE = new Identifier(PlutosCoffee.MOD_ID, "textures/gui/caffeine_content/outline.png");
+    @Unique private static final Identifier CAFFEINE_FILL_TEXTURE = new Identifier(PlutosCoffee.MOD_ID, "textures/gui/caffeine_content/fill.png");
+    @Unique private static final Identifier ICONS = new Identifier(PlutosCoffee.MOD_ID, "textures/gui/pc_icons.png");
 
     @Shadow @Final private MinecraftClient client;
 
@@ -46,9 +47,8 @@ public abstract class InGameHudMixin {
 
         float currentCaffeine = Math.min(3000f, Utils.getPlayerCaffeine(playerEntity));
         int scaledCaffeineOutput = Math.round(currentCaffeine * (71f/3000f));
-
-        context.drawGuiTexture(CAFFEINE_OUTLINE_TEXTURE, centerX + 10, baseYValue, 80, 8);
-        context.drawGuiTexture(CAFFEINE_FILL_TEXTURE, 80, 8, 0, 0, centerX + 10, baseYValue, scaledCaffeineOutput, 8);
+        context.drawTexture(ICONS, centerX + 10, baseYValue, 0, 0, 80, 8, 80, 16);
+        context.drawTexture(ICONS, centerX + 10, baseYValue, 0, 9, scaledCaffeineOutput, 8, 80, 16);
 
         this.client.getProfiler().pop();
     }
