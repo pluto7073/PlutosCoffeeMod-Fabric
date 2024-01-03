@@ -9,6 +9,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.text.Text;
 import net.minecraft.util.Arm;
 import net.minecraft.util.Identifier;
@@ -44,6 +45,13 @@ public abstract class InGameHudMixin {
 
         int centerX = this.scaledWidth / 2;
         int baseYValue = this.scaledHeight - 49;
+
+        int max = playerEntity.getMaxAir();
+        int maxOrCurrent = Math.min(playerEntity.getAir(), max);
+
+        if (playerEntity.isSubmergedIn(FluidTags.WATER) || maxOrCurrent < max) {
+            baseYValue -= 10;
+        }
 
         float currentCaffeine = Math.min(3000f, Utils.getPlayerCaffeine(playerEntity));
         int scaledCaffeineOutput = Math.round(currentCaffeine * (71f/3000f));
