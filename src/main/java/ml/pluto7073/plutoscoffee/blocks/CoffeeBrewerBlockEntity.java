@@ -34,7 +34,7 @@ public class CoffeeBrewerBlockEntity extends LockableContainerBlockEntity implem
     private static final int[] TOP_SLOTS = {0};
     private static final int[] BOTTOM_SLOTS = {0, 2};
     private static final int[] SIDE_SLOTS = {1, 2};
-    public static final int MAX_FUEL_USES = 3;
+    public static final int MAX_FUEL_USES = 6;
     public static final int BREW_TIME_PROPERTY_INDEX = 0;
     public static final int FUEL_PROPERTY_INDEX = 1;
     public static final int PROPERTY_COUNT = 2;
