@@ -36,5 +36,6 @@
   "stat.plutoscoffee.drink_coffee": "Bottles of Coffee Drank",
   "stat.plutoscoffee.interact_with_coffee_brewer": "Interactions with Coffee Brewer",
   "stat.plutoscoffee.interact_with_coffee_workstation": "Interactions with Coffee Workstation",
-  "death.attack.caffeine_overdose": "%1$s drank too much caffeine"
+  "death.attack.caffeine_overdose": "%1$s drank too much caffeine",
+  "effect.plutoscoffee.caffeine_overdose": "Caffeine Overdose"
 }
