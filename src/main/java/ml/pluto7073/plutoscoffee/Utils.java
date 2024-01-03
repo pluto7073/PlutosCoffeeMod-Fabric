@@ -147,4 +147,10 @@ public final class Utils {
         return (float) (exp * originalCaffeine);
     }
 
+    public static int calculateHealthBarHeightPixels(int health, int maxHeartsPerRow, int rowHeight) {
+        double hearts = health / 2.0;
+        int rows = (int) Math.floor(hearts / maxHeartsPerRow);
+        return rows * rowHeight;
+    }
+
 }

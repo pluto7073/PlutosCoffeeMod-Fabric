@@ -7,8 +7,10 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.text.Text;
 import net.minecraft.util.Arm;
 import net.minecraft.util.Identifier;
@@ -35,6 +37,8 @@ public abstract class InGameHudMixin {
 
     @Shadow private int scaledHeight;
 
+    @Shadow protected abstract LivingEntity getRiddenEntity();
+
     @Inject(at = @At("TAIL"), method = "renderStatusBars")
     public void plutoscoffee_renderCaffeineContentDisplay(DrawContext context, CallbackInfo ci) {
         PlayerEntity playerEntity = this.getCameraPlayer();
@@ -43,6 +47,21 @@ public abstract class InGameHudMixin {
 
         int centerX = this.scaledWidth / 2;
         int baseYValue = this.scaledHeight - 49;
+
+        int max = playerEntity.getMaxAir();
+        int maxOrCurrent = Math.min(playerEntity.getAir(), max);
+
+        if (playerEntity.isSubmergedIn(FluidTags.WATER) || maxOrCurrent < max) {
+            baseYValue -= 10;
+        }
+
+        LivingEntity ridden = this.getRiddenEntity();
+        if (ridden != null) {
+            if (ridden.getHealth() > 0){
+                int height = Utils.calculateHealthBarHeightPixels((int) ridden.getHealth(), 10, 9);
+                baseYValue -= height;
+            }
+        }
 
         float currentCaffeine = Math.min(3000f, Utils.getPlayerCaffeine(playerEntity));
         int scaledCaffeineOutput = Math.round(currentCaffeine * (71f/3000f));
