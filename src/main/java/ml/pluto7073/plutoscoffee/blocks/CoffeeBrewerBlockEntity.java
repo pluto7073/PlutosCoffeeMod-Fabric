@@ -109,6 +109,7 @@ public class CoffeeBrewerBlockEntity extends LockableContainerBlockEntity implem
             --blockEntity.brewTime;
             boolean done = blockEntity.brewTime == 0;
             if (done && recipe) {
+                --blockEntity.fuel;
                 craft(world, pos, blockEntity.inventory);
                 markDirty(world, pos, state);
             } else if (!recipe || !inputStack.isOf(blockEntity.itemBrewing)) {
@@ -116,7 +117,6 @@ public class CoffeeBrewerBlockEntity extends LockableContainerBlockEntity implem
                 markDirty(world, pos, state);
             }
         } else if (recipe && blockEntity.fuel > 0) {
-            --blockEntity.fuel;
             blockEntity.brewTime = 600;
             blockEntity.itemBrewing = inputStack.getItem();
             markDirty(world, pos, state);
