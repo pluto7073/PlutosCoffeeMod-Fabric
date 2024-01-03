@@ -35,7 +35,7 @@ public class CoffeeBrewerScreen extends HandledScreen<CoffeeBrewerScreenHandler>
         int j = (this.height - this.backgroundHeight) / 2;
         context.drawTexture(TEXTURE, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
         int k = handler.getFuel();
-        int l = MathHelper.clamp((18 * k + 3 - 1) / 3, 0, 18);
+        int l = MathHelper.clamp((18 * k + 6 - 1) / 6, 0, 18);
         if (l > 0) {
             context.drawTexture(TEXTURE, i + 60, j + 44, 176, 29, l, 4);
         }
