@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "plutoscoffee:coffee_brewer"
+    "plutoscoffee:coffee_brewer",
+    "plutoscoffee:coffee_grinder"
   ]
 }

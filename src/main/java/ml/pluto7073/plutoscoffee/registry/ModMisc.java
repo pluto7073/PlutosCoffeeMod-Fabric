@@ -50,6 +50,7 @@ public class ModMisc {
                 .build());
         ItemGroupEvents.modifyEntriesEvent(PC_GROUP).register(stacks -> {
             stacks.add(new ItemStack(ModItems.COFFEE_BREWER, 1));
+            stacks.add(new ItemStack(ModItems.COFFEE_GRINDR, 1));
             stacks.add(new ItemStack(ModItems.COFFEE_WORKSTATION, 1));
             stacks.add(new ItemStack(ModItems.COFFEE_BERRY, 1));
             stacks.add(new ItemStack(ModItems.COFFEE_BEAN, 1));

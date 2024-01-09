@@ -68,6 +68,10 @@ public final class Utils {
         return TagUtil.isIn(ModItemTags.COFFEE_GROUNDS, item);
     }
 
+    public static boolean isItemACoffeeBean(Item item) {
+        return TagUtil.isIn(ModItemTags.COFFEE_BEANS, item);
+    }
+
     @Nullable
     public static CoffeeAddition[] getCoffeeAddIns(ItemStack stack) {
         return getCoffeeAddIns(stack.getOrCreateSubNbt("Coffee"));
