@@ -1,5 +1,6 @@
 package ml.pluto7073.plutoscoffee.blocks;
 
+import ml.pluto7073.plutoscoffee.Utils;
 import ml.pluto7073.plutoscoffee.gui.CoffeeBrewerScreenHandler;
 import ml.pluto7073.plutoscoffee.gui.EspressoMachineScreenHandler;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
@@ -16,6 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
@@ -113,19 +115,21 @@ public class EspressoMachineBlockEntity extends LockableContainerBlockEntity imp
         if (pulling) {
             --blockEntity.pullTime;
             boolean done = blockEntity.pullTime == 0;
+            state = state.with(EspressoMachineBlock.PULLING, true);
             if (done && recipe) {
                 blockEntity.water -= 2;
                 pull(world, pos, blockEntity.inventory);
+                state = state.with(EspressoMachineBlock.PULLING, false);
                 markDirty(world, pos, state);
             } else if (!recipe) {
                 blockEntity.pullTime = 0;
+                state = state.with(EspressoMachineBlock.PULLING, false);
                 markDirty(world, pos, state);
             }
         } else if (recipe && blockEntity.water > 1) {
-            blockEntity.pullTime = 21 * 20;
+            blockEntity.pullTime = 400;
             markDirty(world, pos, state);
         }
-        BlockState blockState = state;
         boolean hasEspresso = !blockEntity.inventory.get(ESPRESSO_SLOT_INDEX).isEmpty() || !blockEntity.inventory.get(ESPRESSO_SLOT_2_INDEX).isEmpty();
         if (hasEspresso != blockEntity.lastTickEspresso) {
             blockEntity.lastTickEspresso = hasEspresso;
@@ -133,9 +137,9 @@ public class EspressoMachineBlockEntity extends LockableContainerBlockEntity imp
                 return;
             }
 
-            blockState = blockState.with(EspressoMachineBlock.HAS_ESPRESSO, hasEspresso);
+            state = state.with(EspressoMachineBlock.HAS_ESPRESSO, hasEspresso);
 
-            world.setBlockState(pos, blockState, 2);
+            world.setBlockState(pos, state, 2);
         }
 
         boolean hasMilk = !blockEntity.inventory.get(MILK_SLOT_INDEX).isEmpty();
@@ -145,12 +149,29 @@ public class EspressoMachineBlockEntity extends LockableContainerBlockEntity imp
                 return;
             }
 
-            blockState = blockState.with(EspressoMachineBlock.HAS_MILK, hasMilk);
+            state = state.with(EspressoMachineBlock.HAS_MILK, hasMilk);
 
-            world.setBlockState(pos, blockState, 2);
+            world.setBlockState(pos, state, 2);
         }
 
-        // TODO milksteaming
+        ItemStack milkStack = blockEntity.inventory.get(MILK_SLOT_INDEX);
+
+        boolean steaming = milkStack.isOf(ModItems.MILK_BOTTLE) || milkStack.isOf(ModItems.LATTE);
+        if (steaming) {
+            blockEntity.steamTime++;
+            if (blockEntity.steamTime > 600) blockEntity.steamTime = 600;
+
+            if (milkStack.isOf(ModItems.MILK_BOTTLE) && blockEntity.steamTime >= 400) {
+                milkStack = new ItemStack(ModItems.LATTE);
+            } else if (milkStack.isOf(ModItems.LATTE) && blockEntity.steamTime >= 500) {
+                NbtList resAdds = new NbtList();
+                resAdds.add(Utils.stringAsNbt("plutoscoffee:burnt"));
+                milkStack.getOrCreateSubNbt("Coffee").put("Additions", resAdds);
+            }
+            blockEntity.inventory.set(MILK_SLOT_INDEX, milkStack);
+        } else {
+            blockEntity.steamTime = 0;
+        }
     }
 
     private static boolean canPull(DefaultedList<ItemStack> slots) {
@@ -241,7 +262,7 @@ public class EspressoMachineBlockEntity extends LockableContainerBlockEntity imp
         return switch (slot) {
             case GROUNDS_SLOT_INDEX -> stack.isOf(ModItems.GROUND_ESPRESSO_ROAST);
             case ESPRESSO_SLOT_INDEX,ESPRESSO_SLOT_2_INDEX -> getStack(slot).isEmpty() && stack.isOf(Items.GLASS_BOTTLE);
-            case MILK_SLOT_INDEX -> getStack(slot).isEmpty() && (stack.isOf(ModItems.MILK_BOTTLE) /*TODO || stack.isOf(ModItems.LATTE)*/);
+            case MILK_SLOT_INDEX -> getStack(slot).isEmpty() && (stack.isOf(ModItems.MILK_BOTTLE) || stack.isOf(ModItems.LATTE));
             case WATER_SLOT_INDEX -> stack.isOf(Items.WATER_BUCKET);
             default -> false;
         };

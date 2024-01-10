@@ -41,12 +41,13 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
         boolean b = base.test(inventory.getStack(0)) && addition.test(inventory.getStack(1));
         CoffeeAddition addIn = CoffeeAddition.byId(result.addition);
         if (addIn.getMaxAmount() > 0) {
-            CoffeeAddition[] currentAddIns = Utils.getCoffeeAddIns(inventory.getStack(0));
+            /*CoffeeAddition[] currentAddIns = Utils.getCoffeeAddIns(inventory.getStack(0));
             int count = 0;
             for (CoffeeAddition i : currentAddIns) {
                 if (i.equals(addIn)) count++;
             }
-            return b && count < addIn.getMaxAmount();
+            return b && count < addIn.getMaxAmount();*/
+            return b;
         } else return b;
     }
 
@@ -58,7 +59,8 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
     public ItemStack craft(Inventory inventory) {
         ItemStack stack = inventory.getStack(0).copy();
         stack.setCount(1);
-        NbtList resAdds = new NbtList();
+        NbtList resAdds = stack.getOrCreateSubNbt("Coffee").getList("Additions", NbtElement.STRING_TYPE);
+        if (resAdds == null) resAdds = new NbtList();
         resAdds.add(Utils.stringAsNbt(result.addition()));
         stack.getOrCreateSubNbt("Coffee").put("Additions", resAdds);
 

@@ -19,6 +19,7 @@ public class ItemColorsMixin {
     private static void plutoscoffee_createInject(BlockColors blockColors, CallbackInfoReturnable<ItemColors> cir) {
         ItemColors itemColors = cir.getReturnValue();
         itemColors.register((stack, tintIndex) -> tintIndex > 0 ? -1 : Utils.getCoffeeColour(stack), ModItems.BREWED_COFFEE);
+        itemColors.register((stack, tintIndex) -> tintIndex > 0 ? -1 : Utils.getLatteColour(stack), ModItems.LATTE);
         cir.setReturnValue(itemColors);
     }
 

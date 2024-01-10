@@ -113,9 +113,49 @@ public final class Utils {
         float g = (colour >> 8 & 255) / 255.0F;
         float b = (colour & 255) / 255.0F;
         int colourCount = 1;
+        int allowedMilk = 3;
         for (CoffeeAddition addition : addIns) {
             if (!addition.changesColour()) continue;
-            if (addition == CoffeeAdditions.MILK_BOTTLE) continue;
+            if (addition == CoffeeAdditions.MILK_BOTTLE && allowedMilk > 0) {
+                allowedMilk--;
+                continue;
+            }
+            int additionColour = addition.getColour();
+            r += (additionColour >> 16 & 255) / 255.0F;
+            g += (additionColour >> 8 & 255) / 255.0F;
+            b += (additionColour & 255) / 255.0F;
+            colourCount += 1;
+        }
+        r = r / (float) colourCount * 255.0F;
+        g = g / (float) colourCount * 255.0F;
+        b = b / (float) colourCount * 255.0F;
+        return (int) r << 16 | (int) g << 8 | (int) b;
+    }
+
+    public static int getLatteColour(ItemStack stack) {
+        CoffeeAddition[] addIns = getCoffeeAddIns(stack);
+        if (addIns == null) {
+            return 0xFFFFFF;
+        }
+        return getLatteColour(addIns);
+    }
+
+    public static int getLatteColour(CoffeeAddition[] addIns) {
+        int color = 0xFFFFFF;
+        if (Arrays.stream(addIns).anyMatch(coffeeAddition -> coffeeAddition == CoffeeAdditions.ESPRESSO_SHOT)) {
+            color = BrewedCoffee.COLOUR_WITH_MILK;
+        }
+        float r = (color >> 16 & 255) / 255.0F;
+        float g = (color >> 8 & 255) / 255.0F;
+        float b = (color & 255) / 255.0F;
+        int colourCount = 1;
+        int allowedShots = 2;
+        for (CoffeeAddition addition : addIns) {
+            if (!addition.changesColour()) continue;
+            if (addition == CoffeeAdditions.ESPRESSO_SHOT && allowedShots > 0) {
+                allowedShots--;
+                continue;
+            }
             int additionColour = addition.getColour();
             r += (additionColour >> 16 & 255) / 255.0F;
             g += (additionColour >> 8 & 255) / 255.0F;
