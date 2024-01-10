@@ -6,11 +6,19 @@ import ml.pluto7073.plutoscoffee.registry.ModItems;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.event.GameEvent;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -28,6 +36,7 @@ public class CoffeeAdditions {
     public static final CoffeeAddition ESPRESSO_SHOT;
     public static final CoffeeAddition ICE;
     public static final CoffeeAddition BURNT;
+    public static final CoffeeAddition CHORUS_FRUIT;
 
     public static CoffeeAddition register(String id, CoffeeAddition addition) {
         REGISTRY.put(new Identifier(PlutosCoffee.MOD_ID, id), addition);
@@ -83,6 +92,30 @@ public class CoffeeAdditions {
             user.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 20 * 60));
             user.damage(user.getDamageSources().onFire(), 2);
         }, false, 0, 0, 1));
+        CHORUS_FRUIT = register("chorus_fruit", new CoffeeAddition(Items.CHORUS_FRUIT, (stack, world, user) -> {
+            double d = user.getX();
+            double e = user.getY();
+            double f = user.getZ();
+
+            for(int i = 0; i < 16; ++i) {
+                double g = user.getX() + (user.getRandom().nextDouble() - 0.5) * 16.0;
+                double h = MathHelper.clamp(user.getY() + (double)(user.getRandom().nextInt(16) - 8), (double)world.getBottomY(), (double)(world.getBottomY() + ((ServerWorld)world).getLogicalHeight() - 1));
+                double j = user.getZ() + (user.getRandom().nextDouble() - 0.5) * 16.0;
+                if (user.hasVehicle()) {
+                    user.stopRiding();
+                }
+
+                Vec3d vec3d = user.getPos();
+                if (user.teleport(g, h, j, true)) {
+                    world.emitGameEvent(GameEvent.TELEPORT, vec3d, GameEvent.Emitter.of(user));
+                    SoundEvent soundEvent = user instanceof FoxEntity ? SoundEvents.ENTITY_FOX_TELEPORT : SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT;
+                    world.playSound(null, d, e, f, soundEvent, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                    user.playSound(soundEvent, 1.0F, 1.0F);
+                    user.onLanding();
+                    break;
+                }
+            }
+        }, true, 0x8B00FF, 0));
     }
 
 }
