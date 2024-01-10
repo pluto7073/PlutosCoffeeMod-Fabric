@@ -4,6 +4,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import ml.pluto7073.plutoscoffee.Utils;
+import ml.pluto7073.plutoscoffee.coffee.CoffeeAddition;
+import ml.pluto7073.plutoscoffee.coffee.CoffeeAdditions;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.registry.ModMisc;
@@ -36,7 +38,16 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
 
     @Override
     public boolean matches(Inventory inventory, World world) {
-        return base.test(inventory.getStack(0)) && addition.test(inventory.getStack(1));
+        boolean b = base.test(inventory.getStack(0)) && addition.test(inventory.getStack(1));
+        CoffeeAddition addIn = CoffeeAddition.byId(result.addition);
+        if (addIn.getMaxAmount() > 0) {
+            CoffeeAddition[] currentAddIns = Utils.getCoffeeAddIns(inventory.getStack(0));
+            int count = 0;
+            for (CoffeeAddition i : currentAddIns) {
+                if (i.equals(addIn)) count++;
+            }
+            return b && count < addIn.getMaxAmount();
+        } else return b;
     }
 
     @Override
@@ -61,7 +72,7 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
 
     @Override
     public ItemStack getResult(DynamicRegistryManager registryManager) {
-        return this.result.example();
+        return this.result.example(base);
     }
 
     public boolean testAddition(ItemStack stack) {
@@ -122,8 +133,8 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
 
     public record CoffeeStackBuilder(String addition) {
 
-        ItemStack example() {
-            ItemStack example = new ItemStack(ModItems.BREWED_COFFEE, 1);
+        ItemStack example(Ingredient base) {
+            ItemStack example = base.getMatchingStacks()[0].copy();
             NbtList list = new NbtList();
             list.add(Utils.stringAsNbt(addition()));
             example.getOrCreateSubNbt("Coffee").put("Additions", list);
