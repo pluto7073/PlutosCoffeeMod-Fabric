@@ -1,0 +1,33 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "plutoscoffee:block/espresso_machine_milk",
+		"particle": "plutoscoffee:block/espresso_machine_milk"
+	},
+	"elements": [
+		{
+			"from": [0, 1, 2],
+			"to": [4, 6, 6],
+			"faces": {
+				"north": {"uv": [0, 0, 8, 10], "texture": "#0"},
+				"east": {"uv": [0, 0, 8, 10], "texture": "#0"},
+				"south": {"uv": [0, 0, 8, 10], "texture": "#0"},
+				"west": {"uv": [0, 0, 8, 10], "texture": "#0"},
+				"up": {"uv": [8, 8, 16, 16], "texture": "#0"},
+				"down": {"uv": [8, 8, 16, 16], "texture": "#0"}
+			}
+		},
+		{
+			"from": [0.1, 1.1, 2.1],
+			"to": [3.9, 3.9, 5.9],
+			"faces": {
+				"north": {"uv": [8, 2, 16, 8], "texture": "#0"},
+				"east": {"uv": [16, 2, 8, 8], "texture": "#0"},
+				"south": {"uv": [8, 2, 16, 8], "texture": "#0"},
+				"west": {"uv": [16, 2, 8, 8], "texture": "#0"},
+				"up": {"uv": [8, 0, 16, 8], "texture": "#0"},
+				"down": {"uv": [8, 0, 16, 8], "texture": "#0"}
+			}
+		}
+	]
+}

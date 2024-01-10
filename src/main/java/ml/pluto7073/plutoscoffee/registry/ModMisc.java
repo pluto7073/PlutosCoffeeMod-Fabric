@@ -51,12 +51,14 @@ public class ModMisc {
         ItemGroupEvents.modifyEntriesEvent(PC_GROUP).register(stacks -> {
             stacks.add(new ItemStack(ModItems.COFFEE_BREWER, 1));
             stacks.add(new ItemStack(ModItems.COFFEE_GRINDR, 1));
+            stacks.add(new ItemStack(ModItems.ESPRESSO_MACHINE, 1));
             stacks.add(new ItemStack(ModItems.COFFEE_WORKSTATION, 1));
             stacks.add(new ItemStack(ModItems.COFFEE_BERRY, 1));
             stacks.add(new ItemStack(ModItems.COFFEE_BEAN, 1));
             stacks.add(new ItemStack(ModItems.LIGHT_ROAST_BEAN, 1));
             stacks.add(new ItemStack(ModItems.MEDIUM_ROAST_BEAN, 1));
             stacks.add(new ItemStack(ModItems.DARK_ROAST_BEAN, 1));
+            stacks.add(new ItemStack(ModItems.ESPRESSO_ROAST_BEAN, 1));
             stacks.add(new ItemStack(ModItems.GROUND_LIGHT_ROAST, 1));
             stacks.add(new ItemStack(ModItems.GROUND_MEDIUM_ROAST, 1));
             stacks.add(new ItemStack(ModItems.GROUND_DARK_ROAST, 1));
@@ -70,6 +72,7 @@ public class ModMisc {
             stacks.add(lightRoast);
             stacks.add(mediumRoast);
             stacks.add(darkRoast);
+            stacks.add(new ItemStack(ModItems.ESPRESSO_SHOT));
             stacks.add(new ItemStack(ModItems.CARAMEL));
             stacks.add(new ItemStack(ModItems.MILK_BOTTLE));
             stacks.add(new ItemStack(ModItems.MOCHA_SAUCE));

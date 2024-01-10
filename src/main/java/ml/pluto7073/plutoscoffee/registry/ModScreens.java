@@ -4,6 +4,7 @@ import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.gui.CoffeeBrewerScreenHandler;
 import ml.pluto7073.plutoscoffee.gui.CoffeeGrindrScreenHandler;
 import ml.pluto7073.plutoscoffee.gui.CoffeeWorkstationScreenHandler;
+import ml.pluto7073.plutoscoffee.gui.EspressoMachineScreenHandler;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
@@ -16,6 +17,7 @@ public class ModScreens {
     public static final ScreenHandlerType<CoffeeWorkstationScreenHandler> WORKSTATION_HANDLER_TYPE;
     public static final ScreenHandlerType<CoffeeBrewerScreenHandler> BREWER_SCREEN_HANDLER_TYPE;
     public static final ScreenHandlerType<CoffeeGrindrScreenHandler> GRINDR_SCREEN_HANDLER_TYPE;
+    public static final ScreenHandlerType<EspressoMachineScreenHandler> ESPRESSO_SCREEN_HANDLER_TYPE;
 
     public static void init() {}
 
@@ -27,6 +29,7 @@ public class ModScreens {
         WORKSTATION_HANDLER_TYPE = register("coffee_workstation", CoffeeWorkstationScreenHandler::new);
         BREWER_SCREEN_HANDLER_TYPE = register("coffee_brewer", CoffeeBrewerScreenHandler::new);
         GRINDR_SCREEN_HANDLER_TYPE = register("coffee_grinder", CoffeeGrindrScreenHandler::new);
+        ESPRESSO_SCREEN_HANDLER_TYPE = register("espresso_machine", EspressoMachineScreenHandler::new);
     }
 
 }

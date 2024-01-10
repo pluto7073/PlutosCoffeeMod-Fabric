@@ -4,6 +4,7 @@
   "package": "ml.pluto7073.plutoscoffee.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "ComposterBlockMixin",
     "EntityMixin",
     "LivingEntityMixin",
     "PlayerEntityMixin",
