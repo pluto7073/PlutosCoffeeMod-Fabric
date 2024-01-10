@@ -70,7 +70,7 @@ public class EspressoMachineScreen extends HandledScreen<EspressoMachineScreenHa
 
             n = BUBBLE_PROGRESS[(600 - m) / 2 % 7];
             if (n > 0) {
-                context.drawTexture(TEXTURE, i + 138, j + 47 + 29 - n, 185, 29 - n, 12, n);
+                context.drawTexture(TEXTURE, i + 138, j + 44 + 29 - n, 185, 29 - n, 12, n);
             }
         }
     }
