@@ -45,14 +45,11 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
     }
 
     public ItemStack craft(Inventory inventory) {
-        ItemStack stack = new ItemStack(ModItems.BREWED_COFFEE, 1);
-        NbtList sourceAdds = inventory.getStack(0).getOrCreateSubNbt("Coffee").getList("Additions", NbtElement.STRING_TYPE);
+        ItemStack stack = inventory.getStack(0).copy();
+        stack.setCount(1);
         NbtList resAdds = new NbtList();
-        resAdds.addAll(sourceAdds);
         resAdds.add(Utils.stringAsNbt(result.addition()));
-        String coffeeType = inventory.getStack(0).getOrCreateSubNbt("Coffee").getString("CoffeeType");
         stack.getOrCreateSubNbt("Coffee").put("Additions", resAdds);
-        stack.getOrCreateSubNbt("Coffee").putString("CoffeeType", coffeeType);
 
         return stack;
     }
