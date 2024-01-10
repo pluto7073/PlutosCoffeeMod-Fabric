@@ -37,6 +37,7 @@ public class CoffeeAdditions {
     public static final CoffeeAddition ICE;
     public static final CoffeeAddition BURNT;
     public static final CoffeeAddition CHORUS_FRUIT;
+    public static final CoffeeAddition GLOW_BERRIES;
 
     public static CoffeeAddition register(String id, CoffeeAddition addition) {
         REGISTRY.put(new Identifier(PlutosCoffee.MOD_ID, id), addition);
@@ -116,6 +117,9 @@ public class CoffeeAdditions {
                 }
             }
         }, true, 0x8B00FF, 0));
+        GLOW_BERRIES = register("glow_berries", new CoffeeAddition(Items.GLOW_BERRIES, (stack, world, user) -> {
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 1200));
+        }, true, 0xFFD369, 0));
     }
 
 }
