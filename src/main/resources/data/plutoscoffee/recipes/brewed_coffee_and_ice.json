@@ -1,0 +1,10 @@
+{
+  "type": "plutoscoffee:coffee_workstation",
+  "base": {
+    "item": "plutoscoffee:brewed_coffee"
+  },
+  "addition": {
+    "item": "minecraft:ice"
+  },
+  "result": "plutoscoffee:ice"
+}
