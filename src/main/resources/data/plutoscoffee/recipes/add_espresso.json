@@ -1,7 +1,7 @@
 {
   "type": "plutoscoffee:coffee_workstation",
   "base": {
-    "item": "plutoscoffee:latte"
+    "tag": "plutoscoffee:workstation_coffees"
   },
   "addition": {
     "item": "plutoscoffee:espresso_shot"
