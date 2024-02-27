@@ -1,6 +1,7 @@
 package ml.pluto7073.plutoscoffee.coffee;
 
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
+import ml.pluto7073.plutoscoffee.items.EspressoShotItem;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -23,6 +24,8 @@ public class CoffeeAdditions {
     public static final CoffeeAddition CARAMEL;
     public static final CoffeeAddition SUGAR;
     public static final CoffeeAddition MOCHA_SYRUP;
+    public static final CoffeeAddition ESPRESSO_SHOT;
+    public static final CoffeeAddition ICE;
 
     public static CoffeeAddition register(String id, CoffeeAddition addition) {
         REGISTRY.put(new Identifier(PlutosCoffee.MOD_ID, id), addition);
@@ -46,29 +49,34 @@ public class CoffeeAdditions {
     }
 
     static {
-        EMPTY = register("empty", new CoffeeAddition("empty", Items.AIR, (stack, world, user) -> {}, false, 0));
-        MILK_BOTTLE = register("milk", new CoffeeAddition("milk", ModItems.MILK_BOTTLE, (stack, world, user) -> {
+        EMPTY = register("empty", new CoffeeAddition(Items.AIR, (stack, world, user) -> {}, false, 0, 0));
+        MILK_BOTTLE = register("milk", new CoffeeAddition(ModItems.MILK_BOTTLE, (stack, world, user) -> {
             Collection<StatusEffectInstance> statusEffects = user.getStatusEffects();
             for (StatusEffectInstance instance : statusEffects) {
                 if (!instance.getEffectType().isBeneficial())
                     user.removeStatusEffect(instance.getEffectType());
             }
-        }, true, 0xECECEC));
-        CARAMEL = register("caramel", new CoffeeAddition("caramel", ModItems.CARAMEL, (stack, world, user) -> {
+        }, true, 0xECECEC, 0));
+        CARAMEL = register("caramel", new CoffeeAddition(ModItems.CARAMEL, (stack, world, user) -> {
             user.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 2400, 2));
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 1200));
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 600, 2));
-        }, true, 0x57260D));
-        SUGAR = register("sugar", new CoffeeAddition("sugar", Items.SUGAR, (stack, world, user) -> {
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 200));
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.ABSORPTION, 200));
+        }, true, 0x57260D, 0));
+        SUGAR = register("sugar", new CoffeeAddition(Items.SUGAR, (stack, world, user) -> {
             if (user instanceof PlayerEntity) {
                 ((PlayerEntity) user).getHungerManager().add(1, 0);
             }
-        }, false, 0xFFFFFF));
-        MOCHA_SYRUP = register("mocha_syrup", new CoffeeAddition("mocha_syrup", ModItems.MOCHA_SAUCE, (stack, world, user) -> {
+        }, false, 0xFFFFFF,0));
+        MOCHA_SYRUP = register("mocha_syrup", new CoffeeAddition(ModItems.MOCHA_SAUCE, (stack, world, user) -> {
             if (user instanceof PlayerEntity) {
                 ((PlayerEntity) user).getHungerManager().add(6, 5.0f);
             }
-        }, true, 0x301A0A));
+        }, true, 0x301A0A, 0));
+        ESPRESSO_SHOT = register("espresso_shot", new CoffeeAddition(ModItems.ESPRESSO_SHOT, (stack, world, user) -> {},
+                true, 0x160A02, EspressoShotItem.CAFFEINE_CONTENT));
+        ICE = register("ice", new CoffeeAddition(Items.ICE, (stack, world, user) -> {
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 10 * 20, 1));
+        }, false, 0, 0, 1));
     }
 
 }

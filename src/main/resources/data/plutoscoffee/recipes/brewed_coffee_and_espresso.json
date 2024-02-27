@@ -1,0 +1,10 @@
+{
+  "type": "plutoscoffee:coffee_workstation",
+  "base": {
+    "item": "plutoscoffee:brewed_coffee"
+  },
+  "addition": {
+    "item": "plutoscoffee:espresso_shot"
+  },
+  "result": "plutoscoffee:espresso_shot"
+}

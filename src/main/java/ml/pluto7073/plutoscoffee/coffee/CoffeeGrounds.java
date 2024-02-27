@@ -28,6 +28,7 @@ public class CoffeeGrounds {
         register(ModItems.LIGHT_ROAST_BEAN, ModItems.GROUND_LIGHT_ROAST);
         register(ModItems.MEDIUM_ROAST_BEAN, ModItems.GROUND_MEDIUM_ROAST);
         register(ModItems.DARK_ROAST_BEAN, ModItems.GROUND_DARK_ROAST);
+        register(ModItems.ESPRESSO_ROAST_BEAN, ModItems.GROUND_ESPRESSO_ROAST);
     }
 
     public static void init() {}

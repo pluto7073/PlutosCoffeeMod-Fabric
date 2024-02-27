@@ -3,6 +3,7 @@ package ml.pluto7073.plutoscoffee.mixins.client;
 import ml.pluto7073.plutoscoffee.gui.CoffeeBrewerScreen;
 import ml.pluto7073.plutoscoffee.gui.CoffeeGrindrScreen;
 import ml.pluto7073.plutoscoffee.gui.CoffeeWorkstationScreen;
+import ml.pluto7073.plutoscoffee.gui.EspressoMachineScreen;
 import ml.pluto7073.plutoscoffee.registry.ModScreens;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -30,6 +31,7 @@ public class HandledScreensMixin {
         register(ModScreens.BREWER_SCREEN_HANDLER_TYPE, CoffeeBrewerScreen::new);
         register(ModScreens.WORKSTATION_HANDLER_TYPE, CoffeeWorkstationScreen::new);
         register(ModScreens.GRINDR_SCREEN_HANDLER_TYPE, CoffeeGrindrScreen::new);
+        register(ModScreens.ESPRESSO_SCREEN_HANDLER_TYPE, EspressoMachineScreen::new);
     }
 
 }

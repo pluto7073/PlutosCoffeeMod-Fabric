@@ -3,6 +3,7 @@
   "values": [
     "plutoscoffee:roasted_coffee_bean",
     "plutoscoffee:medium_roast_bean",
-    "plutoscoffee:dark_roast_bean"
+    "plutoscoffee:dark_roast_bean",
+    "plutoscoffee:espresso_roast_bean"
   ]
 }

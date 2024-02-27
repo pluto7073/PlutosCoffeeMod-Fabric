@@ -1,0 +1,125 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "plutoscoffee:block/espresso_machine_base"
+      },
+      "when": {
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "plutoscoffee:block/espresso_machine_base",
+        "y": 180
+      },
+      "when": {
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "plutoscoffee:block/espresso_machine_base",
+        "y": 90
+      },
+      "when": {
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "plutoscoffee:block/espresso_machine_base",
+        "y": 270
+      },
+      "when": {
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "plutoscoffee:block/espresso_machine_milk"
+      },
+      "when": {
+        "has_milk": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "plutoscoffee:block/espresso_machine_milk"
+      },
+      "when": {
+        "has_milk": "true",
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "plutoscoffee:block/espresso_machine_milk",
+        "y": 180
+      },
+      "when": {
+        "has_milk": "true",
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "plutoscoffee:block/espresso_machine_milk",
+        "y": 90
+      },
+      "when": {
+        "has_milk": "true",
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "plutoscoffee:block/espresso_machine_milk",
+        "y": 270
+      },
+      "when": {
+        "has_milk": "true",
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "plutoscoffee:block/espresso_machine_cups"
+      },
+      "when": {
+        "has_espresso": "true",
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "plutoscoffee:block/espresso_machine_cups",
+        "y": 180
+      },
+      "when": {
+        "has_espresso": "true",
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "plutoscoffee:block/espresso_machine_cups",
+        "y": 90
+      },
+      "when": {
+        "has_espresso": "true",
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "plutoscoffee:block/espresso_machine_cups",
+        "y": 270
+      },
+      "when": {
+        "has_espresso": "true",
+        "facing": "west"
+      }
+    }
+  ]
+}
