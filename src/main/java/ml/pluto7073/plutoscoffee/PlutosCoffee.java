@@ -1,5 +1,6 @@
 package ml.pluto7073.plutoscoffee;
 
+import ml.pluto7073.plutoscoffee.coffee.CoffeeGrounds;
 import ml.pluto7073.plutoscoffee.registry.*;
 import ml.pluto7073.plutoscoffee.version.VersionChecker;
 import net.fabricmc.api.ModInitializer;
@@ -22,6 +23,7 @@ public class PlutosCoffee implements ModInitializer {
         ModMisc.init();
         ModScreens.init();
         ModStats.registerStats();
+        CoffeeGrounds.init();
         logger.info("Pluto's Coffee Mod Initialized");
     }
 

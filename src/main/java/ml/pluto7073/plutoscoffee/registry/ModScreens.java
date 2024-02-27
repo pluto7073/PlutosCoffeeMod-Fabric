@@ -2,6 +2,7 @@ package ml.pluto7073.plutoscoffee.registry;
 
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.gui.CoffeeBrewerScreenHandler;
+import ml.pluto7073.plutoscoffee.gui.CoffeeGrindrScreenHandler;
 import ml.pluto7073.plutoscoffee.gui.CoffeeWorkstationScreenHandler;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -14,6 +15,7 @@ public class ModScreens {
 
     public static final ScreenHandlerType<CoffeeWorkstationScreenHandler> WORKSTATION_HANDLER_TYPE;
     public static final ScreenHandlerType<CoffeeBrewerScreenHandler> BREWER_SCREEN_HANDLER_TYPE;
+    public static final ScreenHandlerType<CoffeeGrindrScreenHandler> GRINDR_SCREEN_HANDLER_TYPE;
 
     public static void init() {}
 
@@ -24,6 +26,7 @@ public class ModScreens {
     static {
         WORKSTATION_HANDLER_TYPE = register("coffee_workstation", CoffeeWorkstationScreenHandler::new);
         BREWER_SCREEN_HANDLER_TYPE = register("coffee_brewer", CoffeeBrewerScreenHandler::new);
+        GRINDR_SCREEN_HANDLER_TYPE = register("coffee_grinder", CoffeeGrindrScreenHandler::new);
     }
 
 }

@@ -1,12 +1,13 @@
 package ml.pluto7073.plutoscoffee.blocks;
 
 import ml.pluto7073.plutoscoffee.Utils;
-import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
-import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
+import ml.pluto7073.plutoscoffee.coffee.CoffeeGrounds;
 import ml.pluto7073.plutoscoffee.gui.CoffeeBrewerScreenHandler;
+import ml.pluto7073.plutoscoffee.gui.CoffeeGrindrScreenHandler;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -27,166 +28,146 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Iterator;
 
-public class CoffeeBrewerBlockEntity extends LockableContainerBlockEntity implements SidedInventory {
+public class CoffeeGrindrBlockEntity extends LockableContainerBlockEntity implements SidedInventory {
 
-    private static final int INPUT_SLOT_INDEX = 0; //Coffee Grounds Go Here
-    private static final int FUEL_SLOT_INDEX = 1; //Water Bucket Goes Here
+    private static final int INPUT_SLOT_INDEX = 0; // Beans go here
+    private static final int OUTPUT_SLOT_INDEX = 1; // Grounds come out here
     private static final int[] TOP_SLOTS = {0};
-    private static final int[] BOTTOM_SLOTS = {0, 2};
-    private static final int[] SIDE_SLOTS = {1, 2};
-    public static final int MAX_FUEL_USES = 6;
-    public static final int BREW_TIME_PROPERTY_INDEX = 0;
-    public static final int FUEL_PROPERTY_INDEX = 1;
-    public static final int PROPERTY_COUNT = 2;
+    private static final int[] BOTTOM_SLOTS = {0,1};
+    private static final int[] SIDE_SLOTS = {1};
+    public static final int GRIND_TIME_PROPERTY_INDEX = 0;
+
     private DefaultedList<ItemStack> inventory;
-    int brewTime;
-    private int lastTickSlot;
-    private Item itemBrewing;
-    int fuel;
+    int grindTime;
+    private boolean lastTickSlot;
+    private Item itemGrinding;
+
     protected final PropertyDelegate propertyDelegate;
 
-    public CoffeeBrewerBlockEntity(BlockPos pos, BlockState state) {
-        super (ModBlocks.COFFEE_BREWER_BLOCK_ENTITY_TYPE, pos, state);
-        inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
+
+    public CoffeeGrindrBlockEntity(BlockPos blockPos, BlockState blockState) {
+        super(ModBlocks.COFFEE_GRINDR_BLOCK_ENTITY_TYPE, blockPos, blockState);
+        inventory = DefaultedList.ofSize(2, ItemStack.EMPTY);
         propertyDelegate = new PropertyDelegate() {
+            @Override
             public int get(int index) {
                 return switch (index) {
-                    case BREW_TIME_PROPERTY_INDEX -> CoffeeBrewerBlockEntity.this.brewTime;
-                    case FUEL_PROPERTY_INDEX -> CoffeeBrewerBlockEntity.this.fuel;
+                    case GRIND_TIME_PROPERTY_INDEX -> CoffeeGrindrBlockEntity.this.grindTime;
                     default -> 0;
                 };
             }
 
+            @Override
             public void set(int index, int value) {
                 switch (index) {
-                    case BREW_TIME_PROPERTY_INDEX -> CoffeeBrewerBlockEntity.this.brewTime = value;
-                    case FUEL_PROPERTY_INDEX -> CoffeeBrewerBlockEntity.this.fuel = value;
+                    case GRIND_TIME_PROPERTY_INDEX -> CoffeeGrindrBlockEntity.this.grindTime = value;
                 }
             }
 
+            @Override
             public int size() {
-                return PROPERTY_COUNT;
+                return 1;
             }
         };
     }
 
+    @Override
     protected Text getContainerName() {
-        return Text.translatable("container.coffee_brewer");
+        return Text.translatable("container.coffee_grinder");
     }
 
+    @Override
     public int size() {
         return inventory.size();
     }
 
+    @Override
     public boolean isEmpty() {
-        Iterator<ItemStack> i = inventory.iterator();
-
-        ItemStack itemStack;
-        do {
-            if (!i.hasNext()) {
-                return true;
-            }
-            itemStack = i.next();
-        } while (itemStack.isEmpty());
-        return false;
+        for (ItemStack stack : inventory) {
+            if (!stack.isEmpty()) return false;
+        }
+        return true;
     }
 
-    public static void tick(World world, BlockPos pos, BlockState state, CoffeeBrewerBlockEntity blockEntity) {
-        ItemStack fuelStack = blockEntity.inventory.get(FUEL_SLOT_INDEX);
-        if (blockEntity.fuel <= 0 && fuelStack.isOf(Items.WATER_BUCKET)) {
-            blockEntity.fuel = MAX_FUEL_USES;
-            //noinspection DataFlowIssue
-            fuelStack = new ItemStack(Items.WATER_BUCKET.getRecipeRemainder(), 1);
-            blockEntity.inventory.set(FUEL_SLOT_INDEX, fuelStack);
-            markDirty(world, pos, state);
-        }
-
+    public static void tick(World world, BlockPos pos, BlockState state, CoffeeGrindrBlockEntity blockEntity) {
         boolean recipe = canCraft(blockEntity.inventory);
-        boolean brewing = blockEntity.brewTime > 0;
+        boolean grinding = blockEntity.grindTime > 0;
 
         ItemStack inputStack = blockEntity.inventory.get(INPUT_SLOT_INDEX);
-        if (brewing) {
-            --blockEntity.brewTime;
-            boolean done = blockEntity.brewTime == 0;
+        if (grinding) {
+            --blockEntity.grindTime;
+            boolean done = blockEntity.grindTime == 0;
             if (done && recipe) {
-                --blockEntity.fuel;
                 craft(world, pos, blockEntity.inventory);
                 markDirty(world, pos, state);
-            } else if (!recipe || !inputStack.isOf(blockEntity.itemBrewing)) {
-                blockEntity.brewTime = 0;
+            } else if (!recipe || !inputStack.isOf(blockEntity.itemGrinding)) {
+                blockEntity.grindTime = 0;
                 markDirty(world, pos, state);
             }
-        } else if (recipe && blockEntity.fuel > 0) {
-            blockEntity.brewTime = 600;
-            blockEntity.itemBrewing = inputStack.getItem();
+        } else if (recipe) {
+            blockEntity.grindTime = 20;
+            blockEntity.itemGrinding = inputStack.getItem();
             markDirty(world, pos, state);
         }
 
-        int slotEmpty = blockEntity.getEmptySlot();
+        boolean slotEmpty = blockEntity.getEmptySlot();
         if (slotEmpty != blockEntity.lastTickSlot) {
             blockEntity.lastTickSlot = slotEmpty;
             BlockState blockState = state;
-            if (!(state.getBlock() instanceof CoffeeBrewerBlock)) {
+            if (!(state.getBlock() instanceof CoffeeGrindrBlock)) {
                 return;
             }
 
-            blockState = blockState.with(CoffeeBrewerBlock.BOTTLE_PROPERTY, slotEmpty);
+            blockState = blockState.with(CoffeeGrindrBlock.FULL_PROPERTY, slotEmpty);
 
             world.setBlockState(pos, blockState, 2);
         }
     }
 
-    private int getEmptySlot() {
-        if (inventory.get(2).isEmpty()) {
-            return 0;
-        } else if (inventory.get(2).isOf(Items.GLASS_BOTTLE)) {
-            return 1;
-        } else if (inventory.get(2).isOf(ModItems.BREWED_COFFEE)) {
-            return 2;
-        } else {
-            return 0;
-        }
+    private boolean getEmptySlot() {
+        return !inventory.get(1).isEmpty();
     }
 
     private static boolean canCraft(DefaultedList<ItemStack> slots) {
         ItemStack input = slots.get(INPUT_SLOT_INDEX);
-        if (input.isEmpty()) {
-            return false;
-        } else if (!Utils.isItemACoffeeGround(input.getItem())) {
-            return false;
-        } else {
-            ItemStack base = slots.get(2);
-            return base.isOf(Items.GLASS_BOTTLE);
+        if (input.isEmpty()) return false;
+        else if (!Utils.isItemACoffeeBean(input.getItem())) return false;
+        else {
+            ItemStack output = slots.get(OUTPUT_SLOT_INDEX);
+            if (output.isEmpty()) return true;
+
+            return output.isOf(CoffeeGrounds.getGrounds(input.getItem())) && output.getCount() <= output.getItem().getMaxCount() - 4;
         }
     }
 
     private static void craft(World world, BlockPos pos, DefaultedList<ItemStack> slots) {
         ItemStack input = slots.get(INPUT_SLOT_INDEX);
 
-        CoffeeType type = CoffeeTypes.getFromGrounds(input.getItem());
-        ItemStack result = new ItemStack(ModItems.BREWED_COFFEE, 1);
-        result.getOrCreateSubNbt("Coffee").putString("CoffeeType", CoffeeTypes.getId(type));
-        slots.set(2, result);
+        Item groundsResult = CoffeeGrounds.getGrounds(input.getItem());
+        ItemStack result = slots.get(OUTPUT_SLOT_INDEX);
+        if (result.isOf(groundsResult)) {
+            result.increment(4);
+        }
+        result = result.isEmpty() ? new ItemStack(groundsResult, 4) : result;
+        slots.set(OUTPUT_SLOT_INDEX, result);
 
         input.decrement(1);
 
         slots.set(INPUT_SLOT_INDEX, input);
-        world.syncWorldEvent(10001, pos, 0);
+        world.syncWorldEvent(10002, pos, 0);
     }
 
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
         inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
         Inventories.readNbt(nbt, inventory);
-        brewTime = nbt.getShort("BrewTime");
-        fuel = nbt.getByte("Fuel");
+        grindTime = nbt.getShort("GrindTime");
     }
 
     protected void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
-        nbt.putShort("BrewTime", (short) brewTime);
+        nbt.putShort("GrindTime", (short) grindTime);
         Inventories.writeNbt(nbt, this.inventory);
-        nbt.putByte("Fuel", (byte) fuel);
     }
 
     public ItemStack getStack(int slot) {
@@ -206,6 +187,7 @@ public class CoffeeBrewerBlockEntity extends LockableContainerBlockEntity implem
             inventory.set(slot, stack);
         }
     }
+
     public boolean canPlayerUse(PlayerEntity player) {
         //noinspection DataFlowIssue
         if (world.getBlockEntity(pos) != this) {
@@ -217,11 +199,9 @@ public class CoffeeBrewerBlockEntity extends LockableContainerBlockEntity implem
 
     public boolean isValid(int slot, ItemStack stack) {
         if (slot == INPUT_SLOT_INDEX) {
-            return Utils.isItemACoffeeGround(stack.getItem());
-        } else if (slot == FUEL_SLOT_INDEX) {
-            return stack.isOf(Items.WATER_BUCKET);
+            return Utils.isItemACoffeeBean(stack.getItem());
         } else {
-            return stack.isOf(Items.GLASS_BOTTLE) && getStack(slot).isEmpty();
+            return false;
         }
     }
 
@@ -246,7 +226,7 @@ public class CoffeeBrewerBlockEntity extends LockableContainerBlockEntity implem
     }
 
     protected ScreenHandler createScreenHandler(int syncId, PlayerInventory inventory) {
-        return new CoffeeBrewerScreenHandler(syncId, inventory, this, propertyDelegate);
+        return new CoffeeGrindrScreenHandler(syncId, inventory, this, propertyDelegate);
     }
 
 }

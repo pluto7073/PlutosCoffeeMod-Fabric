@@ -2,10 +2,7 @@ package ml.pluto7073.plutoscoffee.registry;
 
 import com.mojang.datafixers.types.Type;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
-import ml.pluto7073.plutoscoffee.blocks.CoffeeBrewerBlock;
-import ml.pluto7073.plutoscoffee.blocks.CoffeeBrewerBlockEntity;
-import ml.pluto7073.plutoscoffee.blocks.CoffeeCrop;
-import ml.pluto7073.plutoscoffee.blocks.CoffeeWorkstationBlock;
+import ml.pluto7073.plutoscoffee.blocks.*;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.MapColor;
@@ -25,8 +22,10 @@ public class ModBlocks {
     public static Block COFFEE_CROP;
     public static Block COFFEE_WORKSTATION;
     public static Block COFFEE_BREWER;
+    public static Block COFFEE_GRINDR;
 
     public static BlockEntityType<CoffeeBrewerBlockEntity> COFFEE_BREWER_BLOCK_ENTITY_TYPE;
+    public static BlockEntityType<CoffeeGrindrBlockEntity> COFFEE_GRINDR_BLOCK_ENTITY_TYPE;
 
     private static Block register(String id, Block block) {
         return Registry.register(Registries.BLOCK, new Identifier(PlutosCoffee.MOD_ID, id), block);
@@ -41,6 +40,9 @@ public class ModBlocks {
         COFFEE_CROP = register("coffee_plant", new CoffeeCrop(AbstractBlock.Settings.create().mapColor(MapColor.DARK_GREEN).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP).pistonBehavior(PistonBehavior.DESTROY)));
         COFFEE_BREWER = register("coffee_brewer", new CoffeeBrewerBlock(AbstractBlock.Settings.create().mapColor(MapColor.IRON_GRAY).requiresTool().strength(0.5F).luminance((state) -> 1).nonOpaque()));
         COFFEE_WORKSTATION = register("coffee_workstation", new CoffeeWorkstationBlock(AbstractBlock.Settings.create().mapColor(MapColor.OAK_TAN).instrument(Instrument.BASS).strength(2.5F).sounds(BlockSoundGroup.WOOD).burnable().sounds(BlockSoundGroup.WOOD)));
+        COFFEE_GRINDR = register("coffee_grinder", new CoffeeGrindrBlock(AbstractBlock.Settings.create().mapColor(MapColor.IRON_GRAY).requiresTool().strength(0.5F).luminance((state) -> 1).nonOpaque()));
+
         COFFEE_BREWER_BLOCK_ENTITY_TYPE = create("coffee_brewer", BlockEntityType.Builder.create(CoffeeBrewerBlockEntity::new, COFFEE_BREWER));
+        COFFEE_GRINDR_BLOCK_ENTITY_TYPE = create("coffee_grinder", BlockEntityType.Builder.create(CoffeeGrindrBlockEntity::new, COFFEE_GRINDR));
     }
 }

@@ -18,6 +18,7 @@ public class ModItems {
     public static Item COFFEE_BERRY;
     public static Item COFFEE_WORKSTATION;
     public static Item COFFEE_BREWER;
+    public static Item COFFEE_GRINDR;
     public static Item COFFEE_BEAN;
     public static Item LIGHT_ROAST_BEAN;
     public static Item MEDIUM_ROAST_BEAN;
@@ -56,6 +57,7 @@ public class ModItems {
         BREWED_COFFEE = register("brewed_coffee", new BrewedCoffee(new Item.Settings().maxCount(1)));
         COFFEE_WORKSTATION = register(ModBlocks.COFFEE_WORKSTATION);
         COFFEE_BREWER = register(ModBlocks.COFFEE_BREWER);
+        COFFEE_GRINDR = register(ModBlocks.COFFEE_GRINDR);
     }
 
 }

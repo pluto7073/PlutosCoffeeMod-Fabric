@@ -6,6 +6,7 @@
   "block.plutoscoffee.coffee_plant": "Coffea",
   "block.plutoscoffee.coffee_workstation": "Coffee Workstation",
   "block.plutoscoffee.coffee_brewer": "Coffee Brewer",
+  "block.plutoscoffee.coffee_grinder": "Coffee Grinder",
   "item.plutoscoffee.chocolate_coffee_bean": "Mocha Bean",
   "item.plutoscoffee.chocolate_ground_coffee": "Ground Mocha Bean",
   "item.plutoscoffee.caramel": "Caramel",
