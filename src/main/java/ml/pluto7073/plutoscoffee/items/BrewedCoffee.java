@@ -18,14 +18,12 @@ import net.minecraft.item.Items;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.UseAction;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class BrewedCoffee extends Item {
@@ -106,15 +104,21 @@ public class BrewedCoffee extends Item {
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         if (Utils.getCoffeeType(stack) != CoffeeTypes.EMPTY && Utils.getCoffeeType(stack) != null) {
-            tooltip.add(Text.translatable(Utils.getCoffeeType(stack).getTranslationKey()).formatted(Formatting.GRAY));
             tooltip.add(Text.translatable("tooltip.plutoscoffee.caffeine_content", Utils.getCoffeeType(stack).getCaffeineContent()).formatted(Formatting.AQUA));
+            tooltip.add(Text.translatable(Utils.getCoffeeType(stack).getTranslationKey()).formatted(Formatting.GRAY));
         }
         CoffeeAddition[] addIns = Utils.getCoffeeAddIns(stack);
+        HashMap<Identifier, Integer> additionCounts = new HashMap<>();
         if (addIns != null) {
             for (CoffeeAddition addIn : addIns) {
                 if (addIn == CoffeeAdditions.EMPTY) continue;
-                tooltip.add(Text.translatable(addIn.getTranslationKey()).formatted(Formatting.GRAY));
+                Identifier id = CoffeeAdditions.getId(addIn);
+                if (additionCounts.containsKey(id)) {
+                    int count = additionCounts.get(id);
+                    additionCounts.put(id, ++count);
+                } else additionCounts.put(id, 1);
             }
+            additionCounts.forEach((id, count) -> tooltip.add(Text.translatable(CoffeeAdditions.REGISTRY.get(id).getTranslationKey(), count).formatted(Formatting.GRAY)));
         }
     }
 
