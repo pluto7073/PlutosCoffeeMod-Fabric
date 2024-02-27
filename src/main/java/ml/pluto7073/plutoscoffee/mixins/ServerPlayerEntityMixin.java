@@ -72,11 +72,11 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntityMixin {
     }
     
     @Inject(at = @At("TAIL"), method = "tick")
-    public void plutoscoffee_caffeinePoisoningFunctionality(CallbackInfo ci) {
-        if (getAbilities().creativeMode) return;
+    public void plutoscoffee_caffeineLevelEffects(CallbackInfo ci) {
         float caffeine = this.dataTracker.get(ModMisc.PLAYER_CAFFEINE_AMOUNT);
-        if (caffeine < 3000.0F) return;
-        this.addStatusEffect(new StatusEffectInstance(ModStatusEffects.CAFFEINE_OVERDOSE, 20 * 60));
+        if (caffeine >= 3000.0F && !getAbilities().creativeMode) {
+            this.addStatusEffect(new StatusEffectInstance(ModStatusEffects.CAFFEINE_OVERDOSE, 20 * 60));
+        }
     }
     
 }
