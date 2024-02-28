@@ -65,12 +65,12 @@ public class EspressoMachineScreen extends HandledScreen<EspressoMachineScreenHa
                     case 2 -> 176;
                     default -> 191;
                 };
-                context.drawTexture(TEXTURE, i + 128, j + 20 - n, tempU, 33, 5, n);
+                context.drawTexture(TEXTURE, i + 128, j + 52 - n, tempU, 33, 5, n);
             }
 
-            n = BUBBLE_PROGRESS[m / 2 % 7];
+            n = BUBBLE_PROGRESS[(600 - m) / 2 % 7];
             if (n > 0) {
-                context.drawTexture(TEXTURE, i + 138, j + 46 - n, 185, 29 - n, 12, n);
+                context.drawTexture(TEXTURE, i + 138, j + 47 + 29 - n, 185, 29 - n, 12, n);
             }
         }
     }

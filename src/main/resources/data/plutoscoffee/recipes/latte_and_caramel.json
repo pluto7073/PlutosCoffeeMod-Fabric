@@ -1,0 +1,10 @@
+{
+  "type": "plutoscoffee:coffee_workstation",
+  "base": {
+    "item": "plutoscoffee:latte"
+  },
+  "addition": {
+    "item": "plutoscoffee:caramel"
+  },
+  "result": "plutoscoffee:caramel"
+}

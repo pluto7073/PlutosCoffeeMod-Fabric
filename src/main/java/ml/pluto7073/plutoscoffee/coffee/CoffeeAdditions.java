@@ -26,6 +26,7 @@ public class CoffeeAdditions {
     public static final CoffeeAddition MOCHA_SYRUP;
     public static final CoffeeAddition ESPRESSO_SHOT;
     public static final CoffeeAddition ICE;
+    public static final CoffeeAddition BURNT;
 
     public static CoffeeAddition register(String id, CoffeeAddition addition) {
         REGISTRY.put(new Identifier(PlutosCoffee.MOD_ID, id), addition);
@@ -76,6 +77,10 @@ public class CoffeeAdditions {
                 true, 0x160A02, EspressoShotItem.CAFFEINE_CONTENT));
         ICE = register("ice", new CoffeeAddition(Items.ICE, (stack, world, user) -> {
             user.addStatusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 10 * 20, 1));
+        }, false, 0, 0, 1));
+        BURNT = register("burnt", new CoffeeAddition(Items.AIR, (stack, world, user) -> {
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 20 * 60));
+            user.damage(user.getDamageSources().onFire(), 2);
         }, false, 0, 0, 1));
     }
 

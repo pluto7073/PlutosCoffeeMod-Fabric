@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer1": "minecraft:item/glass_bottle",
+    "layer0": "plutoscoffee:item/coffee_overlay"
+  }
+}

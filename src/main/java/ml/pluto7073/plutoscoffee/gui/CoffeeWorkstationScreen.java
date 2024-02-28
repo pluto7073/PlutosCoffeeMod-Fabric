@@ -19,7 +19,7 @@ public class CoffeeWorkstationScreen extends ForgingScreen<CoffeeWorkstationScre
 
     protected void drawInvalidRecipeArrow(DrawContext context, int x, int y) {
         if (this.hasInvalidRecipe()) {
-            context.drawTexture(TEXTURE, x + 65, y + 46, this.backgroundWidth, 0, 28, 21);
+            context.drawTexture(TEXTURE, x + 99, y + 46, this.backgroundWidth, 0, 28, 21);
         }
     }
 

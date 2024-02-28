@@ -1,10 +1,7 @@
 package ml.pluto7073.plutoscoffee.registry;
 
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
-import ml.pluto7073.plutoscoffee.items.BrewedCoffee;
-import ml.pluto7073.plutoscoffee.items.CoffeeBean;
-import ml.pluto7073.plutoscoffee.items.EspressoShotItem;
-import ml.pluto7073.plutoscoffee.items.MilkBottle;
+import ml.pluto7073.plutoscoffee.items.*;
 import net.minecraft.block.Block;
 import net.minecraft.item.AliasedBlockItem;
 import net.minecraft.item.BlockItem;
@@ -37,6 +34,7 @@ public class ModItems {
 
     public static final Item BREWED_COFFEE = new BrewedCoffee(new Item.Settings().maxCount(1));
     public static final Item ESPRESSO_SHOT = new EspressoShotItem(new Item.Settings().maxCount(16).recipeRemainder(Items.GLASS_BOTTLE));
+    public static final Item LATTE = new LatteItem(new Item.Settings().maxCount(1));
 
     private static void register(String id, Item item) {
         Registry.register(Registries.ITEM, new Identifier(PlutosCoffee.MOD_ID, id), item);
@@ -58,6 +56,7 @@ public class ModItems {
         register("espresso_grounds", GROUND_ESPRESSO_ROAST);
         register("brewed_coffee", BREWED_COFFEE);
         register("espresso_shot", ESPRESSO_SHOT);
+        register("latte", LATTE);
         register("used_coffee_grounds", USED_COFFEE_GROUNDS);
 
         register("coffee_workstation", COFFEE_WORKSTATION);
