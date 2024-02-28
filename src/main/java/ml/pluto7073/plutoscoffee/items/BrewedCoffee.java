@@ -121,10 +121,10 @@ public class BrewedCoffee extends Item {
                     additionCounts.put(id, ++count);
                 } else additionCounts.put(id, 1);
             }
-            tooltip.add(Text.translatable("tooltip.plutoscoffee.caffeine_content", caffeine).formatted(Formatting.AQUA));
             if (Utils.getCoffeeType(stack) != CoffeeTypes.EMPTY && Utils.getCoffeeType(stack) != null) tooltip.add(Text.translatable(Utils.getCoffeeType(stack).getTranslationKey()).formatted(Formatting.GRAY));
             additionCounts.forEach((id, count) -> tooltip.add(Text.translatable(CoffeeAdditions.REGISTRY.get(id).getTranslationKey(), count).formatted(Formatting.GRAY)));
         }
+        tooltip.add(Text.translatable("tooltip.plutoscoffee.caffeine_content", caffeine).formatted(Formatting.AQUA));
     }
 
 }
