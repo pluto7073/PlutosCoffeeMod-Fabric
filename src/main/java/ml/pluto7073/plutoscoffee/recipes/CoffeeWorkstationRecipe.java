@@ -2,6 +2,7 @@ package ml.pluto7073.plutoscoffee.recipes;
 
 import com.google.gson.JsonObject;
 import ml.pluto7073.plutoscoffee.Utils;
+import ml.pluto7073.plutoscoffee.items.BrewedCoffee;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
 import ml.pluto7073.plutoscoffee.registry.ModMisc;
 import net.minecraft.inventory.Inventory;
@@ -24,10 +25,10 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
 
     final Ingredient base;
     final Ingredient addition;
-    final ItemStack result;
+    final String result;
     private final Identifier id;
 
-    public CoffeeWorkstationRecipe(Identifier id, Ingredient base, Ingredient addition, ItemStack result) {
+    public CoffeeWorkstationRecipe(Identifier id, Ingredient base, Ingredient addition, String result) {
         this.base = base;
         this.addition = addition;
         this.result = result;
@@ -45,10 +46,9 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
     }
 
     public ItemStack craft(Inventory inventory) {
-        ItemStack stack = result.copy();
-        NbtList sourceAdds = inventory.getStack(0).getOrCreateSubNbt("Coffee").getList("Additions", NbtElement.STRING_TYPE);
+        ItemStack stack = inventory.getStack(0).copy();
         NbtList resAdds = stack.getOrCreateSubNbt("Coffee").getList("Additions", NbtElement.STRING_TYPE);
-        resAdds.addAll(sourceAdds);
+        resAdds.add(Utils.stringAsNbt(result));
         String coffeeType = inventory.getStack(0).getOrCreateSubNbt("Coffee").getString("CoffeeType");
         stack.getOrCreateSubNbt("Coffee").put("Additions", resAdds);
         stack.getOrCreateSubNbt("Coffee").putString("CoffeeType", coffeeType);
@@ -63,7 +63,11 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
 
     @Override
     public ItemStack getOutput(DynamicRegistryManager registryManager) {
-        return this.result;
+        ItemStack stack = base.getMatchingStacks()[0].copy();
+        NbtList adds = new NbtList();
+        adds.add(Utils.stringAsNbt(result));
+        stack.getOrCreateSubNbt("Coffee").put("Additions", adds);
+        return stack;
     }
 
     @Override
@@ -105,29 +109,23 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
         public CoffeeWorkstationRecipe read(Identifier id, JsonObject jsonObject) {
             Ingredient ingredient = Ingredient.fromJson(JsonHelper.getObject(jsonObject, "base"));
             Ingredient ingredient2 = Ingredient.fromJson(JsonHelper.getObject(jsonObject, "addition"));
-            JsonObject resultObject = JsonHelper.getObject(jsonObject, "result");
-            Item item = ShapedRecipe.getItem(resultObject);
-            int count = JsonHelper.getInt(resultObject, "count", 1);
-            ItemStack itemStack = new ItemStack(item, count);
-            NbtList list = new NbtList();
-            list.add(Utils.stringAsNbt(JsonHelper.getString(resultObject, "addition")));
-            itemStack.getOrCreateSubNbt("Coffee").put("Additions", list);
-            return new CoffeeWorkstationRecipe(id, ingredient, ingredient2, itemStack);
+            String result = JsonHelper.getString(jsonObject, "result");
+            return new CoffeeWorkstationRecipe(id, ingredient, ingredient2, result);
         }
 
         @Override
         public CoffeeWorkstationRecipe read(Identifier id, PacketByteBuf buf) {
             Ingredient ingredient = Ingredient.fromPacket(buf);
             Ingredient ingredient2 = Ingredient.fromPacket(buf);
-            ItemStack itemStack = buf.readItemStack();
-            return new CoffeeWorkstationRecipe(id, ingredient, ingredient2, itemStack);
+            String result = buf.readString();
+            return new CoffeeWorkstationRecipe(id, ingredient, ingredient2, result);
         }
 
         @Override
         public void write(PacketByteBuf buf, CoffeeWorkstationRecipe recipe) {
             recipe.base.write(buf);
             recipe.addition.write(buf);
-            buf.writeItemStack(recipe.result);
+            buf.writeString(recipe.result);
         }
 
     }
