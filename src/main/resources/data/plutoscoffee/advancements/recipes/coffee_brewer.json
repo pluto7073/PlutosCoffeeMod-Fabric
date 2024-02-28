@@ -25,7 +25,8 @@
   },
   "rewards": {
     "recipes": [
-      "plutoscoffee:coffee_brewer"
+      "plutoscoffee:coffee_brewer",
+      "plutoscoffee:espresso_machine"
     ]
   }
 }

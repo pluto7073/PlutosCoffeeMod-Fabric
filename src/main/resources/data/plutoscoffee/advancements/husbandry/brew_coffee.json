@@ -18,7 +18,8 @@
         "items": [
           {
             "items": [
-              "plutoscoffee:brewed_coffee"
+              "plutoscoffee:brewed_coffee",
+              "plutoscoffee:latte"
             ]
           }
         ]

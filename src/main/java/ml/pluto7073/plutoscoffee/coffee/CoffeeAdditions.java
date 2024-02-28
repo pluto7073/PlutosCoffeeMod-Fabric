@@ -36,6 +36,10 @@ public class CoffeeAdditions {
     public static final CoffeeAddition ICE;
     public static final CoffeeAddition BURNT;
     public static final CoffeeAddition CHORUS_FRUIT;
+    public static final CoffeeAddition GLOW_BERRIES;
+    public static final CoffeeAddition HONEY;
+    public static final CoffeeAddition DIAMOND;
+    public static final CoffeeAddition NETHERITE;
 
     public static CoffeeAddition register(String id, CoffeeAddition addition) {
         REGISTRY.put(new Identifier(PlutosCoffee.MOD_ID, id), addition);
@@ -115,6 +119,16 @@ public class CoffeeAdditions {
                 }
             }
         }, true, 0x8B00FF, 0));
+        GLOW_BERRIES = register("glow_berries", new CoffeeAddition(Items.GLOW_BERRIES, (stack, world, user) -> {
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.GLOWING, 1200));
+        }, true, 0xFFD369, 0));
+        HONEY = register("honey", new CoffeeAddition(Items.HONEY_BOTTLE, (stack, world, user) -> {
+            if (user instanceof PlayerEntity) {
+                ((PlayerEntity) user).getHungerManager().add(1, 0);
+            }
+        }, false, 0, 0));
+        DIAMOND = register("diamond", new CoffeeAddition(Items.DIAMOND, (stack, world, user) -> {}, true, 0x29F6FF, 0));
+        NETHERITE = register("netherite", new CoffeeAddition(Items.NETHERITE_INGOT, (stack, world, user) -> {}, true, 0x0B0B0B, 0));
     }
 
 }

@@ -1,0 +1,10 @@
+{
+  "type": "plutoscoffee:coffee_workstation",
+  "base": {
+    "tag": "plutoscoffee:workstation_coffees"
+  },
+  "addition": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "result": "plutoscoffee:netherite"
+}

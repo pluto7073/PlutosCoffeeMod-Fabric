@@ -27,7 +27,8 @@
       "plutoscoffee:ground_light_roast",
       "plutoscoffee:ground_medium_roast",
       "plutoscoffee:ground_dark_roast",
-      "plutoscoffee:ground_espresso"
+      "plutoscoffee:ground_espresso",
+      "plutoscoffee:coffee_grinder"
     ]
   }
 }
