@@ -36,7 +36,7 @@ public class ModItems {
     public static final Item MILK_BOTTLE = new MilkBottle();
 
     public static final Item BREWED_COFFEE = new BrewedCoffee(new Item.Settings().maxCount(1));
-    public static final Item ESPRESSO_SHOT = new EspressoShotItem(new Item.Settings().maxCount(16));
+    public static final Item ESPRESSO_SHOT = new EspressoShotItem(new Item.Settings().maxCount(16).recipeRemainder(Items.GLASS_BOTTLE));
 
     private static void register(String id, Item item) {
         Registry.register(Registries.ITEM, new Identifier(PlutosCoffee.MOD_ID, id), item);
