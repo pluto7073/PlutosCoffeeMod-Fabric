@@ -1,9 +1,11 @@
 package ml.pluto7073.plutoscoffee.mixins.client;
 
+import ml.pluto7073.plutoscoffee.Client;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.Utils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -41,6 +43,7 @@ public abstract class InGameHudMixin {
 
     @Inject(at = @At("TAIL"), method = "renderStatusBars")
     public void plutoscoffee_renderCaffeineContentDisplay(DrawContext context, CallbackInfo ci) {
+        if (!Client.CONFIG.shouldShowCoffeeBar()) return;
         PlayerEntity playerEntity = this.getCameraPlayer();
         if (playerEntity == null) return;
         this.client.getProfiler().push("caffeineDisplay");
@@ -56,9 +59,14 @@ public abstract class InGameHudMixin {
         }
 
         LivingEntity ridden = this.getRiddenEntity();
+
+        if (FabricLoader.getInstance().isModLoaded("dehydration") && !playerEntity.isCreative() && ridden == null) {
+            baseYValue -= 10;
+        }
+
         if (ridden != null) {
             if (ridden.getHealth() > 0){
-                int height = Utils.calculateHealthBarHeightPixels((int) ridden.getHealth(), 10, 9);
+                int height = Utils.calculateHealthBarHeightPixels((int) ridden.getHealth(), 10, 10);
                 baseYValue -= height;
             }
         }
