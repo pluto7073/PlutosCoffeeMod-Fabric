@@ -10,9 +10,17 @@
   ],
   "contact": {
     "homepage": "https://modrinth.com/mod/plutos-coffee-mod",
-    "sources": "https://github.com/pluto7073/PlutosCoffeeMod-Fabric",
     "issues": "https://github.com/pluto7073/PlutosCoffeeMod-Fabric/issues",
-    "wiki": "https://github.com/pluto7073/PlutosCoffeeMod-Fabric/wiki"
+    "sources": "https://github.com/pluto7073/PlutosCoffeeMod-Fabric"
+  },
+
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.wiki": "https://github.com/pluto7073/PlutosCoffeeMod-Fabric/wiki"
+      },
+      "update_checker": true
+    }
   },
 
   "license": "MIT",
@@ -25,6 +33,9 @@
     ],
     "client": [
       "ml.pluto7073.plutoscoffee.Client"
+    ],
+    "modmenu": [
+      "ml.pluto7073.plutoscoffee.config.CoffeeModMenuApiImpl"
     ]
   },
   "mixins": [
@@ -35,9 +46,11 @@
     "fabricloader": ">=0.15.7",
     "fabric": "*",
     "minecraft": "~1.20.1",
-    "java": ">=17"
+    "java": ">=17",
+    "cloth-config": ">=11.1.118"
   },
   "suggests": {
-    "flamingo": "*"
+    "flamingo": "*",
+    "modmenu": "*"
   }
 }
