@@ -168,6 +168,12 @@ public final class Utils {
         return (int) r << 16 | (int) g << 8 | (int) b;
     }
 
+    public static int calculateHealthBarHeightPixels(int health, int maxHeartsPerRow, int rowHeight) {
+        double hearts = health / 2.0;
+        int rows = (int) Math.floor(hearts / maxHeartsPerRow);
+        return rows * rowHeight;
+    }
+
     public static void setPlayerCaffeine(PlayerEntity player, float caffeine) {
         player.getDataTracker().set(ModMisc.PLAYER_CAFFEINE_AMOUNT, caffeine);
         player.getDataTracker().set(ModMisc.PLAYER_ORIGINAL_CAFFEINE_AMOUNT, caffeine);
