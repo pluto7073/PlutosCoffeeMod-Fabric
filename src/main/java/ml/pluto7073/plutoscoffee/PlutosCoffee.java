@@ -4,6 +4,14 @@ import ml.pluto7073.plutoscoffee.coffee.CoffeeGrounds;
 import ml.pluto7073.plutoscoffee.registry.*;
 import ml.pluto7073.plutoscoffee.version.VersionChecker;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.object.builder.v1.villager.VillagerProfessionBuilder;
+import net.fabricmc.fabric.api.object.builder.v1.villager.VillagerTypeHelper;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.structure.pool.StructurePool;
+import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,7 +19,7 @@ public class PlutosCoffee implements ModInitializer {
 
     public static final String MOD_ID = "plutoscoffee";
     public static final Logger logger = LogManager.getLogger("PlutosCoffeeMod");
-    public static final int MOD_VERSION = 9;
+    public static final int MOD_VERSION = 10;
 
     private static boolean loadLaterDone = false;
 
@@ -24,6 +32,10 @@ public class PlutosCoffee implements ModInitializer {
         ModScreens.init();
         ModStats.registerStats();
         CoffeeGrounds.init();
+        ModPointOfInterests.init();
+        ModVillagerProfessions.init();
+        ServerLifecycleEvents.SERVER_STARTING.register(PlutosCoffee::initStructurePoolElements);
+
         logger.info("Pluto's Coffee Mod Initialized");
     }
 
@@ -36,6 +48,20 @@ public class PlutosCoffee implements ModInitializer {
             logger.info("Pluto's Coffee Mod is up to date");
         }
         loadLaterDone = true;
+    }
+
+    /**
+     * Borrowed from FriendsAndFoes by Faboslav
+     */
+    public static void initStructurePoolElements(MinecraftServer server) {
+        Registry<StructurePool> templatePoolRegistry = server.getRegistryManager().get(RegistryKeys.TEMPLATE_POOL);
+
+        Identifier snowyLocation = new Identifier("minecraft:village/snowy/houses");
+        CoffeeUtil.addElementToStructurePool(templatePoolRegistry, snowyLocation, "village/snowy/houses/snowy_cafe", 2);
+    }
+
+    public static Identifier asId(String id) {
+        return new Identifier(MOD_ID, id);
     }
 
 }
