@@ -1,10 +1,13 @@
 package ml.pluto7073.plutoscoffee;
 
+import com.mojang.datafixers.util.Pair;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeAddition;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeAdditions;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
 import ml.pluto7073.plutoscoffee.items.BrewedCoffee;
+import ml.pluto7073.plutoscoffee.mixins.StructurePoolAccessor;
+import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.registry.ModMisc;
 import ml.pluto7073.plutoscoffee.tags.ModItemTags;
 import net.fabricmc.fabric.api.tag.convention.v1.TagUtil;
@@ -14,6 +17,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.Registry;
+import net.minecraft.structure.pool.SinglePoolElement;
+import net.minecraft.structure.pool.StructurePool;
+import net.minecraft.structure.pool.StructurePoolElement;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,11 +29,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public final class Utils {
+public final class CoffeeUtil {
 
     private static final double CAFFEINE_HALF_LIFE_TICKS = 2500.0;
 
-    private Utils(){}
+    private CoffeeUtil(){}
 
     public static <T> boolean collectionContainsOnlyAll(Collection<T> c1, Collection<T> c2) {
         List<T> l1 = new ArrayList<>(c1);
@@ -51,6 +58,13 @@ public final class Utils {
         } else {
             stack.getOrCreateSubNbt("Coffee").putString("CoffeeType", id.toString());
         }
+        return stack;
+    }
+
+    public static ItemStack getBaseCoffee(CoffeeType type) {
+        ItemStack stack = new ItemStack(ModItems.BREWED_COFFEE);
+        if (type == CoffeeTypes.EMPTY) return stack;
+        stack.getOrCreateSubNbt("Coffee").putString("CoffeeType", CoffeeTypes.getIdentifier(type).toString());
         return stack;
     }
 
@@ -132,6 +146,19 @@ public final class Utils {
         return (int) r << 16 | (int) g << 8 | (int) b;
     }
 
+    public static ItemStack getWithAdditions(ItemStack stack, CoffeeAddition... additions) {
+        NbtList adds = new NbtList();
+        if (stack.getOrCreateSubNbt("Coffee").contains("Additions")) {
+            adds = stack.getOrCreateSubNbt("Coffee").getList("Additions", NbtElement.STRING_TYPE);
+        }
+        for (CoffeeAddition add : additions) {
+            String id = CoffeeAdditions.getId(add).toString();
+            adds.add(stringAsNbt(id));
+        }
+        stack.getOrCreateSubNbt("Coffee").put("Additions", adds);
+        return stack;
+    }
+
     public static int getLatteColour(ItemStack stack) {
         CoffeeAddition[] addIns = getCoffeeAddIns(stack);
         if (addIns == null) {
@@ -195,6 +222,24 @@ public final class Utils {
     public static float calculateCaffeineDecay(int ticks, float originalCaffeine) {
         double exp = Math.pow(0.5, ticks / CAFFEINE_HALF_LIFE_TICKS);
         return (float) (exp * originalCaffeine);
+    }
+
+    /**
+     * Borrowed from the FriendsAndFoes mod by Faboslav
+     */
+    public static void addElementToStructurePool(Registry<StructurePool> templateRegistry, Identifier poolLocation, String name, int weight) {
+        StructurePool pool = templateRegistry.get(poolLocation);
+        if (pool == null) return;
+
+        SinglePoolElement piece = SinglePoolElement.ofLegacySingle(PlutosCoffee.asId(name).toString()).apply(StructurePool.Projection.RIGID);
+
+        for (int i = 0; i < weight; i++) {
+            ((StructurePoolAccessor) pool).getElements().add(piece);
+        }
+
+        List<Pair<StructurePoolElement, Integer>> pieceCounts = new ArrayList<>(((StructurePoolAccessor) pool).getElementCounts());
+        pieceCounts.add(new Pair<>(piece, weight));
+        ((StructurePoolAccessor) pool).setElementCounts(pieceCounts);
     }
 
 }

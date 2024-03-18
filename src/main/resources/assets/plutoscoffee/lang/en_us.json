@@ -57,5 +57,6 @@
   "title.plutoscoffee.config": "Pluto's Coffee Mod Settings",
   "config.plutoscoffee.shouldShowCoffeeBar": "Show Current Caffeine Levels",
   "config.plutoscoffee.shouldShowCoffeeBar.tooltip": "Whether or not to show the current amount of caffeine in your system above the hunger bar",
-  "pack.plutoscoffee.dark_gui": "Dark GUI"
+  "pack.plutoscoffee.dark_gui": "Dark GUI",
+  "entity.minecraft.villager.barista": "Barista"
 }

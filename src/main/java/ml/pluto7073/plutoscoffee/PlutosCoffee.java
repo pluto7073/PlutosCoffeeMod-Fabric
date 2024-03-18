@@ -34,6 +34,8 @@ public class PlutosCoffee implements ModInitializer {
         CoffeeGrounds.init();
         ModPointOfInterests.init();
         ModVillagerProfessions.init();
+
+        ModVillagerProfessions.postInit();
         ServerLifecycleEvents.SERVER_STARTING.register(PlutosCoffee::initStructurePoolElements);
 
         logger.info("Pluto's Coffee Mod Initialized");

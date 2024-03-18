@@ -1,16 +1,12 @@
 package ml.pluto7073.plutoscoffee.recipes;
 
 import com.google.gson.JsonObject;
-import ml.pluto7073.plutoscoffee.Utils;
-import ml.pluto7073.plutoscoffee.items.BrewedCoffee;
+import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
 import ml.pluto7073.plutoscoffee.registry.ModMisc;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.*;
@@ -48,7 +44,7 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
     public ItemStack craft(Inventory inventory) {
         ItemStack stack = inventory.getStack(0).copy();
         NbtList resAdds = stack.getOrCreateSubNbt("Coffee").getList("Additions", NbtElement.STRING_TYPE);
-        resAdds.add(Utils.stringAsNbt(result));
+        resAdds.add(CoffeeUtil.stringAsNbt(result));
         String coffeeType = inventory.getStack(0).getOrCreateSubNbt("Coffee").getString("CoffeeType");
         stack.getOrCreateSubNbt("Coffee").put("Additions", resAdds);
         stack.getOrCreateSubNbt("Coffee").putString("CoffeeType", coffeeType);
@@ -65,7 +61,7 @@ public class CoffeeWorkstationRecipe implements Recipe<Inventory> {
     public ItemStack getOutput(DynamicRegistryManager registryManager) {
         ItemStack stack = base.getMatchingStacks()[0].copy();
         NbtList adds = new NbtList();
-        adds.add(Utils.stringAsNbt(result));
+        adds.add(CoffeeUtil.stringAsNbt(result));
         stack.getOrCreateSubNbt("Coffee").put("Additions", adds);
         return stack;
     }

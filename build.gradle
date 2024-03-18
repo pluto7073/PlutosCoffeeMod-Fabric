@@ -18,11 +18,12 @@ repositories {
 	// for more information about repositories.
 	maven { url "https://maven.shedaniel.me/" }
 	maven { url "https://maven.terraformersmc.com/releases/" }
+	maven { url "https://pluto7073.github.io/temp-maven" }
 }
 
 loom {
 
-
+	accessWidenerPath = file("src/main/resources/plutoscoffee.accesswidener")
 
 }
 
@@ -41,6 +42,7 @@ dependencies {
 	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
 	modApi "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}"
 	modApi "com.terraformersmc:modmenu:${project.modmenu_version}"
+	modApi "ml.pluto7073:pdapi:${project.pdapi_version}"
 }
 
 processResources {

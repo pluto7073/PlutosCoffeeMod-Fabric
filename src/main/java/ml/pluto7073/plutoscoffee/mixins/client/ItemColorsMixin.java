@@ -1,6 +1,6 @@
 package ml.pluto7073.plutoscoffee.mixins.client;
 
-import ml.pluto7073.plutoscoffee.Utils;
+import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -18,8 +18,8 @@ public class ItemColorsMixin {
     @Inject(at = @At("TAIL"), method = "create", cancellable = true)
     private static void plutoscoffee_createInject(BlockColors blockColors, CallbackInfoReturnable<ItemColors> cir) {
         ItemColors itemColors = cir.getReturnValue();
-        itemColors.register((stack, tintIndex) -> tintIndex > 0 ? -1 : Utils.getCoffeeColour(stack), ModItems.BREWED_COFFEE);
-        itemColors.register((stack, tintIndex) -> tintIndex > 0 ? -1 : Utils.getLatteColour(stack), ModItems.LATTE);
+        itemColors.register((stack, tintIndex) -> tintIndex > 0 ? -1 : CoffeeUtil.getCoffeeColour(stack), ModItems.BREWED_COFFEE);
+        itemColors.register((stack, tintIndex) -> tintIndex > 0 ? -1 : CoffeeUtil.getLatteColour(stack), ModItems.LATTE);
         cir.setReturnValue(itemColors);
     }
 

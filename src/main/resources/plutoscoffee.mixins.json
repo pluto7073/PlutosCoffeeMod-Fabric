@@ -10,7 +10,8 @@
     "LivingEntityMixin",
     "PassiveEntityMixin",
     "PlayerEntityMixin",
-    "ServerPlayerEntityMixin"
+    "ServerPlayerEntityMixin",
+    "StructurePoolAccessor"
   ],
   "client": [
     "LivingEntityRendererMixin",

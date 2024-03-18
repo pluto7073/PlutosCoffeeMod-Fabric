@@ -1,6 +1,6 @@
 package ml.pluto7073.plutoscoffee.blocks;
 
-import ml.pluto7073.plutoscoffee.Utils;
+import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
 import ml.pluto7073.plutoscoffee.gui.CoffeeBrewerScreenHandler;
@@ -152,7 +152,7 @@ public class CoffeeBrewerBlockEntity extends LockableContainerBlockEntity implem
         ItemStack input = slots.get(INPUT_SLOT_INDEX);
         if (input.isEmpty()) {
             return false;
-        } else if (!Utils.isItemACoffeeGround(input.getItem())) {
+        } else if (!CoffeeUtil.isItemACoffeeGround(input.getItem())) {
             return false;
         } else {
             ItemStack base = slots.get(2);
@@ -217,7 +217,7 @@ public class CoffeeBrewerBlockEntity extends LockableContainerBlockEntity implem
 
     public boolean isValid(int slot, ItemStack stack) {
         if (slot == INPUT_SLOT_INDEX) {
-            return Utils.isItemACoffeeGround(stack.getItem());
+            return CoffeeUtil.isItemACoffeeGround(stack.getItem());
         } else if (slot == FUEL_SLOT_INDEX) {
             return stack.isOf(Items.WATER_BUCKET);
         } else {

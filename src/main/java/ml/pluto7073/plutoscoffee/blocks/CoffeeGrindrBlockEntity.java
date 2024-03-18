@@ -1,13 +1,10 @@
 package ml.pluto7073.plutoscoffee.blocks;
 
-import ml.pluto7073.plutoscoffee.Utils;
+import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeGrounds;
-import ml.pluto7073.plutoscoffee.gui.CoffeeBrewerScreenHandler;
 import ml.pluto7073.plutoscoffee.gui.CoffeeGrindrScreenHandler;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
-import ml.pluto7073.plutoscoffee.registry.ModItems;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -15,7 +12,6 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -25,8 +21,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Iterator;
 
 public class CoffeeGrindrBlockEntity extends LockableContainerBlockEntity implements SidedInventory {
 
@@ -131,7 +125,7 @@ public class CoffeeGrindrBlockEntity extends LockableContainerBlockEntity implem
     private static boolean canCraft(DefaultedList<ItemStack> slots) {
         ItemStack input = slots.get(INPUT_SLOT_INDEX);
         if (input.isEmpty()) return false;
-        else if (!Utils.isItemACoffeeBean(input.getItem())) return false;
+        else if (!CoffeeUtil.isItemACoffeeBean(input.getItem())) return false;
         else {
             ItemStack output = slots.get(OUTPUT_SLOT_INDEX);
             if (output.isEmpty()) return true;
@@ -199,7 +193,7 @@ public class CoffeeGrindrBlockEntity extends LockableContainerBlockEntity implem
 
     public boolean isValid(int slot, ItemStack stack) {
         if (slot == INPUT_SLOT_INDEX) {
-            return Utils.isItemACoffeeBean(stack.getItem());
+            return CoffeeUtil.isItemACoffeeBean(stack.getItem());
         } else {
             return false;
         }

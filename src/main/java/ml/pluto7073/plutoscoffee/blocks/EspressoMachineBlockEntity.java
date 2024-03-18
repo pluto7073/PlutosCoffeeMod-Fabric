@@ -1,19 +1,15 @@
 package ml.pluto7073.plutoscoffee.blocks;
 
-import ml.pluto7073.plutoscoffee.Utils;
-import ml.pluto7073.plutoscoffee.gui.CoffeeBrewerScreenHandler;
+import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.gui.EspressoMachineScreenHandler;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -165,7 +161,7 @@ public class EspressoMachineBlockEntity extends LockableContainerBlockEntity imp
                 milkStack = new ItemStack(ModItems.LATTE);
             } else if (milkStack.isOf(ModItems.LATTE) && blockEntity.steamTime >= 500) {
                 NbtList resAdds = new NbtList();
-                resAdds.add(Utils.stringAsNbt("plutoscoffee:burnt"));
+                resAdds.add(CoffeeUtil.stringAsNbt("plutoscoffee:burnt"));
                 milkStack.getOrCreateSubNbt("Coffee").put("Additions", resAdds);
             }
             blockEntity.inventory.set(MILK_SLOT_INDEX, milkStack);

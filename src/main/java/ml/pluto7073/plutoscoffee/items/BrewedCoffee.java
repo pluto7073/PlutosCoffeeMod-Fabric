@@ -1,11 +1,10 @@
 package ml.pluto7073.plutoscoffee.items;
 
-import ml.pluto7073.plutoscoffee.Utils;
+import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeAddition;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeAdditions;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
-import ml.pluto7073.plutoscoffee.registry.ModMisc;
 import ml.pluto7073.plutoscoffee.registry.ModStats;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.client.item.TooltipContext;
@@ -39,7 +38,7 @@ public class BrewedCoffee extends Item {
 
     @Override
     public ItemStack getDefaultStack() {
-        return Utils.setCoffeeType(super.getDefaultStack(), CoffeeTypes.MEDIUM_ROAST);
+        return CoffeeUtil.setCoffeeType(super.getDefaultStack(), CoffeeTypes.MEDIUM_ROAST);
     }
 
     @Override
@@ -50,9 +49,9 @@ public class BrewedCoffee extends Item {
         }
 
         if (!world.isClient) {
-            CoffeeType type = Utils.getCoffeeType(stack);
+            CoffeeType type = CoffeeUtil.getCoffeeType(stack);
             type.onDrink(stack, world, user);
-            CoffeeAddition[] additions = Utils.getCoffeeAddIns(stack);
+            CoffeeAddition[] additions = CoffeeUtil.getCoffeeAddIns(stack);
             float caffeine = type.getCaffeineContent();
             if (additions != null) {
                 for (CoffeeAddition addition : additions) {
@@ -61,9 +60,9 @@ public class BrewedCoffee extends Item {
                 }
             }
             if (playerEntity != null) {
-                float currentCaffeine = Utils.getPlayerCaffeine(playerEntity);
+                float currentCaffeine = CoffeeUtil.getPlayerCaffeine(playerEntity);
                 currentCaffeine += caffeine;
-                Utils.setPlayerCaffeine(playerEntity, currentCaffeine);
+                CoffeeUtil.setPlayerCaffeine(playerEntity, currentCaffeine);
             }
         }
 
@@ -106,10 +105,10 @@ public class BrewedCoffee extends Item {
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         float caffeine = 0;
-        if (Utils.getCoffeeType(stack) != CoffeeTypes.EMPTY && Utils.getCoffeeType(stack) != null) {
-            caffeine += Utils.getCoffeeType(stack).getCaffeineContent();
+        if (CoffeeUtil.getCoffeeType(stack) != CoffeeTypes.EMPTY && CoffeeUtil.getCoffeeType(stack) != null) {
+            caffeine += CoffeeUtil.getCoffeeType(stack).getCaffeineContent();
         }
-        CoffeeAddition[] addIns = Utils.getCoffeeAddIns(stack);
+        CoffeeAddition[] addIns = CoffeeUtil.getCoffeeAddIns(stack);
         HashMap<Identifier, Integer> additionCounts = new HashMap<>();
         if (addIns != null) {
             for (CoffeeAddition addIn : addIns) {
@@ -121,7 +120,7 @@ public class BrewedCoffee extends Item {
                     additionCounts.put(id, ++count);
                 } else additionCounts.put(id, 1);
             }
-            if (Utils.getCoffeeType(stack) != CoffeeTypes.EMPTY && Utils.getCoffeeType(stack) != null) tooltip.add(Text.translatable(Utils.getCoffeeType(stack).getTranslationKey()).formatted(Formatting.GRAY));
+            if (CoffeeUtil.getCoffeeType(stack) != CoffeeTypes.EMPTY && CoffeeUtil.getCoffeeType(stack) != null) tooltip.add(Text.translatable(CoffeeUtil.getCoffeeType(stack).getTranslationKey()).formatted(Formatting.GRAY));
             additionCounts.forEach((id, count) -> tooltip.add(Text.translatable(CoffeeAdditions.REGISTRY.get(id).getTranslationKey(), count).formatted(Formatting.GRAY)));
         }
         tooltip.add(Text.translatable("tooltip.plutoscoffee.caffeine_content", caffeine).formatted(Formatting.AQUA));

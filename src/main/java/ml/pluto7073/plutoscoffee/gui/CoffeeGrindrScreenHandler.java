@@ -1,13 +1,12 @@
 package ml.pluto7073.plutoscoffee.gui;
 
-import ml.pluto7073.plutoscoffee.Utils;
+import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.registry.ModScreens;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -117,7 +116,7 @@ public class CoffeeGrindrScreenHandler extends ScreenHandler {
         }
 
         public static boolean matches(ItemStack stack) {
-            return Utils.isItemACoffeeGround(stack.getItem());
+            return CoffeeUtil.isItemACoffeeGround(stack.getItem());
         }
     }
 
@@ -128,7 +127,7 @@ public class CoffeeGrindrScreenHandler extends ScreenHandler {
         }
 
         public boolean canInsert(ItemStack stack) {
-            return Utils.isItemACoffeeBean(stack.getItem());
+            return CoffeeUtil.isItemACoffeeBean(stack.getItem());
         }
 
         public int getMaxItemCount() {

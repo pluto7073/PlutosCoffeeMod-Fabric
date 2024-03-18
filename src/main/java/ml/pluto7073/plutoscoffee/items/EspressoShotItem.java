@@ -1,8 +1,6 @@
 package ml.pluto7073.plutoscoffee.items;
 
-import ml.pluto7073.plutoscoffee.Utils;
-import ml.pluto7073.plutoscoffee.coffee.CoffeeAddition;
-import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
+import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.registry.ModStats;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.client.item.TooltipContext;
@@ -43,9 +41,9 @@ public class EspressoShotItem extends Item {
 
         if (!world.isClient) {
             if (playerEntity != null) {
-                float currentCaffeine = Utils.getPlayerCaffeine(playerEntity);
+                float currentCaffeine = CoffeeUtil.getPlayerCaffeine(playerEntity);
                 currentCaffeine += CAFFEINE_CONTENT;
-                Utils.setPlayerCaffeine(playerEntity, currentCaffeine);
+                CoffeeUtil.setPlayerCaffeine(playerEntity, currentCaffeine);
             }
         }
 

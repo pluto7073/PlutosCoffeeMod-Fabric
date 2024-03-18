@@ -19,7 +19,13 @@
       "links": {
         "modmenu.wiki": "https://github.com/pluto7073/PlutosCoffeeMod-Fabric/wiki"
       },
-      "update_checker": true
+      "update_checker": true,
+      "parent": {
+        "id": "plutosdrinks",
+        "name": "Pluto's Drinks Series",
+        "description": "Every mod in the Pluto's Drinks collection",
+        "icon": "assets/pdapi/icon.png"
+      }
     }
   },
 
@@ -41,6 +47,7 @@
   "mixins": [
     "plutoscoffee.mixins.json"
   ],
+  "accessWidener": "plutoscoffee.accesswidener",
 
   "depends": {
     "fabricloader": ">=0.15.7",

@@ -1,10 +1,9 @@
 package ml.pluto7073.plutoscoffee.mixins;
 
-import ml.pluto7073.plutoscoffee.Utils;
+import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.registry.ModMisc;
 import ml.pluto7073.plutoscoffee.registry.ModStatusEffects;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -66,7 +65,7 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntityMixin {
         int ticks = this.dataTracker.get(ModMisc.PLAYER_TICKS_SINCE_LAST_CAFFEINE);
         ticks++;
         float originalCaffeine = this.dataTracker.get(ModMisc.PLAYER_ORIGINAL_CAFFEINE_AMOUNT);
-        float newCaffeine = Utils.calculateCaffeineDecay(ticks, originalCaffeine);
+        float newCaffeine = CoffeeUtil.calculateCaffeineDecay(ticks, originalCaffeine);
         this.dataTracker.set(ModMisc.PLAYER_CAFFEINE_AMOUNT, newCaffeine);
         this.dataTracker.set(ModMisc.PLAYER_TICKS_SINCE_LAST_CAFFEINE, ticks);
     }

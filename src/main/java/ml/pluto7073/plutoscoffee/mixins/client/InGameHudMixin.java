@@ -2,7 +2,7 @@ package ml.pluto7073.plutoscoffee.mixins.client;
 
 import ml.pluto7073.plutoscoffee.Client;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
-import ml.pluto7073.plutoscoffee.Utils;
+import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
@@ -11,10 +11,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.text.Text;
-import net.minecraft.util.Arm;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -67,12 +64,12 @@ public abstract class InGameHudMixin {
 
         if (ridden != null) {
             if (ridden.getHealth() > 0){
-                int height = Utils.calculateHealthBarHeightPixels((int) ridden.getHealth(), 10, 10);
+                int height = CoffeeUtil.calculateHealthBarHeightPixels((int) ridden.getHealth(), 10, 10);
                 baseYValue -= height;
             }
         }
 
-        float currentCaffeine = Math.min(3000f, Utils.getPlayerCaffeine(playerEntity));
+        float currentCaffeine = Math.min(3000f, CoffeeUtil.getPlayerCaffeine(playerEntity));
         int scaledCaffeineOutput = Math.round(currentCaffeine * (71f/3000f));
         context.drawTexture(ICONS, centerX + 10, baseYValue, 0, 0, 80, 8, 80, 16);
         context.drawTexture(ICONS, centerX + 10, baseYValue, 0, 9, scaledCaffeineOutput, 8, 80, 16);

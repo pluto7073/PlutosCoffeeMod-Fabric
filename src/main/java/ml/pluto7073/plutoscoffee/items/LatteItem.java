@@ -1,10 +1,9 @@
 package ml.pluto7073.plutoscoffee.items;
 
-import ml.pluto7073.plutoscoffee.Utils;
+import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeAddition;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeAdditions;
-import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
-import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
+import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.registry.ModStats;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.client.item.TooltipContext;
@@ -15,6 +14,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
@@ -47,7 +47,7 @@ public class LatteItem extends Item {
                 if (!effect.getEffectType().isBeneficial())
                     user.removeStatusEffect(effect.getEffectType());
             }
-            CoffeeAddition[] additions = Utils.getCoffeeAddIns(stack);
+            CoffeeAddition[] additions = CoffeeUtil.getCoffeeAddIns(stack);
             float caffeine = 0;
             if (additions != null) {
                 for (CoffeeAddition addition : additions) {
@@ -56,9 +56,9 @@ public class LatteItem extends Item {
                 }
             }
             if (playerEntity != null) {
-                float currentCaffeine = Utils.getPlayerCaffeine(playerEntity);
+                float currentCaffeine = CoffeeUtil.getPlayerCaffeine(playerEntity);
                 currentCaffeine += caffeine;
-                Utils.setPlayerCaffeine(playerEntity, currentCaffeine);
+                CoffeeUtil.setPlayerCaffeine(playerEntity, currentCaffeine);
             }
         }
 
@@ -97,7 +97,7 @@ public class LatteItem extends Item {
 
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         float caffeine = 0;
-        CoffeeAddition[] addIns = Utils.getCoffeeAddIns(stack);
+        CoffeeAddition[] addIns = CoffeeUtil.getCoffeeAddIns(stack);
         HashMap<Identifier, Integer> additionCounts = new HashMap<>();
         if (addIns != null) {
             for (CoffeeAddition addIn : addIns) {
@@ -112,6 +112,15 @@ public class LatteItem extends Item {
             tooltip.add(Text.translatable("tooltip.plutoscoffee.caffeine_content", caffeine).formatted(Formatting.AQUA));
             additionCounts.forEach((id, count) -> tooltip.add(Text.translatable(CoffeeAdditions.REGISTRY.get(id).getTranslationKey(), count).formatted(Formatting.GRAY)));
         }
+    }
+
+    public static ItemStack getStandardLatte() {
+        ItemStack stack = new ItemStack(ModItems.LATTE);
+        NbtList adds = new NbtList();
+        adds.add(CoffeeUtil.stringAsNbt("plutoscoffee:espresso_shot"));
+        adds.add(CoffeeUtil.stringAsNbt("plutoscoffee:espresso_shot"));
+        stack.getOrCreateSubNbt("Coffee").put("Additions", adds);
+        return stack;
     }
 
 }

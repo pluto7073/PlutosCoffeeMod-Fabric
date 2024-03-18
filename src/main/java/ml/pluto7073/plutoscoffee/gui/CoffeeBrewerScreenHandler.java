@@ -1,6 +1,6 @@
 package ml.pluto7073.plutoscoffee.gui;
 
-import ml.pluto7073.plutoscoffee.Utils;
+import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.registry.ModScreens;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -139,7 +139,7 @@ public class CoffeeBrewerScreenHandler extends ScreenHandler {
         }
 
         public boolean canInsert(ItemStack stack) {
-            return Utils.isItemACoffeeGround(stack.getItem());
+            return CoffeeUtil.isItemACoffeeGround(stack.getItem());
         }
 
         public int getMaxItemCount() {
