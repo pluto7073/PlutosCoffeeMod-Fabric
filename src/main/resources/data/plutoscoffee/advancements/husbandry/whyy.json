@@ -20,7 +20,7 @@
             "plutoscoffee:brewed_coffee",
             "plutoscoffee:latte"
           ],
-          "nbt": "{Coffee:{Additions:[\"plutoscoffee:netherite\"]}}"
+          "nbt": "{Coffee:{Additions:[\"pdapi:netherite\"]}}"
         }
       }
     }

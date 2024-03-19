@@ -1,5 +1,6 @@
 package ml.pluto7073.plutoscoffee.coffee;
 
+import ml.pluto7073.pdapi.addition.OnDrink;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;

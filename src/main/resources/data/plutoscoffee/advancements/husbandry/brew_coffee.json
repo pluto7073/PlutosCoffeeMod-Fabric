@@ -2,7 +2,7 @@
   "display": {
     "icon": {
       "item": "plutoscoffee:brewed_coffee",
-      "nbt": "{Coffee:{Additions:[\"plutoscoffee:milk\"]}}"
+      "nbt": "{Coffee:{Additions:[\"pdapi:milk\"]}}"
     },
     "title": "Caffeinated!",
     "description": "Brew a cup coffee",

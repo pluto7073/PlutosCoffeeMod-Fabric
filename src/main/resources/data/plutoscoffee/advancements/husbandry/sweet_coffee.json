@@ -19,7 +19,7 @@
           "items": [
             "plutoscoffee:brewed_coffee"
           ],
-          "nbt": "{Coffee:{Additions:[\"plutoscoffee:milk\",\"plutoscoffee:milk\",\"plutoscoffee:milk\",\"plutoscoffee:milk\",\"plutoscoffee:milk\",\"plutoscoffee:milk\",\"plutoscoffee:milk\",\"plutoscoffee:milk\",\"plutoscoffee:milk\",\"plutoscoffee:milk\",\"plutoscoffee:sugar\",\"plutoscoffee:sugar\",\"plutoscoffee:sugar\",\"plutoscoffee:sugar\",\"plutoscoffee:sugar\",\"plutoscoffee:sugar\",\"plutoscoffee:sugar\",\"plutoscoffee:sugar\",\"plutoscoffee:sugar\",\"plutoscoffee:sugar\"]}}"
+          "nbt": "{Coffee:{Additions:[\"pdapi:milk\",\"pdapi:milk\",\"pdapi:milk\",\"pdapi:milk\",\"pdapi:milk\",\"pdapi:milk\",\"pdapi:milk\",\"pdapi:milk\",\"pdapi:milk\",\"pdapi:milk\",\"pdapi:sugar\",\"pdapi:sugar\",\"pdapi:sugar\",\"pdapi:sugar\",\"pdapi:sugar\",\"pdapi:sugar\",\"pdapi:sugar\",\"pdapi:sugar\",\"pdapi:sugar\",\"pdapi:sugar\"]}}"
         }
       }
     }

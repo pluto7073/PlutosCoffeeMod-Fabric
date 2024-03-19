@@ -1,5 +1,6 @@
 package ml.pluto7073.plutoscoffee.blocks;
 
+import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
@@ -165,7 +166,7 @@ public class CoffeeBrewerBlockEntity extends LockableContainerBlockEntity implem
 
         CoffeeType type = CoffeeTypes.getFromGrounds(input.getItem());
         ItemStack result = new ItemStack(ModItems.BREWED_COFFEE, 1);
-        result.getOrCreateSubNbt("Coffee").putString("CoffeeType", CoffeeTypes.getId(type));
+        result.getOrCreateSubNbt(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).putString("CoffeeType", CoffeeTypes.getId(type));
         slots.set(2, result);
 
         input.decrement(1);

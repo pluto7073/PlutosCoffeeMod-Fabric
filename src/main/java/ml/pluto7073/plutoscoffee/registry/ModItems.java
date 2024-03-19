@@ -14,7 +14,6 @@ import net.minecraft.util.Identifier;
 public class ModItems {
 
     public static final Item COFFEE_BERRY = new AliasedBlockItem(ModBlocks.COFFEE_CROP, new Item.Settings());
-    public static final Item COFFEE_WORKSTATION = new BlockItem(ModBlocks.COFFEE_WORKSTATION, new Item.Settings());
     public static final Item COFFEE_BREWER = new BlockItem(ModBlocks.COFFEE_BREWER, new Item.Settings());
     public static final Item COFFEE_GRINDR = new BlockItem(ModBlocks.COFFEE_GRINDR, new Item.Settings());
     public static final Item ESPRESSO_MACHINE = new BlockItem(ModBlocks.ESPRESSO_MACHINE, new Item.Settings());
@@ -30,7 +29,6 @@ public class ModItems {
     public static final Item USED_COFFEE_GROUNDS = new Item(new Item.Settings());
     public static final Item CARAMEL = new Item(new Item.Settings().recipeRemainder(Items.GLASS_BOTTLE).maxCount(16));
     public static final Item MOCHA_SAUCE = new Item(new Item.Settings().recipeRemainder(Items.GLASS_BOTTLE).maxCount(16));
-    public static final Item MILK_BOTTLE = new MilkBottle();
 
     public static final Item BREWED_COFFEE = new BrewedCoffee(new Item.Settings().maxCount(1));
     public static final Item ESPRESSO_SHOT = new EspressoShotItem(new Item.Settings().maxCount(16).recipeRemainder(Items.GLASS_BOTTLE));
@@ -47,7 +45,6 @@ public class ModItems {
         register("roasted_coffee_bean", LIGHT_ROAST_BEAN);
         register("caramel", CARAMEL);
         register("mocha_syrup", MOCHA_SAUCE);
-        register("milk_bottle", MILK_BOTTLE);
         register("medium_roast_bean", MEDIUM_ROAST_BEAN);
         register("ground_medium_roast", GROUND_MEDIUM_ROAST);
         register("dark_roast_bean", DARK_ROAST_BEAN);
@@ -59,7 +56,6 @@ public class ModItems {
         register("latte", LATTE);
         register("used_coffee_grounds", USED_COFFEE_GROUNDS);
 
-        register("coffee_workstation", COFFEE_WORKSTATION);
         register("coffee_brewer", COFFEE_BREWER);
         register("coffee_grinder", COFFEE_GRINDR);
         register("espresso_machine", ESPRESSO_MACHINE);

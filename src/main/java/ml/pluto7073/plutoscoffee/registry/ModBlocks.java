@@ -21,7 +21,6 @@ import net.minecraft.util.Util;
 public class ModBlocks {
 
     public static final Block COFFEE_CROP = new CoffeeCrop(AbstractBlock.Settings.create().mapColor(MapColor.DARK_GREEN).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP).pistonBehavior(PistonBehavior.DESTROY));
-    public static final Block COFFEE_WORKSTATION = new CoffeeWorkstationBlock(AbstractBlock.Settings.create().mapColor(MapColor.OAK_TAN).instrument(Instrument.BASS).strength(2.5F).sounds(BlockSoundGroup.WOOD).burnable().sounds(BlockSoundGroup.WOOD));
     public static final Block COFFEE_BREWER = new CoffeeBrewerBlock(AbstractBlock.Settings.create().mapColor(MapColor.IRON_GRAY).requiresTool().strength(0.5F).luminance((state) -> 1).nonOpaque());
     public static final Block COFFEE_GRINDR = new CoffeeGrindrBlock(AbstractBlock.Settings.create().mapColor(MapColor.IRON_GRAY).requiresTool().strength(0.5F).luminance((state) -> 1).nonOpaque());
     public static final Block ESPRESSO_MACHINE = new EspressoMachineBlock(FabricBlockSettings.create().mapColor(MapColor.IRON_GRAY).requiresTool().strength(0.5f).luminance(state -> 1).nonOpaque());
@@ -46,7 +45,6 @@ public class ModBlocks {
     public static void init() {
         register("coffee_plant", COFFEE_CROP);
         register("coffee_brewer", COFFEE_BREWER);
-        register("coffee_workstation", COFFEE_WORKSTATION);
         register("coffee_grinder", COFFEE_GRINDR);
         register("espresso_machine", ESPRESSO_MACHINE);
 

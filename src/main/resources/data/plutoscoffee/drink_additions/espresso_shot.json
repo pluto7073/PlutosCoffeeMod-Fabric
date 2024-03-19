@@ -1,0 +1,25 @@
+{
+  "changesColor": true,
+  "color": 1444354,
+  "onDrinkActions": [
+    {
+      "type": "pdapi:apply_status_effect",
+      "effect": "minecraft:haste",
+      "duration": 1200,
+      "amplifier": 0
+    },
+    {
+      "type": "pdapi:apply_status_effect",
+      "effect": "minecraft:jump_boost",
+      "duration": 1200,
+      "amplifier": 0
+    },
+    {
+      "type": "pdapi:apply_status_effect",
+      "effect": "minecraft:speed",
+      "duration": 1200,
+      "amplifier": 0
+    }
+  ],
+  "caffeine": 85
+}

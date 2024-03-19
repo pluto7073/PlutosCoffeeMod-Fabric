@@ -1,10 +1,10 @@
 {
-  "type": "plutoscoffee:coffee_workstation",
+  "type": "pdapi:drink_workstation",
   "base": {
     "item": "plutoscoffee:brewed_coffee"
   },
   "addition": {
     "item": "plutoscoffee:milk_bottle"
   },
-  "result": "plutoscoffee:milk"
+  "result": "pdapi:milk"
 }

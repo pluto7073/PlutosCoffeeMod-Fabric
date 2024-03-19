@@ -1,8 +1,10 @@
 package ml.pluto7073.plutoscoffee;
 
 import com.mojang.datafixers.util.Pair;
-import ml.pluto7073.plutoscoffee.coffee.CoffeeAddition;
-import ml.pluto7073.plutoscoffee.coffee.CoffeeAdditions;
+import ml.pluto7073.pdapi.DrinkUtil;
+import ml.pluto7073.pdapi.addition.DrinkAddition;
+import ml.pluto7073.pdapi.addition.DrinkAdditions;
+import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
 import ml.pluto7073.plutoscoffee.items.BrewedCoffee;
@@ -48,15 +50,17 @@ public final class CoffeeUtil {
     }
 
     public static CoffeeType getCoffeeType(ItemStack stack) {
-        return getCoffeeType(stack.getSubNbt("Coffee"));
+        DrinkUtil.convertStackFromPlutosCoffee(stack);
+        return getCoffeeType(stack.getSubNbt(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY));
     }
 
     public static ItemStack setCoffeeType(ItemStack stack, CoffeeType type) {
+        DrinkUtil.convertStackFromPlutosCoffee(stack);
         Identifier id = CoffeeTypes.getIdentifier(type);
         if (type == CoffeeTypes.EMPTY) {
-            stack.removeSubNbt("Coffee");
+            stack.removeSubNbt(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY);
         } else {
-            stack.getOrCreateSubNbt("Coffee").putString("CoffeeType", id.toString());
+            stack.getOrCreateSubNbt(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).putString("CoffeeType", id.toString());
         }
         return stack;
     }
@@ -64,18 +68,12 @@ public final class CoffeeUtil {
     public static ItemStack getBaseCoffee(CoffeeType type) {
         ItemStack stack = new ItemStack(ModItems.BREWED_COFFEE);
         if (type == CoffeeTypes.EMPTY) return stack;
-        stack.getOrCreateSubNbt("Coffee").putString("CoffeeType", CoffeeTypes.getIdentifier(type).toString());
+        stack.getOrCreateSubNbt(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).putString("CoffeeType", CoffeeTypes.getIdentifier(type).toString());
         return stack;
     }
 
     public static CoffeeType getCoffeeType(@Nullable NbtCompound nbt) {
         return nbt == null ? CoffeeTypes.EMPTY : CoffeeType.byId(nbt.getString("CoffeeType"));
-    }
-
-    public static NbtElement stringAsNbt(String s) {
-        NbtCompound compound = new NbtCompound();
-        compound.putString("string", s);
-        return compound.get("string");
     }
 
     public static boolean isItemACoffeeGround(Item item) {
@@ -86,41 +84,18 @@ public final class CoffeeUtil {
         return TagUtil.isIn(ModItemTags.COFFEE_BEANS, item);
     }
 
-    @Nullable
-    public static CoffeeAddition[] getCoffeeAddIns(ItemStack stack) {
-        return getCoffeeAddIns(stack.getOrCreateSubNbt("Coffee"));
-    }
-
-    @Nullable
-    public static CoffeeAddition[] getCoffeeAddIns(@Nullable NbtCompound nbt) {
-        if (nbt == null) return null;
-        NbtList list = nbt.getList("Additions", NbtElement.STRING_TYPE);
-        if (list == null) return null;
-        if (list.isEmpty()) return null;
-        CoffeeAddition[] addIns = new CoffeeAddition[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            String addIn = list.getString(i);
-            Identifier id = new Identifier(addIn);
-            if (!CoffeeAdditions.REGISTRY.containsKey(id)) {
-                addIns[i] = CoffeeAdditions.EMPTY;
-                continue;
-            }
-            addIns[i] = CoffeeAdditions.REGISTRY.get(id);
-        }
-        return addIns;
-    }
-
     public static int getCoffeeColour(ItemStack stack) {
-        CoffeeAddition[] addIns = getCoffeeAddIns(stack);
+        DrinkUtil.convertStackFromPlutosCoffee(stack);
+        DrinkAddition[] addIns = DrinkUtil.getAdditionsFromStack(stack);
         if (addIns == null) {
             return BrewedCoffee.DEFAULT_COLOUR;
         }
         return getCoffeeColour(addIns);
     }
 
-    public static int getCoffeeColour(CoffeeAddition[] addIns) {
+    public static int getCoffeeColour(DrinkAddition[] addIns) {
         int colour = BrewedCoffee.DEFAULT_COLOUR;
-        if (Arrays.stream(addIns).anyMatch(coffeeAddition -> coffeeAddition == CoffeeAdditions.MILK_BOTTLE)) {
+        if (Arrays.stream(addIns).map(DrinkAdditions::getId).anyMatch(identifier -> identifier.toString().equals("pdapi:milk"))) {
             colour = BrewedCoffee.COLOUR_WITH_MILK;
         }
         float r = (colour >> 16 & 255) / 255.0F;
@@ -128,13 +103,13 @@ public final class CoffeeUtil {
         float b = (colour & 255) / 255.0F;
         int colourCount = 1;
         int allowedMilk = 3;
-        for (CoffeeAddition addition : addIns) {
-            if (!addition.changesColour()) continue;
-            if (addition == CoffeeAdditions.MILK_BOTTLE && allowedMilk > 0) {
+        for (DrinkAddition addition : addIns) {
+            if (!addition.changesColor()) continue;
+            if (DrinkAdditions.getId(addition).toString().equals("pdapi:milk") && allowedMilk > 0) {
                 allowedMilk--;
                 continue;
             }
-            int additionColour = addition.getColour();
+            int additionColour = addition.getColor();
             r += (additionColour >> 16 & 255) / 255.0F;
             g += (additionColour >> 8 & 255) / 255.0F;
             b += (additionColour & 255) / 255.0F;
@@ -146,30 +121,30 @@ public final class CoffeeUtil {
         return (int) r << 16 | (int) g << 8 | (int) b;
     }
 
-    public static ItemStack getWithAdditions(ItemStack stack, CoffeeAddition... additions) {
+    public static ItemStack getWithAdditions(ItemStack stack, String... additions) {
         NbtList adds = new NbtList();
-        if (stack.getOrCreateSubNbt("Coffee").contains("Additions")) {
-            adds = stack.getOrCreateSubNbt("Coffee").getList("Additions", NbtElement.STRING_TYPE);
+        if (stack.getOrCreateSubNbt(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).contains("Additions")) {
+            adds = stack.getOrCreateSubNbt(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).getList("Additions", NbtElement.STRING_TYPE);
         }
-        for (CoffeeAddition add : additions) {
-            String id = CoffeeAdditions.getId(add).toString();
-            adds.add(stringAsNbt(id));
+        for (String s : additions) {
+            adds.add(DrinkUtil.stringAsNbt(s));
         }
-        stack.getOrCreateSubNbt("Coffee").put("Additions", adds);
+        stack.getOrCreateSubNbt(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).put("Additions", adds);
         return stack;
     }
 
     public static int getLatteColour(ItemStack stack) {
-        CoffeeAddition[] addIns = getCoffeeAddIns(stack);
+        DrinkUtil.convertStackFromPlutosCoffee(stack);
+        DrinkAddition[] addIns = DrinkUtil.getAdditionsFromStack(stack);
         if (addIns == null) {
             return 0xFFFFFF;
         }
         return getLatteColour(addIns);
     }
 
-    public static int getLatteColour(CoffeeAddition[] addIns) {
+    public static int getLatteColour(DrinkAddition[] addIns) {
         int color = 0xFFFFFF;
-        if (Arrays.stream(addIns).anyMatch(coffeeAddition -> coffeeAddition == CoffeeAdditions.ESPRESSO_SHOT)) {
+        if (Arrays.stream(addIns).map(DrinkAdditions::getId).anyMatch(id -> id.toString().equals("plutoscoffee:espresso_shot"))) {
             color = BrewedCoffee.COLOUR_WITH_MILK;
         }
         float r = (color >> 16 & 255) / 255.0F;
@@ -177,13 +152,13 @@ public final class CoffeeUtil {
         float b = (color & 255) / 255.0F;
         int colourCount = 1;
         int allowedShots = 2;
-        for (CoffeeAddition addition : addIns) {
-            if (!addition.changesColour()) continue;
-            if (addition == CoffeeAdditions.ESPRESSO_SHOT && allowedShots > 0) {
+        for (DrinkAddition addition : addIns) {
+            if (!addition.changesColor()) continue;
+            if (DrinkAdditions.getId(addition).toString().equals("plutoscoffee:espresso_shot") && allowedShots > 0) {
                 allowedShots--;
                 continue;
             }
-            int additionColour = addition.getColour();
+            int additionColour = addition.getColor();
             r += (additionColour >> 16 & 255) / 255.0F;
             g += (additionColour >> 8 & 255) / 255.0F;
             b += (additionColour & 255) / 255.0F;
@@ -199,29 +174,6 @@ public final class CoffeeUtil {
         double hearts = health / 2.0;
         int rows = (int) Math.floor(hearts / maxHeartsPerRow);
         return rows * rowHeight;
-    }
-
-    public static void setPlayerCaffeine(PlayerEntity player, float caffeine) {
-        player.getDataTracker().set(ModMisc.PLAYER_CAFFEINE_AMOUNT, caffeine);
-        player.getDataTracker().set(ModMisc.PLAYER_ORIGINAL_CAFFEINE_AMOUNT, caffeine);
-        player.getDataTracker().set(ModMisc.PLAYER_TICKS_SINCE_LAST_CAFFEINE, 0);
-    }
-
-    public static float getPlayerCaffeine(PlayerEntity player) {
-        return player.getDataTracker().get(ModMisc.PLAYER_CAFFEINE_AMOUNT);
-    }
-
-    public static float getPlayerOriginalCaffeine(PlayerEntity player) {
-        return player.getDataTracker().get(ModMisc.PLAYER_ORIGINAL_CAFFEINE_AMOUNT);
-    }
-
-    public static int getPlayerCaffeineTicks(PlayerEntity player) {
-        return player.getDataTracker().get(ModMisc.PLAYER_TICKS_SINCE_LAST_CAFFEINE);
-    }
-
-    public static float calculateCaffeineDecay(int ticks, float originalCaffeine) {
-        double exp = Math.pow(0.5, ticks / CAFFEINE_HALF_LIFE_TICKS);
-        return (float) (exp * originalCaffeine);
     }
 
     /**

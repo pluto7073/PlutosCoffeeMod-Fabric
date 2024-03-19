@@ -1,5 +1,6 @@
 package ml.pluto7073.plutoscoffee.mixins.client;
 
+import ml.pluto7073.pdapi.DrinkUtil;
 import ml.pluto7073.plutoscoffee.Client;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
@@ -69,7 +70,7 @@ public abstract class InGameHudMixin {
             }
         }
 
-        float currentCaffeine = Math.min(3000f, CoffeeUtil.getPlayerCaffeine(playerEntity));
+        float currentCaffeine = Math.min(3000f, DrinkUtil.getPlayerCaffeine(playerEntity));
         int scaledCaffeineOutput = Math.round(currentCaffeine * (71f/3000f));
         context.drawTexture(ICONS, centerX + 10, baseYValue, 0, 0, 80, 8, 80, 16);
         context.drawTexture(ICONS, centerX + 10, baseYValue, 0, 9, scaledCaffeineOutput, 8, 80, 16);

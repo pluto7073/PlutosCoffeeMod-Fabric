@@ -1,7 +1,7 @@
 {
-  "type": "plutoscoffee:coffee_workstation",
+  "type": "pdapi:drink_workstation",
   "base": {
-    "tag": "plutoscoffee:workstation_coffees"
+    "tag": "pdapi:workstation_drinks"
   },
   "addition": {
     "item": "plutoscoffee:mocha_syrup"

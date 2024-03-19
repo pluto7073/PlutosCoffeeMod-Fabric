@@ -20,7 +20,7 @@
             "plutoscoffee:brewed_coffee",
             "plutoscoffee:latte"
           ],
-          "nbt": "{Coffee:{Additions:[\"plutoscoffee:diamond\"]}}"
+          "nbt": "{Coffee:{Additions:[\"pdapi:diamond\"]}}"
         }
       }
     }
