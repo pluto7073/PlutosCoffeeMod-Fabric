@@ -3,24 +3,18 @@ package ml.pluto7073.plutoscoffee.registry;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import ml.pluto7073.pdapi.item.PDItems;
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
-import ml.pluto7073.plutoscoffee.coffee.CoffeeAdditions;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
 import ml.pluto7073.plutoscoffee.items.LatteItem;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Identifier;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.poi.PointOfInterestType;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
 
@@ -28,7 +22,7 @@ public class ModVillagerProfessions {
 
     public static final VillagerProfession BARISTA;
 
-    private static final Predicate<RegistryEntry<PointOfInterestType>> WORKSTATION_PREDICATE = (entry) -> entry.matchesKey(ModPointOfInterests.COFFEE_WORKSTATION);
+    private static final Predicate<RegistryEntry<PointOfInterestType>> WORKSTATION_PREDICATE = (entry) -> entry.matchesKey(ModPointOfInterests.ESPRESSO_MACHINE);
 
     static {
         BARISTA = register("barista",
@@ -64,13 +58,13 @@ public class ModVillagerProfessions {
                         new TradeOffers.SellItemFactory(CoffeeUtil.getBaseCoffee(CoffeeTypes.MEDIUM_ROAST), 3, 1, 12, 10),
                         new TradeOffers.SellItemFactory(CoffeeUtil.getBaseCoffee(CoffeeTypes.DARK_ROAST), 3, 1, 12, 10),
                         new TradeOffers.SellItemFactory(LatteItem.getStandardLatte(), 5, 1, 12, 15),
-                        new TradeOffers.BuyForOneEmeraldFactory(ModItems.MILK_BOTTLE, 16, 12, 5)
+                        new TradeOffers.BuyForOneEmeraldFactory(PDItems.MILK_BOTTLE, 16, 12, 5)
                 },
                 4, new TradeOffers.Factory[] {
-                        new TradeOffers.SellItemFactory(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), CoffeeAdditions.CHORUS_FRUIT), 10, 1, 12, 20),
-                        new TradeOffers.SellItemFactory(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), CoffeeAdditions.GLOW_BERRIES), 7, 1, 12, 20),
-                        new TradeOffers.SellItemFactory(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), CoffeeAdditions.HONEY, CoffeeAdditions.SUGAR), 5, 1, 12, 20),
-                        new TradeOffers.SellItemFactory(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), CoffeeAdditions.MOCHA_SYRUP, CoffeeAdditions.CARAMEL), 8, 1, 12, 20)
+                        new TradeOffers.SellItemFactory(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), "pdapi:chorus_fruit"), 10, 1, 12, 20),
+                        new TradeOffers.SellItemFactory(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), "pdapi:glow_berries"), 7, 1, 12, 20),
+                        new TradeOffers.SellItemFactory(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), "pdapi:honey", "pdapi:sugar"), 5, 1, 12, 20),
+                        new TradeOffers.SellItemFactory(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), "plutoscoffee:mocha_syrup", "plutoscoffee:caramel"), 8, 1, 12, 20)
                 },
                 5, new TradeOffers.Factory[]{
                         new TradeOffers.SellItemFactory(ModItems.COFFEE_BREWER, 24, 1, 12, 25),

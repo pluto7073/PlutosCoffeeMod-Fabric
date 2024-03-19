@@ -27,7 +27,6 @@ public class PlutosCoffee implements ModInitializer {
     public void onInitialize() {
         ModBlocks.init();
         ModItems.init();
-        ModStatusEffects.init();
         ModMisc.init();
         ModScreens.init();
         ModStats.registerStats();
