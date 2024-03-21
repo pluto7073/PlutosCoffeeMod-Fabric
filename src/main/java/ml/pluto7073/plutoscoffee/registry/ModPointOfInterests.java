@@ -1,6 +1,7 @@
 package ml.pluto7073.plutoscoffee.registry;
 
 import com.google.common.collect.ImmutableSet;
+import ml.pluto7073.pdapi.block.PDBlocks;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 import net.minecraft.block.Block;
@@ -10,10 +11,10 @@ import net.minecraft.world.poi.PointOfInterestType;
 
 public class ModPointOfInterests {
 
-    public static final RegistryKey<PointOfInterestType> ESPRESSO_MACHINE;
+    public static final RegistryKey<PointOfInterestType> DRINK_WORKSTATION;
 
     static {
-        ESPRESSO_MACHINE = create("espresso_machine", 1, 1, ModBlocks.ESPRESSO_MACHINE);
+        DRINK_WORKSTATION = create("drink_workstation", 1, 1, PDBlocks.DRINK_WORKSTATION);
     }
 
     private static RegistryKey<PointOfInterestType> create(String name, int ticketCount, int searchDistance, Block block) {
@@ -23,7 +24,7 @@ public class ModPointOfInterests {
     }
 
     public static void init() {
-        PlutosCoffee.logger.info("Espresso Machine POI Registered");
+        PlutosCoffee.logger.info("Drink Workstation POI Registered");
     }
 
     private static PointOfInterestType get(RegistryKey<PointOfInterestType> key) {

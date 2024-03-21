@@ -22,7 +22,7 @@ public class ModVillagerProfessions {
 
     public static final VillagerProfession BARISTA;
 
-    private static final Predicate<RegistryEntry<PointOfInterestType>> WORKSTATION_PREDICATE = (entry) -> entry.matchesKey(ModPointOfInterests.ESPRESSO_MACHINE);
+    private static final Predicate<RegistryEntry<PointOfInterestType>> WORKSTATION_PREDICATE = (entry) -> entry.matchesKey(ModPointOfInterests.DRINK_WORKSTATION);
 
     static {
         BARISTA = register("barista",
