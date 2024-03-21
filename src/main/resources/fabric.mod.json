@@ -55,7 +55,7 @@
     "minecraft": "~1.20.1",
     "java": ">=17",
     "cloth-config": ">=11.1.118",
-    "pdapi": ">=b0.1.1+1.20.1"
+    "pdapi": ">=0.1.2+1.20.1"
   },
   "suggests": {
     "flamingo": "*",
