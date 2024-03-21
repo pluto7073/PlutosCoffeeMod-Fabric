@@ -39,6 +39,11 @@ public class BrewedCoffee extends AbstractCustomizableDrinkItem {
     }
 
     @Override
+    public int getCaffeineContent(ItemStack stack) {
+        return CoffeeUtil.getCoffeeType(stack).getCaffeineContent() + super.getCaffeineContent(stack);
+    }
+
+    @Override
     public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
         PlayerEntity playerEntity = user instanceof PlayerEntity ? (PlayerEntity) user : null;
 
