@@ -13,7 +13,7 @@ public class CoffeeType {
     private final String baseName;
     private final Item grounds;
     private final OnDrink action;
-    private final float caffeineContent;
+    private final int caffeineContent;
 
     @SuppressWarnings("unused")
     public static final String ZELDA = null;
@@ -27,12 +27,12 @@ public class CoffeeType {
 
     /**
      *
-     * @param baseName - the id used in registering the coffee type
-     * @param grounds - the item to be used to brew the coffee
-     * @param action - do this when this coffee type is drank
-     * @param caffeineContent - amount in mg of caffeine to add to the drinker.
+     * @param baseName the id used in registering the coffee type
+     * @param grounds the item to be used to brew the coffee
+     * @param action do this when this coffee type is drank
+     * @param caffeineContent amount in mg of caffeine to add to the drinker.
      */
-    public CoffeeType(String baseName, Item grounds, OnDrink action, float caffeineContent) {
+    public CoffeeType(String baseName, Item grounds, OnDrink action, int caffeineContent) {
         this.baseName = baseName;
         this.grounds = grounds;
         this.action = action;
@@ -51,7 +51,7 @@ public class CoffeeType {
         action.onDrink(stack, world, user);
     }
 
-    public float getCaffeineContent() {
+    public int getCaffeineContent() {
         return caffeineContent;
     }
 

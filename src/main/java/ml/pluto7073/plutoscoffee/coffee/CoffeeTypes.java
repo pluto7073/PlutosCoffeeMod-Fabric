@@ -53,24 +53,15 @@ public class CoffeeTypes {
     static {
         EMPTY = register("empty", new CoffeeType("empty", Items.AIR, (stack, world, user) -> {}, 0));
         LIGHT_ROAST = register("light_roast", new CoffeeType("light_roast", ModItems.GROUND_LIGHT_ROAST, (stack, world, user) -> {
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, 1200));
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 1200));
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 1200));
             //TODO: Light roast exclusives
-        }, 125F));
+        }, 125));
         MEDIUM_ROAST = register("medium_roast", new CoffeeType("medium_roast", ModItems.GROUND_MEDIUM_ROAST, (stack, world, user) -> {
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, 1200));
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 1200));
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 1200));
-        }, 120F));
+        }, 120));
         DARK_ROAST = register("dark_roast", new CoffeeType("dark_roast", ModItems.GROUND_DARK_ROAST, (stack, world, user) -> {
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, 1200));
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 1200));
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 1200));
             //TODO: Dark roast exclusives
-        }, 115F));
+        }, 115));
         ESPRESSO = register("espresso", new CoffeeType("espresso", ModItems.GROUND_ESPRESSO_ROAST, (stack, world, user) -> {
-        }, 250F));
+        }, 100));
     }
 
 }
