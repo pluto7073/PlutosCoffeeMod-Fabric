@@ -5,7 +5,10 @@ import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
 import ml.pluto7073.plutoscoffee.registry.ModStats;
+import net.fabricmc.fabric.impl.client.rendering.ColorProviderRegistryImpl;
+import net.fabricmc.fabric.mixin.client.rendering.ItemColorsMixin;
 import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -40,7 +43,9 @@ public class BrewedCoffee extends AbstractCustomizableDrinkItem {
 
     @Override
     public int getCaffeineContent(ItemStack stack) {
-        return CoffeeUtil.getCoffeeType(stack).getCaffeineContent() + super.getCaffeineContent(stack);
+        CoffeeType type = CoffeeUtil.getCoffeeType(stack);
+        if (type == null) return super.getCaffeineContent(stack);
+        return type.getCaffeineContent() + super.getCaffeineContent(stack);
     }
 
     @Override

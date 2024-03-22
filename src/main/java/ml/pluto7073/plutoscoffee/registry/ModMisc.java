@@ -1,5 +1,6 @@
 package ml.pluto7073.plutoscoffee.registry;
 
+import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import ml.pluto7073.pdapi.item.PDItems;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
@@ -48,11 +49,11 @@ public class ModMisc {
             stacks.add(new ItemStack(ModItems.GROUND_DARK_ROAST, 1));
             stacks.add(new ItemStack(ModItems.GROUND_ESPRESSO_ROAST, 1));
             ItemStack lightRoast = new ItemStack(ModItems.BREWED_COFFEE, 1);
-            lightRoast.getOrCreateSubNbt("Coffee").putString("CoffeeType", "light_roast");
+            lightRoast.getOrCreateSubNbt(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).putString("CoffeeType", "light_roast");
             ItemStack mediumRoast = lightRoast.copy();
-            mediumRoast.getOrCreateSubNbt("Coffee").putString("CoffeeType", "medium_roast");
+            mediumRoast.getOrCreateSubNbt(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).putString("CoffeeType", "medium_roast");
             ItemStack darkRoast = mediumRoast.copy();
-            darkRoast.getOrCreateSubNbt("Coffee").putString("CoffeeType", "dark_roast");
+            darkRoast.getOrCreateSubNbt(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).putString("CoffeeType", "dark_roast");
             stacks.add(lightRoast);
             stacks.add(mediumRoast);
             stacks.add(darkRoast);
