@@ -19,10 +19,16 @@ public class CoffeeType {
     public static final String ZELDA = null;
 
     public static CoffeeType byId(String id) {
+        CoffeeType type;
         if (id.contains(":")) {
-            return CoffeeTypes.REGISTRY.get(new Identifier(id.replace("\"", "")));
+            type =  CoffeeTypes.REGISTRY.get(new Identifier(id.replace("\"", "")));
+        } else {
+            type = CoffeeTypes.REGISTRY.get(new Identifier(PlutosCoffee.MOD_ID, id.replace("\"", "")));
         }
-        return CoffeeTypes.REGISTRY.get(new Identifier(PlutosCoffee.MOD_ID, id.replace("\"", "")));
+        if (type == null) {
+            type = CoffeeTypes.EMPTY;
+        }
+        return type;
     }
 
     /**
