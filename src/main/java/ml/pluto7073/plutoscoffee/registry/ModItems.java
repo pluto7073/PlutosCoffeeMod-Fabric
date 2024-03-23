@@ -61,9 +61,6 @@ public class ModItems {
         register("coffee_brewer", COFFEE_BREWER);
         register("coffee_grinder", COFFEE_GRINDR);
         register("espresso_machine", ESPRESSO_MACHINE);
-
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex > 0 ? -1 : CoffeeUtil.getCoffeeColour(stack), ModItems.BREWED_COFFEE);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex > 0 ? -1 : CoffeeUtil.getLatteColour(stack), ModItems.LATTE);
     }
 
 }
