@@ -42,7 +42,7 @@ dependencies {
 	// modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
 	modApi "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}"
 	modApi "com.terraformersmc:modmenu:${project.modmenu_version}"
-	modApi "ml.pluto7073:pdapi:${project.pdapi_version}"
+	modImplementation "ml.pluto7073:pdapi:${project.pdapi_version}"
 }
 
 processResources {
