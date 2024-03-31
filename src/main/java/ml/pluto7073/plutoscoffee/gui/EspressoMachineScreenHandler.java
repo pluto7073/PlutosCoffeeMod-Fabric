@@ -1,6 +1,7 @@
 package ml.pluto7073.plutoscoffee.gui;
 
 import ml.pluto7073.pdapi.item.PDItems;
+import ml.pluto7073.pdapi.tag.PDTags;
 import ml.pluto7073.plutoscoffee.blocks.EspressoMachineBlockEntity;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.registry.ModScreens;
@@ -139,7 +140,7 @@ public class EspressoMachineScreenHandler extends ScreenHandler {
         }
 
         public boolean canInsert(ItemStack stack) {
-            return stack.isOf(PDItems.MILK_BOTTLE) || stack.isOf(ModItems.LATTE);
+            return stack.isIn(PDTags.MILK_BOTTLES) || stack.isOf(ModItems.LATTE);
         }
 
         public int getMaxItemCount() { return 1; }

@@ -3,6 +3,7 @@ package ml.pluto7073.plutoscoffee.blocks;
 import ml.pluto7073.pdapi.DrinkUtil;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import ml.pluto7073.pdapi.item.PDItems;
+import ml.pluto7073.pdapi.tag.PDTags;
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.gui.EspressoMachineScreenHandler;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
@@ -17,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtString;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
@@ -155,16 +157,16 @@ public class EspressoMachineBlockEntity extends LockableContainerBlockEntity imp
 
         ItemStack milkStack = blockEntity.inventory.get(MILK_SLOT_INDEX);
 
-        boolean steaming = milkStack.isOf(PDItems.MILK_BOTTLE) || milkStack.isOf(ModItems.LATTE);
+        boolean steaming = milkStack.isIn(PDTags.MILK_BOTTLES) || milkStack.isOf(ModItems.LATTE);
         if (steaming) {
             blockEntity.steamTime++;
             if (blockEntity.steamTime > 600) blockEntity.steamTime = 600;
 
-            if (milkStack.isOf(PDItems.MILK_BOTTLE) && blockEntity.steamTime >= 400) {
+            if (milkStack.isIn(PDTags.MILK_BOTTLES) && blockEntity.steamTime >= 400) {
                 milkStack = new ItemStack(ModItems.LATTE);
             } else if (milkStack.isOf(ModItems.LATTE) && blockEntity.steamTime >= 500) {
                 NbtList resAdds = new NbtList();
-                resAdds.add(DrinkUtil.stringAsNbt("pdapi:burnt"));
+                if (!resAdds.contains(NbtString.of("pdapi:burnt"))) resAdds.add(NbtString.of("pdapi:burnt"));
                 milkStack.getOrCreateSubNbt(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).put("Additions", resAdds);
             }
             blockEntity.inventory.set(MILK_SLOT_INDEX, milkStack);
@@ -261,7 +263,7 @@ public class EspressoMachineBlockEntity extends LockableContainerBlockEntity imp
         return switch (slot) {
             case GROUNDS_SLOT_INDEX -> stack.isOf(ModItems.GROUND_ESPRESSO_ROAST);
             case ESPRESSO_SLOT_INDEX,ESPRESSO_SLOT_2_INDEX -> getStack(slot).isEmpty() && stack.isOf(Items.GLASS_BOTTLE);
-            case MILK_SLOT_INDEX -> getStack(slot).isEmpty() && (stack.isOf(PDItems.MILK_BOTTLE) || stack.isOf(ModItems.LATTE));
+            case MILK_SLOT_INDEX -> getStack(slot).isEmpty() && (stack.isIn(PDTags.MILK_BOTTLES) || stack.isOf(ModItems.LATTE));
             case WATER_SLOT_INDEX -> stack.isOf(Items.WATER_BUCKET);
             default -> false;
         };
