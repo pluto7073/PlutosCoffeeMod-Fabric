@@ -64,7 +64,8 @@ public class ModVillagerProfessions {
                         new TradeOffers.SellItemFactory(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), "pdapi:chorus_fruit"), 10, 1, 12, 20),
                         new TradeOffers.SellItemFactory(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), "pdapi:glow_berries"), 7, 1, 12, 20),
                         new TradeOffers.SellItemFactory(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), "pdapi:honey", "pdapi:sugar"), 5, 1, 12, 20),
-                        new TradeOffers.SellItemFactory(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), "plutoscoffee:mocha_syrup", "plutoscoffee:caramel"), 8, 1, 12, 20)
+                        new TradeOffers.SellItemFactory(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), "plutoscoffee:mocha_syrup", "plutoscoffee:caramel"), 8, 1, 12, 20),
+                        new TradeOffers.ProcessItemFactory(ModItems.DARK_ROAST_BEAN, 16, 2, ModItems.DECAF_ROAST_BEAN, 16, 12, 20)
                 },
                 5, new TradeOffers.Factory[]{
                         new TradeOffers.SellItemFactory(ModItems.COFFEE_BREWER, 24, 1, 12, 25),

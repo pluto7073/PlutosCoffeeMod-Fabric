@@ -4,6 +4,7 @@
     "plutoscoffee:ground_coffee",
     "plutoscoffee:ground_medium_roast",
     "plutoscoffee:ground_dark_roast",
-    "plutoscoffee:espresso_grounds"
+    "plutoscoffee:espresso_grounds",
+    "plutoscoffee:ground_decaf_roast"
   ]
 }

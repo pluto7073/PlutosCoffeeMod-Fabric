@@ -24,10 +24,12 @@ public class ModItems {
     public static final Item MEDIUM_ROAST_BEAN = new Item(new Item.Settings().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.build()));
     public static final Item DARK_ROAST_BEAN = new Item(new Item.Settings().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.build()));
     public static final Item ESPRESSO_ROAST_BEAN = new Item(new Item.Settings().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.build()));
+    public static final Item DECAF_ROAST_BEAN = new Item(new Item.Settings().food(CoffeeBean.DECAF_BEAN_FOOD_COMPONENT.build()));
     public static final Item GROUND_LIGHT_ROAST = new Item(new Item.Settings());
     public static final Item GROUND_MEDIUM_ROAST = new Item(new Item.Settings());
     public static final Item GROUND_DARK_ROAST = new Item(new Item.Settings());
     public static final Item GROUND_ESPRESSO_ROAST = new Item(new Item.Settings());
+    public static final Item GROUND_DECAF_ROAST = new Item(new Item.Settings());
     public static final Item USED_COFFEE_GROUNDS = new Item(new Item.Settings());
     public static final Item CARAMEL = new Item(new Item.Settings().recipeRemainder(Items.GLASS_BOTTLE).maxCount(16));
     public static final Item MOCHA_SAUCE = new Item(new Item.Settings().recipeRemainder(Items.GLASS_BOTTLE).maxCount(16));
@@ -53,6 +55,8 @@ public class ModItems {
         register("ground_dark_roast", GROUND_DARK_ROAST);
         register("espresso_roast_bean", ESPRESSO_ROAST_BEAN);
         register("espresso_grounds", GROUND_ESPRESSO_ROAST);
+        register("decaf_roast_bean", DECAF_ROAST_BEAN);
+        register("ground_decaf_roast", GROUND_DECAF_ROAST);
         register("brewed_coffee", BREWED_COFFEE);
         register("espresso_shot", ESPRESSO_SHOT);
         register("latte", LATTE);

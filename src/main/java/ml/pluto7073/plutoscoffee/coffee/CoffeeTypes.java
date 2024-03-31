@@ -21,6 +21,7 @@ public class CoffeeTypes {
     public static final CoffeeType MEDIUM_ROAST;
     public static final CoffeeType DARK_ROAST;
     public static final CoffeeType ESPRESSO;
+    public static final CoffeeType DECAF;
 
     public static CoffeeType register(String id, CoffeeType type) {
         REGISTRY.put(new Identifier("plutoscoffee", id), type);
@@ -62,6 +63,7 @@ public class CoffeeTypes {
         }, 115));
         ESPRESSO = register("espresso", new CoffeeType("espresso", ModItems.GROUND_ESPRESSO_ROAST, (stack, world, user) -> {
         }, 100));
+        DECAF = register("decaf", new CoffeeType("decaf", ModItems.GROUND_DECAF_ROAST, (stack, world, user) -> {}, 7));
     }
 
 }

@@ -16,6 +16,12 @@ public class CoffeeBean extends Item {
             .statusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 20 * 10), 1)
             .statusEffect(new StatusEffectInstance(StatusEffects.HASTE, 20 * 10), 1);
 
+    public static FoodComponent.Builder DECAF_BEAN_FOOD_COMPONENT = new FoodComponent.Builder()
+            .snack()
+            .alwaysEdible()
+            .hunger(1)
+            .saturationModifier(0);
+
     public CoffeeBean() {
         super(new Item.Settings());
     }
