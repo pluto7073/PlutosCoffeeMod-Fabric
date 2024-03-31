@@ -2,11 +2,11 @@ package ml.pluto7073.plutoscoffee.coffee;
 
 import ml.pluto7073.pdapi.addition.OnDrink;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 public class CoffeeType {
 
@@ -21,9 +21,9 @@ public class CoffeeType {
     public static CoffeeType byId(String id) {
         CoffeeType type;
         if (id.contains(":")) {
-            type =  CoffeeTypes.REGISTRY.get(new Identifier(id.replace("\"", "")));
+            type =  CoffeeTypes.REGISTRY.get(new ResourceLocation(id.replace("\"", "")));
         } else {
-            type = CoffeeTypes.REGISTRY.get(new Identifier(PlutosCoffee.MOD_ID, id.replace("\"", "")));
+            type = CoffeeTypes.REGISTRY.get(new ResourceLocation(PlutosCoffee.MOD_ID, id.replace("\"", "")));
         }
         if (type == null) {
             type = CoffeeTypes.EMPTY;
@@ -53,8 +53,8 @@ public class CoffeeType {
         return grounds;
     }
 
-    public void onDrink(ItemStack stack, World world, LivingEntity user) {
-        action.onDrink(stack, world, user);
+    public void onDrink(ItemStack stack, Level level, LivingEntity user) {
+        action.onDrink(stack, level, user);
     }
 
     public int getCaffeineContent() {

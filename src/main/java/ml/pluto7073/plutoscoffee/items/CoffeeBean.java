@@ -1,29 +1,29 @@
 package ml.pluto7073.plutoscoffee.items;
 
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.FoodComponent;
-import net.minecraft.item.Item;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.Item;
 
 public class CoffeeBean extends Item {
 
-    public static FoodComponent.Builder COFFEE_BEAN_FOOD_COMPONENT = new FoodComponent.Builder()
-            .snack()
-            .alwaysEdible()
-            .hunger(1)
-            .saturationModifier(0.5f)
-            .statusEffect(new StatusEffectInstance(StatusEffects.SPEED, 20 * 10), 1)
-            .statusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 20 * 10), 1)
-            .statusEffect(new StatusEffectInstance(StatusEffects.HASTE, 20 * 10), 1);
+    public static FoodProperties.Builder COFFEE_BEAN_FOOD_COMPONENT = new FoodProperties.Builder()
+            .fast()
+            .alwaysEat()
+            .nutrition(1)
+            .saturationMod(0.5f)
+            .effect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 20 * 10), 1)
+            .effect(new MobEffectInstance(MobEffects.JUMP, 20 * 10), 1)
+            .effect(new MobEffectInstance(MobEffects.DIG_SPEED, 20 * 10), 1);
 
-    public static FoodComponent.Builder DECAF_BEAN_FOOD_COMPONENT = new FoodComponent.Builder()
-            .snack()
-            .alwaysEdible()
-            .hunger(1)
-            .saturationModifier(0);
+    public static FoodProperties.Builder DECAF_BEAN_FOOD_COMPONENT = new FoodProperties.Builder()
+            .fast()
+            .alwaysEat()
+            .nutrition(1)
+            .saturationMod(0);
 
     public CoffeeBean() {
-        super(new Item.Settings());
+        super(new Item.Properties());
     }
 
 }

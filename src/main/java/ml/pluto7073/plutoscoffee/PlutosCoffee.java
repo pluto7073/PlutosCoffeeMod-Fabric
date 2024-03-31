@@ -7,11 +7,15 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.object.builder.v1.villager.VillagerProfessionBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.villager.VillagerTypeHelper;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -56,14 +60,14 @@ public class PlutosCoffee implements ModInitializer {
      * Borrowed from FriendsAndFoes by Faboslav
      */
     public static void initStructurePoolElements(MinecraftServer server) {
-        Registry<StructurePool> templatePoolRegistry = server.getRegistryManager().get(RegistryKeys.TEMPLATE_POOL);
+        Registry<StructureTemplatePool> templatePoolRegistry = server.registryAccess().registryOrThrow(Registries.TEMPLATE_POOL);
 
-        Identifier snowyLocation = new Identifier("minecraft:village/snowy/houses");
+        ResourceLocation snowyLocation = new ResourceLocation("minecraft:village/snowy/houses");
         CoffeeUtil.addElementToStructurePool(templatePoolRegistry, snowyLocation, "village/snowy/houses/snowy_cafe", 2);
     }
 
-    public static Identifier asId(String id) {
-        return new Identifier(MOD_ID, id);
+    public static ResourceLocation asId(String id) {
+        return new ResourceLocation(MOD_ID, id);
     }
 
 }

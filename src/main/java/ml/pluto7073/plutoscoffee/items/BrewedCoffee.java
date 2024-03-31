@@ -5,40 +5,32 @@ import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
 import ml.pluto7073.plutoscoffee.registry.ModStats;
-import net.fabricmc.fabric.impl.client.rendering.ColorProviderRegistryImpl;
-import net.fabricmc.fabric.mixin.client.rendering.ItemColorsMixin;
-import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.client.color.item.ItemColorProvider;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsage;
-import net.minecraft.item.Items;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.stat.Stats;
-import net.minecraft.text.Text;
-import net.minecraft.util.*;
-import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.List;
 
+@MethodsReturnNonnullByDefault
 public class BrewedCoffee extends AbstractCustomizableDrinkItem {
 
     public static final int DEFAULT_COLOUR = 0x160A02;
     public static final int COLOUR_WITH_MILK = 0x885737;
 
-    public BrewedCoffee(Settings settings) {
-        super(Items.GLASS_BOTTLE, Temperature.HOT, settings);
+    public BrewedCoffee(Properties properties) {
+        super(Items.GLASS_BOTTLE, Temperature.HOT, properties);
     }
 
     @Override
-    public ItemStack getDefaultStack() {
-        return CoffeeUtil.setCoffeeType(super.getDefaultStack(), CoffeeTypes.MEDIUM_ROAST);
+    public ItemStack getDefaultInstance() {
+        return CoffeeUtil.setCoffeeType(super.getDefaultInstance(), CoffeeTypes.MEDIUM_ROAST);
     }
 
     @Override
@@ -49,27 +41,27 @@ public class BrewedCoffee extends AbstractCustomizableDrinkItem {
     }
 
     @Override
-    public ItemStack finishUsing(ItemStack stack, World world, LivingEntity user) {
-        PlayerEntity playerEntity = user instanceof PlayerEntity ? (PlayerEntity) user : null;
+    public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity user) {
+        Player player = user instanceof Player ? (Player) user : null;
 
-        if (!world.isClient) {
+        if (!level.isClientSide) {
             CoffeeType type = CoffeeUtil.getCoffeeType(stack);
-            type.onDrink(stack, world, user);
+            type.onDrink(stack, level, user);
         }
 
-        if (playerEntity != null) {
-            playerEntity.incrementStat(ModStats.DRINK_COFFEE);
+        if (player != null) {
+            player.awardStat(ModStats.DRINK_COFFEE);
         }
 
-        return super.finishUsing(stack, world, user);
+        return super.finishUsingItem(stack, level, user);
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag context) {
         if (CoffeeUtil.getCoffeeType(stack) != CoffeeTypes.EMPTY
                 && CoffeeUtil.getCoffeeType(stack) != null)
-            tooltip.add(Text.translatable(CoffeeUtil.getCoffeeType(stack).getTranslationKey()).formatted(Formatting.GRAY));
-        super.appendTooltip(stack, world, tooltip, context);
+            tooltip.add(Component.translatable(CoffeeUtil.getCoffeeType(stack).getTranslationKey()).withStyle(ChatFormatting.GRAY));
+        super.appendHoverText(stack, level, tooltip, context);
     }
 
 }
