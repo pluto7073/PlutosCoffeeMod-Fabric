@@ -43,11 +43,11 @@ dependencies {
 	modApi "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}"
 
 	modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
-	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:$rei_version"
+	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"
 
 	modImplementation "ml.pluto7073:pdapi:${project.pdapi_version}"
 
-	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:$rei_version"
+	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
 }
 
 processResources {
