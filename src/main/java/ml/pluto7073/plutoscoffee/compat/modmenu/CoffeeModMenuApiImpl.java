@@ -1,4 +1,4 @@
-package ml.pluto7073.plutoscoffee.config;
+package ml.pluto7073.plutoscoffee.compat.modmenu;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
