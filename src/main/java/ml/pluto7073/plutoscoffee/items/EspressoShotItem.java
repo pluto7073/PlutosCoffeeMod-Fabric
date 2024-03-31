@@ -27,10 +27,12 @@ import java.util.List;
 public class EspressoShotItem extends Item {
 
     private static final int MAX_USE_TIME = 32;
-    public static final int CAFFEINE_CONTENT = 85;
 
-    public EspressoShotItem(Settings settings) {
+    protected final int caffeine;
+
+    public EspressoShotItem(int caffeine, Settings settings) {
         super(settings);
+        this.caffeine = caffeine;
     }
 
     @Override
@@ -43,7 +45,7 @@ public class EspressoShotItem extends Item {
         if (!world.isClient) {
             if (playerEntity != null) {
                 float currentCaffeine = DrinkUtil.getPlayerCaffeine(playerEntity);
-                currentCaffeine += CAFFEINE_CONTENT;
+                currentCaffeine += caffeine;
                 DrinkUtil.setPlayerCaffeine(playerEntity, currentCaffeine);
             }
         }
@@ -82,7 +84,7 @@ public class EspressoShotItem extends Item {
     }
 
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        tooltip.add(Text.translatable("tooltip.pdapi.caffeine_content", CAFFEINE_CONTENT).formatted(Formatting.AQUA));
+        tooltip.add(Text.translatable("tooltip.pdapi.caffeine_content", caffeine).formatted(Formatting.AQUA));
     }
 
 }

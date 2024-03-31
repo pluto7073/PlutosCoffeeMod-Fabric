@@ -35,7 +35,9 @@ public class ModItems {
     public static final Item MOCHA_SAUCE = new Item(new Item.Settings().recipeRemainder(Items.GLASS_BOTTLE).maxCount(16));
 
     public static final Item BREWED_COFFEE = new BrewedCoffee(new Item.Settings().maxCount(1));
-    public static final Item ESPRESSO_SHOT = new EspressoShotItem(new Item.Settings().maxCount(16).recipeRemainder(Items.GLASS_BOTTLE));
+    public static final Item BLONDE_ESPRESSO_SHOT = new EspressoShotItem(85, new Item.Settings().maxCount(16).recipeRemainder(Items.GLASS_BOTTLE));
+    public static final Item ESPRESSO_SHOT = new EspressoShotItem(75, new Item.Settings().maxCount(16).recipeRemainder(Items.GLASS_BOTTLE));
+    public static final Item DECAF_ESPRESSO_SHOT = new EspressoShotItem(2, new Item.Settings().recipeRemainder(Items.GLASS_BOTTLE).maxCount(16));
     public static final Item LATTE = new LatteItem(new Item.Settings().maxCount(1));
 
     private static void register(String id, Item item) {
@@ -58,7 +60,9 @@ public class ModItems {
         register("decaf_roast_bean", DECAF_ROAST_BEAN);
         register("ground_decaf_roast", GROUND_DECAF_ROAST);
         register("brewed_coffee", BREWED_COFFEE);
+        register("blonde_espresso_shot", BLONDE_ESPRESSO_SHOT);
         register("espresso_shot", ESPRESSO_SHOT);
+        register("decaf_espresso_shot", DECAF_ESPRESSO_SHOT);
         register("latte", LATTE);
         register("used_coffee_grounds", USED_COFFEE_GROUNDS);
 

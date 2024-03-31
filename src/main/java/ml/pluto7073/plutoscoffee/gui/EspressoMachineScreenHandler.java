@@ -5,6 +5,7 @@ import ml.pluto7073.pdapi.tag.PDTags;
 import ml.pluto7073.plutoscoffee.blocks.EspressoMachineBlockEntity;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.registry.ModScreens;
+import ml.pluto7073.plutoscoffee.tags.ModItemTags;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -78,16 +79,13 @@ public class EspressoMachineScreenHandler extends ScreenHandler {
         }
 
         public boolean canInsert(ItemStack stack) {
-            return matches(stack);
+            return true;
         }
 
         public int getMaxItemCount() {
             return 1;
         }
 
-        public static boolean matches(ItemStack stack) {
-            return stack.isOf(Items.GLASS_BOTTLE);
-        }
     }
 
     private static class GroundsSlot extends Slot {
@@ -96,7 +94,7 @@ public class EspressoMachineScreenHandler extends ScreenHandler {
         }
 
         public boolean canInsert(ItemStack stack) {
-            return stack.isOf(ModItems.GROUND_ESPRESSO_ROAST);
+            return stack.isIn(ModItemTags.COFFEE_GROUNDS);
         }
 
         public int getMaxItemCount() {

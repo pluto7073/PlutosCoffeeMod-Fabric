@@ -4,7 +4,7 @@
     "item": "plutoscoffee:brewed_coffee"
   },
   "addition": {
-    "item": "plutoscoffee:milk_bottle"
+    "tag": "c:milk/milk_bottle"
   },
   "result": "pdapi:milk"
 }

@@ -1,0 +1,15 @@
+{
+  "type": "plutoscoffee:pulling",
+  "grounds": {
+    "item": "plutoscoffee:ground_decaf_roast"
+  },
+  "base": {
+    "item": "minecraft:glass_bottle"
+  },
+  "groundsRequired": 2,
+  "pullTime": 400,
+  "result": {
+    "item": "plutoscoffee:decaf_espresso_shot",
+    "count": 1
+  }
+}
