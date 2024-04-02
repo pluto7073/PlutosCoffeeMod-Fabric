@@ -2,13 +2,13 @@ package ml.pluto7073.plutoscoffee.gui;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ConfirmLinkScreen;
-import net.minecraft.client.gui.screen.WarningScreen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Util;
+import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.ConfirmLinkScreen;
+import net.minecraft.client.gui.screens.multiplayer.WarningScreen;
+import net.minecraft.network.chat.Component;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -16,9 +16,9 @@ import java.net.URISyntaxException;
 @Environment(EnvType.CLIENT)
 public class VersionWarningScreen extends WarningScreen {
 
-    private static final Text HEADER;
-    private static final Text MESSAGE;
-    private static final Text NARRATED;
+    private static final Component HEADER;
+    private static final Component MESSAGE;
+    private static final Component NARRATED;
 
     private static final String LATEST_RELEASE_LINK = "https://pluto7073.github.io/files/latest-coffeemod-release.html";
 
@@ -30,12 +30,12 @@ public class VersionWarningScreen extends WarningScreen {
 
     @Override
     protected void initButtons(int yOffset) {
-        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("plutosmods.version.okay"),
+        this.addRenderableWidget(new Button.Builder(Component.translatable("plutosmods.version.okay"),
                 (buttonWidget) -> {
-            if (this.client != null)
-                this.client.setScreen(null);
-        }).dimensions(this.width / 2 - 155, 100 + yOffset, 150, 20).build());
-        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("plutosmods.version.open_mod_page"),
+            if (this.minecraft != null)
+                this.minecraft.setScreen(null);
+        }).bounds(this.width / 2 - 155, 100 + yOffset, 150, 20).build());
+        this.addRenderableWidget(new Button.Builder(Component.translatable("plutosmods.version.open_mod_page"),
                 (buttonWidget) -> {
                     URI uRI;
                     try {
@@ -44,19 +44,19 @@ public class VersionWarningScreen extends WarningScreen {
                         throw new RuntimeException(e);
                     }
                     //noinspection DataFlowIssue
-                    if (this.client.options.getChatLinksPrompt().getValue()) {
+                    if (this.minecraft.options.chatLinksPrompt().get()) {
                         this.link = uRI;
-                        this.client.setScreen(new ConfirmLinkScreen(this::confirmLink, LATEST_RELEASE_LINK, false));
+                        this.minecraft.setScreen(new ConfirmLinkScreen(this::confirmLink, LATEST_RELEASE_LINK, false));
                     } else {
                         this.openLink(uRI);
-                        this.client.setScreen(null);
+                        this.minecraft.setScreen(null);
                     }
-        }).dimensions(this.width / 2 + 5, 100 + yOffset, 150, 20).build());
+        }).bounds(this.width / 2 + 5, 100 + yOffset, 150, 20).build());
     }
 
     @Override
-    protected void drawTitle(DrawContext context) {
-        context.drawTextWithShadow(this.textRenderer, this.title, (this.width / 2) - (this.textRenderer.getWidth(this.title) / 2), 30, 16777215);
+    protected void renderTitle(GuiGraphics context) {
+        context.drawString(this.font, this.title, (this.width / 2) - (this.font.width(this.title) / 2), 30, 16777215);
     }
 
     private void confirmLink(boolean open) {
@@ -65,17 +65,17 @@ public class VersionWarningScreen extends WarningScreen {
         }
 
         this.link = null;
-        if (this.client != null)
-            this.client.setScreen(null);
+        if (this.minecraft != null)
+            this.minecraft.setScreen(null);
     }
 
     private void openLink(URI link) {
-        Util.getOperatingSystem().open(link);
+        Util.getPlatform().openUri(link);
     }
 
     static {
-        HEADER = Text.translatable("plutosmods.version.header.plutoscoffee").formatted(Formatting.BOLD);
-        MESSAGE = Text.translatable("plutosmods.version.message");
+        HEADER = Component.translatable("plutosmods.version.header.plutoscoffee").withStyle(ChatFormatting.BOLD);
+        MESSAGE = Component.translatable("plutosmods.version.message");
         NARRATED = HEADER.copy().append("\n").append(MESSAGE);
     }
 

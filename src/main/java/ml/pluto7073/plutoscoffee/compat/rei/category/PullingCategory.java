@@ -6,8 +6,8 @@ import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import ml.pluto7073.plutoscoffee.compat.rei.ItemIcon;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 
 public class PullingCategory implements DisplayCategory {
     @Override
@@ -16,8 +16,8 @@ public class PullingCategory implements DisplayCategory {
     }
 
     @Override
-    public Text getTitle() {
-        return Text.translatable("title.category.pulling");
+    public Component getTitle() {
+        return Component.translatable("title.category.pulling");
     }
 
     @Override

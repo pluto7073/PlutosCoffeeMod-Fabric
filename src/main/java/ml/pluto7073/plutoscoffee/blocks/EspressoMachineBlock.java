@@ -85,7 +85,7 @@ public class EspressoMachineBlock extends BaseEntityBlock {
         if (stack.hasCustomHoverName()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof EspressoMachineBlockEntity) {
-                ((EspressoMachineBlockEntity) blockEntity).setCustomName(stack.getName());
+                ((EspressoMachineBlockEntity) blockEntity).setCustomName(stack.getHoverName());
             }
         }
     }

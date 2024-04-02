@@ -4,9 +4,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Supplier;
 
@@ -20,7 +19,7 @@ public class ItemIcon implements Renderer {
     }
 
     @Override
-    public void render(DrawContext context, Rectangle bounds, int mouseX, int mouseY, float delta) {
+    public void render(GuiGraphics context, Rectangle bounds, int mouseX, int mouseY, float delta) {
         if (stack == null) {
             stack = stackSupplier.get();
         }
@@ -30,6 +29,6 @@ public class ItemIcon implements Renderer {
 
         RenderSystem.enableDepthTest();
 
-        context.drawItem(stack, xOffset, yOffset);
+        context.renderItem(stack, xOffset, yOffset);
     }
 }

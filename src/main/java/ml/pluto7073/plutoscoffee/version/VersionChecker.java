@@ -2,7 +2,7 @@ package ml.pluto7073.plutoscoffee.version;
 
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.gui.VersionWarningScreen;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 import java.io.*;
 import java.net.URL;
@@ -35,7 +35,7 @@ public class VersionChecker {
         if (screenShown) return;
         screenShown = true;
         if (!isOutdated()) return;
-        MinecraftClient.getInstance().setScreen(new VersionWarningScreen());
+        Minecraft.getInstance().setScreen(new VersionWarningScreen());
     }
 
 }

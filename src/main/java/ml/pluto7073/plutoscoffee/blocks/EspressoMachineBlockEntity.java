@@ -3,7 +3,7 @@ package ml.pluto7073.plutoscoffee.blocks;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import ml.pluto7073.pdapi.tag.PDTags;
-import ml.pluto7073.plutoscoffee.gui.EspressoMachineScreenHandler;
+import ml.pluto7073.plutoscoffee.gui.EspressoMachineMenu;
 import ml.pluto7073.plutoscoffee.recipe.PullingRecipe;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
@@ -286,8 +286,8 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
     public boolean isValid(int slot, ItemStack stack) {
         return switch (slot) {
             case GROUNDS_SLOT_INDEX -> stack.is(ModItems.GROUND_ESPRESSO_ROAST);
-            case ESPRESSO_SLOT_INDEX,ESPRESSO_SLOT_2_INDEX -> getStack(slot).isEmpty() && stack.is(Items.GLASS_BOTTLE);
-            case MILK_SLOT_INDEX -> getStack(slot).isEmpty() && (stack.is(PDTags.MILK_BOTTLES) || stack.is(ModItems.LATTE));
+            case ESPRESSO_SLOT_INDEX,ESPRESSO_SLOT_2_INDEX -> getItem(slot).isEmpty() && stack.is(Items.GLASS_BOTTLE);
+            case MILK_SLOT_INDEX -> getItem(slot).isEmpty() && (stack.is(PDTags.MILK_BOTTLES) || stack.is(ModItems.LATTE));
             case WATER_SLOT_INDEX -> stack.is(Items.WATER_BUCKET);
             default -> false;
         };
@@ -314,7 +314,7 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
     }
 
     protected AbstractContainerMenu createMenu(int syncId, Inventory inventory) {
-        return new EspressoMachineScreenHandler(syncId, inventory, this, containerData);
+        return new EspressoMachineMenu(syncId, inventory, this, containerData);
     }
 
     @Override

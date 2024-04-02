@@ -5,16 +5,13 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "ComposterBlockMixin",
-    "EntityMixin",
-    "LivingEntityMixin",
-    "PlayerEntityMixin",
     "StructurePoolAccessor"
   ],
   "client": [
-    "client.HandledScreensMixin",
+    "client.MenuScreensMixin",
     "client.InGameHudMixin",
     "client.MinecraftClientMixin",
-    "client.ResourceReloadLoggerMixin"
+    "client.ResourceLoadStateTrackerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
