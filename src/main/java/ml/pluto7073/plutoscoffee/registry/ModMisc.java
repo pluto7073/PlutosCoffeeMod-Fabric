@@ -39,10 +39,12 @@ public class ModMisc {
             stacks.accept(new ItemStack(ModItems.MEDIUM_ROAST_BEAN, 1));
             stacks.accept(new ItemStack(ModItems.DARK_ROAST_BEAN, 1));
             stacks.accept(new ItemStack(ModItems.ESPRESSO_ROAST_BEAN, 1));
+            stacks.accept(new ItemStack(ModItems.DECAF_ROAST_BEAN));
             stacks.accept(new ItemStack(ModItems.GROUND_LIGHT_ROAST, 1));
             stacks.accept(new ItemStack(ModItems.GROUND_MEDIUM_ROAST, 1));
             stacks.accept(new ItemStack(ModItems.GROUND_DARK_ROAST, 1));
             stacks.accept(new ItemStack(ModItems.GROUND_ESPRESSO_ROAST, 1));
+            stacks.accept(new ItemStack(ModItems.GROUND_DECAF_ROAST));
             ItemStack lightRoast = new ItemStack(ModItems.BREWED_COFFEE, 1);
             lightRoast.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).putString("CoffeeType", "light_roast");
             ItemStack mediumRoast = lightRoast.copy();
@@ -52,7 +54,9 @@ public class ModMisc {
             stacks.accept(lightRoast);
             stacks.accept(mediumRoast);
             stacks.accept(darkRoast);
+            stacks.accept(new ItemStack(ModItems.BLONDE_ESPRESSO_SHOT));
             stacks.accept(new ItemStack(ModItems.ESPRESSO_SHOT));
+            stacks.accept(new ItemStack(ModItems.DECAF_ESPRESSO_SHOT));
             stacks.accept(new ItemStack(ModItems.CARAMEL));
             stacks.accept(new ItemStack(PDItems.MILK_BOTTLE));
             stacks.accept(new ItemStack(ModItems.MOCHA_SAUCE));
