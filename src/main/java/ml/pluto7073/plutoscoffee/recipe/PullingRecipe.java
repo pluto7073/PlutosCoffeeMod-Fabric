@@ -3,23 +3,25 @@ package ml.pluto7073.plutoscoffee.recipe;
 import com.google.gson.JsonObject;
 import ml.pluto7073.plutoscoffee.blocks.EspressoMachineBlockEntity;
 import ml.pluto7073.plutoscoffee.registry.ModRecipes;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.recipe.*;
-import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.JsonHelper;
-import net.minecraft.world.World;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.level.Level;
 
-public class PullingRecipe implements Recipe<Inventory> {
+@MethodsReturnNonnullByDefault
+public class PullingRecipe implements Recipe<Container> {
 
-    private final Identifier id;
+    private final ResourceLocation id;
     public final Ingredient grounds, base;
     public final int groundsRequired, pullTime;
     final ItemStack result;
 
-    public PullingRecipe(Identifier id, Ingredient grounds, Ingredient base, int groundsRequired, int pullTime, ItemStack result) {
+    public PullingRecipe(ResourceLocation id, Ingredient grounds, Ingredient base, int groundsRequired, int pullTime, ItemStack result) {
         this.id = id;
         this.grounds = grounds;
         this.base = base;
@@ -29,30 +31,30 @@ public class PullingRecipe implements Recipe<Inventory> {
     }
 
     @Override
-    public boolean matches(Inventory inventory, World world) {
-        ItemStack groundsStack = inventory.getStack(EspressoMachineBlockEntity.GROUNDS_SLOT_INDEX);
-        ItemStack baseStack1 = inventory.getStack(EspressoMachineBlockEntity.ESPRESSO_SLOT_INDEX);
-        ItemStack baseStack2 = inventory.getStack(EspressoMachineBlockEntity.ESPRESSO_SLOT_2_INDEX);
+    public boolean matches(Container container, Level level) {
+        ItemStack groundsStack = container.getItem(EspressoMachineBlockEntity.GROUNDS_SLOT_INDEX);
+        ItemStack baseStack1 = container.getItem(EspressoMachineBlockEntity.ESPRESSO_SLOT_INDEX);
+        ItemStack baseStack2 = container.getItem(EspressoMachineBlockEntity.ESPRESSO_SLOT_2_INDEX);
         return grounds.test(groundsStack) && groundsStack.getCount() >= groundsRequired && (base.test(baseStack1) || base.test(baseStack2));
     }
 
     @Override
-    public ItemStack craft(Inventory inventory, DynamicRegistryManager registryManager) {
+    public ItemStack assemble(Container inventory, RegistryAccess registryManager) {
         return result.copy();
     }
 
     @Override
-    public boolean fits(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return true;
     }
 
     @Override
-    public ItemStack getOutput(DynamicRegistryManager registryManager) {
+    public ItemStack getResultItem(RegistryAccess registryManager) {
         return result.copy();
     }
 
     @Override
-    public Identifier getId() {
+    public ResourceLocation getId() {
         return id;
     }
 
@@ -69,32 +71,32 @@ public class PullingRecipe implements Recipe<Inventory> {
     public static class Serializer implements RecipeSerializer<PullingRecipe> {
 
         @Override
-        public PullingRecipe read(Identifier id, JsonObject json) {
-            Ingredient grounds = Ingredient.fromJson(JsonHelper.getObject(json, "grounds"));
-            Ingredient base = Ingredient.fromJson(JsonHelper.getObject(json, "base"));
-            int groundsRequired = JsonHelper.getInt(json, "groundsRequired");
-            int pullTime = JsonHelper.getInt(json, "pullTime", 400);
-            ItemStack result = ShapedRecipe.outputFromJson(JsonHelper.getObject(json, "result"));
+        public PullingRecipe fromJson(ResourceLocation id, JsonObject json) {
+            Ingredient grounds = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "grounds"));
+            Ingredient base = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "base"));
+            int groundsRequired = GsonHelper.getAsInt(json, "groundsRequired");
+            int pullTime = GsonHelper.getAsInt(json, "pullTime", 400);
+            ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
             return new PullingRecipe(id, grounds, base, groundsRequired, pullTime, result);
         }
 
         @Override
-        public PullingRecipe read(Identifier id, PacketByteBuf buf) {
-            Ingredient grounds = Ingredient.fromPacket(buf);
-            Ingredient base = Ingredient.fromPacket(buf);
+        public PullingRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+            Ingredient grounds = Ingredient.fromNetwork(buf);
+            Ingredient base = Ingredient.fromNetwork(buf);
             int groundsCount = buf.readInt();
             int pullTime = buf.readInt();
-            ItemStack result = buf.readItemStack();
+            ItemStack result = buf.readItem();
             return new PullingRecipe(id, grounds, base, groundsCount, pullTime, result);
         }
 
         @Override
-        public void write(PacketByteBuf buf, PullingRecipe recipe) {
-            recipe.grounds.write(buf);
-            recipe.base.write(buf);
+        public void toNetwork(FriendlyByteBuf buf, PullingRecipe recipe) {
+            recipe.grounds.toNetwork(buf);
+            recipe.base.toNetwork(buf);
             buf.writeInt(recipe.groundsRequired);
             buf.writeInt(recipe.pullTime);
-            buf.writeItemStack(recipe.result);
+            buf.writeItem(recipe.result);
         }
 
     }

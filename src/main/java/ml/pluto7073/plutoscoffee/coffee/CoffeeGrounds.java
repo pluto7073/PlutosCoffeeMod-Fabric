@@ -2,7 +2,7 @@ package ml.pluto7073.plutoscoffee.coffee;
 
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.tags.ModItemTags;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 
 import java.util.HashMap;
 
