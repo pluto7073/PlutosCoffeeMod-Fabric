@@ -7,13 +7,13 @@ import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -23,41 +23,41 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Environment(EnvType.CLIENT)
-@Mixin(InGameHud.class)
+@Mixin(Gui.class)
 public abstract class InGameHudMixin {
 
-    @Unique private static final Identifier CAFFEINE_OUTLINE_TEXTURE = new Identifier(PlutosCoffee.MOD_ID, "textures/gui/caffeine_content/outline.png");
-    @Unique private static final Identifier CAFFEINE_FILL_TEXTURE = new Identifier(PlutosCoffee.MOD_ID, "textures/gui/caffeine_content/fill.png");
-    @Unique private static final Identifier ICONS = new Identifier(PlutosCoffee.MOD_ID, "textures/gui/pc_icons.png");
+    @Unique private static final ResourceLocation CAFFEINE_OUTLINE_TEXTURE = PlutosCoffee.asId("textures/gui/caffeine_content/outline.png");
+    @Unique private static final ResourceLocation CAFFEINE_FILL_TEXTURE = PlutosCoffee.asId("textures/gui/caffeine_content/fill.png");
+    @Unique private static final ResourceLocation ICONS = PlutosCoffee.asId("textures/gui/pc_icons.png");
 
-    @Shadow @Final private MinecraftClient client;
+    @Shadow @Final private Minecraft minecraft;
 
-    @Shadow protected abstract PlayerEntity getCameraPlayer();
+    @Shadow protected abstract Player getCameraPlayer();
 
-    @Shadow private int scaledWidth;
+    @Shadow private int screenWidth;
 
-    @Shadow private int scaledHeight;
+    @Shadow private int screenHeight;
 
-    @Shadow protected abstract LivingEntity getRiddenEntity();
+    @Shadow protected abstract LivingEntity getPlayerVehicleWithHealth();
 
-    @Inject(at = @At("TAIL"), method = "renderStatusBars")
-    public void plutoscoffee_renderCaffeineContentDisplay(DrawContext context, CallbackInfo ci) {
+    @Inject(at = @At("HEAD"), method = "render")
+    public void plutoscoffee_renderCaffeineContentDisplay(GuiGraphics graphics, float partialTick, CallbackInfo ci) {
         if (!Client.CONFIG.shouldShowCoffeeBar()) return;
-        PlayerEntity playerEntity = this.getCameraPlayer();
+        Player playerEntity = this.getCameraPlayer();
         if (playerEntity == null) return;
-        this.client.getProfiler().push("caffeineDisplay");
+        this.minecraft.getProfiler().push("caffeineDisplay");
 
-        int centerX = this.scaledWidth / 2;
-        int baseYValue = this.scaledHeight - 49;
+        int centerX = this.screenWidth / 2;
+        int baseYValue = this.screenHeight - 49;
 
-        int max = playerEntity.getMaxAir();
-        int maxOrCurrent = Math.min(playerEntity.getAir(), max);
+        int max = playerEntity.getMaxAirSupply();
+        int maxOrCurrent = Math.min(playerEntity.getAirSupply(), max);
 
-        if (playerEntity.isSubmergedIn(FluidTags.WATER) || maxOrCurrent < max) {
+        if (playerEntity.isEyeInFluid(FluidTags.WATER) || maxOrCurrent < max) {
             baseYValue -= 10;
         }
 
-        LivingEntity ridden = this.getRiddenEntity();
+        LivingEntity ridden = this.getPlayerVehicleWithHealth();
 
         if (FabricLoader.getInstance().isModLoaded("dehydration") && !playerEntity.isCreative() && ridden == null) {
             baseYValue -= 10;
@@ -72,10 +72,10 @@ public abstract class InGameHudMixin {
 
         float currentCaffeine = Math.min(3000f, DrinkUtil.getPlayerCaffeine(playerEntity));
         int scaledCaffeineOutput = Math.round(currentCaffeine * (71f/3000f));
-        context.drawTexture(ICONS, centerX + 10, baseYValue, 0, 0, 80, 8, 80, 16);
-        context.drawTexture(ICONS, centerX + 10, baseYValue, 0, 9, scaledCaffeineOutput, 8, 80, 16);
+        graphics.blit(ICONS, centerX + 10, baseYValue, 0, 0, 80, 8, 80, 16);
+        graphics.blit(ICONS, centerX + 10, baseYValue, 0, 9, scaledCaffeineOutput, 8, 80, 16);
 
-        this.client.getProfiler().pop();
+        this.minecraft.getProfiler().pop();
     }
 
 }

@@ -4,7 +4,7 @@ import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
-import ml.pluto7073.plutoscoffee.gui.CoffeeBrewerScreenHandler;
+import ml.pluto7073.plutoscoffee.gui.CoffeeBrewerMenu;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -77,7 +77,7 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
         return Component.translatable("container.coffee_brewer");
     }
 
-    public int size() {
+    public int getContainerSize() {
         return inventory.size();
     }
 
@@ -179,7 +179,7 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
 
     public void load(CompoundTag nbt) {
         super.load(nbt);
-        inventory = NonNullList.withSize(this.size(), ItemStack.EMPTY);
+        inventory = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
         ContainerHelper.loadAllItems(nbt, inventory);
         brewTime = nbt.getShort("BrewTime");
         fuel = nbt.getByte("Fuel");
@@ -192,7 +192,7 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
         nbt.putByte("Fuel", (byte) fuel);
     }
 
-    public ItemStack getStack(int slot) {
+    public ItemStack getItem(int slot) {
         return slot >= 0 && slot < inventory.size() ? inventory.get(slot) : ItemStack.EMPTY;
     }
 
@@ -224,7 +224,7 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
         } else if (slot == FUEL_SLOT_INDEX) {
             return stack.is(Items.WATER_BUCKET);
         } else {
-            return stack.is(Items.GLASS_BOTTLE) && getStack(slot).isEmpty();
+            return stack.is(Items.GLASS_BOTTLE) && getItem(slot).isEmpty();
         }
     }
 
@@ -249,7 +249,7 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
     }
 
     protected AbstractContainerMenu createMenu(int syncId, Inventory inventory) {
-        return new CoffeeBrewerScreenHandler(syncId, inventory, this, containerData);
+        return new CoffeeBrewerMenu(syncId, inventory, this, containerData);
     }
 
 }
