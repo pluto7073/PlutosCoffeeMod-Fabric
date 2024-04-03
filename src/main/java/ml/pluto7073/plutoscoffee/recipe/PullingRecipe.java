@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import ml.pluto7073.plutoscoffee.blocks.EspressoMachineBlockEntity;
 import ml.pluto7073.plutoscoffee.registry.ModRecipes;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -53,9 +54,18 @@ public class PullingRecipe implements Recipe<Container> {
         return result.copy();
     }
 
+    public ItemStack getResultItem() {
+        return result.copy();
+    }
+
     @Override
     public ResourceLocation getId() {
         return id;
+    }
+
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        return NonNullList.of(grounds, base);
     }
 
     @Override
