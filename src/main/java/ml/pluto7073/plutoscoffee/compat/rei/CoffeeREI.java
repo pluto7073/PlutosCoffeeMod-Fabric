@@ -6,9 +6,12 @@ import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.DisplaySerializerRegistry;
 import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
+import me.shedaniel.rei.api.common.util.EntryStacks;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
+import ml.pluto7073.plutoscoffee.compat.rei.category.PullingCategory;
 import ml.pluto7073.plutoscoffee.compat.rei.display.PullingDisplay;
 import ml.pluto7073.plutoscoffee.recipe.PullingRecipe;
+import ml.pluto7073.plutoscoffee.registry.ModItems;
 
 public class CoffeeREI implements REIClientPlugin {
 
@@ -16,7 +19,8 @@ public class CoffeeREI implements REIClientPlugin {
 
     @Override
     public void registerCategories(CategoryRegistry registry) {
-
+        registry.add(new PullingCategory());
+        registry.addWorkstations(PULLING_DISPLAY, EntryStacks.of(ModItems.ESPRESSO_MACHINE));
     }
 
     @Override

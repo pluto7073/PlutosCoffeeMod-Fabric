@@ -4,6 +4,7 @@ import ml.pluto7073.pdapi.DrinkUtil;
 import ml.pluto7073.plutoscoffee.Client;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
+import ml.pluto7073.plutoscoffee.registry.ModGuiTextures;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
@@ -14,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.GameType;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -44,6 +46,8 @@ public abstract class InGameHudMixin {
     public void plutoscoffee_renderCaffeineContentDisplay(GuiGraphics graphics, float partialTick, CallbackInfo ci) {
         if (!Client.CONFIG.shouldShowCoffeeBar()) return;
         Player playerEntity = this.getCameraPlayer();
+        //noinspection DataFlowIssue
+        if (this.minecraft.gameMode.getPlayerMode() == GameType.CREATIVE) return;
         if (playerEntity == null) return;
         this.minecraft.getProfiler().push("caffeineDisplay");
 
@@ -72,8 +76,10 @@ public abstract class InGameHudMixin {
 
         float currentCaffeine = Math.min(3000f, DrinkUtil.getPlayerCaffeine(playerEntity));
         int scaledCaffeineOutput = Math.round(currentCaffeine * (71f/3000f));
-        graphics.blit(ICONS, centerX + 10, baseYValue, 0, 0, 80, 8, 80, 16);
-        graphics.blit(ICONS, centerX + 10, baseYValue, 0, 9, scaledCaffeineOutput, 8, 80, 16);
+        //graphics.blit(ICONS, centerX + 10, baseYValue, 0, 0, 80, 8, 80, 16);
+        //graphics.blit(ICONS, centerX + 10, baseYValue, 0, 9, scaledCaffeineOutput, 8, 80, 16);
+        ModGuiTextures.CAFFEINE_DISPLAY_OUTLINE.render(graphics, centerX + 10, baseYValue);
+        ModGuiTextures.CAFFEINE_DISPLAY_FILL.renderSection(graphics, centerX + 10, baseYValue, scaledCaffeineOutput, 8);
 
         this.minecraft.getProfiler().pop();
     }

@@ -21,7 +21,7 @@ public class PullingDisplay extends BasicDisplay {
     private int groundsRequired, pullTime;
 
     public PullingDisplay(PullingRecipe recipe) {
-        this(EntryIngredients.ofIngredients(recipe.getIngredients()), Collections.singletonList(EntryIngredients.of(recipe.getResultItem())),
+        this(List.of(EntryIngredients.ofIngredient(recipe.grounds), EntryIngredients.ofIngredient(recipe.base)), Collections.singletonList(EntryIngredients.of(recipe.getResultItem())),
                 recipe, recipe.groundsRequired, recipe.pullTime);
     }
 
