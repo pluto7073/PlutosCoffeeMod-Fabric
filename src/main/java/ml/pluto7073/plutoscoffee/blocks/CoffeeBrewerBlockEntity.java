@@ -37,7 +37,7 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
     private static final int[] TOP_SLOTS = {0};
     private static final int[] BOTTOM_SLOTS = {0, 2};
     private static final int[] SIDE_SLOTS = {1, 2};
-    public static final int MAX_FUEL_USES = 6;
+    private static final int WATER_FOR_COFFEE = 200;
     public static final int BREW_TIME_PROPERTY_INDEX = 0;
     public static final int FUEL_PROPERTY_INDEX = 1;
     public static final int PROPERTY_COUNT = 2;
@@ -112,14 +112,14 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
             --blockEntity.brewTime;
             boolean done = blockEntity.brewTime == 0;
             if (done && recipe) {
-                --blockEntity.fuel;
+                blockEntity.fuel -= WATER_FOR_COFFEE;
                 craft(level, pos, blockEntity.inventory);
                 setChanged(level, pos, state);
             } else if (!recipe || !inputStack.is(blockEntity.itemBrewing)) {
                 blockEntity.brewTime = 0;
                 setChanged(level, pos, state);
             }
-        } else if (recipe && blockEntity.fuel > 0) {
+        } else if (recipe && blockEntity.fuel >= WATER_FOR_COFFEE) {
             blockEntity.brewTime = 600;
             blockEntity.itemBrewing = inputStack.getItem();
             setChanged(level, pos, state);
