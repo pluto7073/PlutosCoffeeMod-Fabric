@@ -1,5 +1,6 @@
 package ml.pluto7073.plutoscoffee.compat.rei.category;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -14,6 +15,7 @@ import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
 import ml.pluto7073.plutoscoffee.compat.rei.CoffeeREI;
 import ml.pluto7073.plutoscoffee.compat.rei.ItemIcon;
 import ml.pluto7073.plutoscoffee.compat.rei.display.PullingDisplay;
+import ml.pluto7073.plutoscoffee.registry.ModGuiTextures;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -49,6 +51,9 @@ public class PullingCategory implements DisplayCategory<PullingDisplay> {
                 new Point(origin.x + 61, origin.y + 91)).disableBackground()
                 .markOutput().entries(display.getOutputEntries().get(0))
         );
+        widgets.add(Widgets.createDrawableWidget((graphics, mouseX, mouseY, delta) -> {
+            ModGuiTextures.PROGRESS_ARROW.render(graphics, origin.x + 9, origin.y + 68);
+        }));
         return widgets;
         // TODO finish
     }

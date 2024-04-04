@@ -6,12 +6,20 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import org.joml.Vector2i;
 
 public enum ModGuiTextures {
 
     CAFFEINE_DISPLAY_OUTLINE(0, 0, 80, 8),
-    CAFFEINE_DISPLAY_FILL(0, 8, 80, 8)
+    CAFFEINE_DISPLAY_FILL(0, 8, 80, 8),
+    BREWER("container/coffee_brewer", 176, 166),
+    PROGRESS_ARROW("container/coffee_brewer", 176, 0, 9, 28),
+    PROGRESS_BUBBLE("container/coffee_brewer", 185, 29, 9, 29),
+    WATER("container/coffee_brewer", 176, 29, 18, 4),
+    GRINDR("container/coffee_grinder", 176, 166),
+    ESPRESSO_MACHINE("container/espresso_machine", 176, 166),
+    STEAM_COLD("container/espresso_machine", 181, 33, 5, 32),
+    STEAM_HOT("container/espresso_machine", 186, 33, 5, 32),
+    STEAM_BURNT("container/espresso_machine", 176, 33, 5, 32)
 
     ;
 
@@ -20,8 +28,12 @@ public enum ModGuiTextures {
     public int startX, startY;
     public int fullWidth, fullHeight;
 
-    ModGuiTextures(String id, int width, int height) {
-        this(id, 0, 0, width, height, width, height);
+    ModGuiTextures(String id, int w, int h) {
+        this(id, 0, 0, w, h);
+    }
+
+    ModGuiTextures(String id, int startX, int startY, int width, int height) {
+        this(id, startX, startY, width, height, width, height);
     }
 
     ModGuiTextures(int startX, int startY, int width, int height) {
@@ -45,7 +57,17 @@ public enum ModGuiTextures {
 
     @Environment(EnvType.CLIENT)
     public void render(GuiGraphics graphics, int x, int y) {
-        renderSection(graphics, x, y, width, height);
+        graphics.blit(id, x, y, startX, startY, width, height);
+    }
+
+    @Environment(EnvType.CLIENT)
+    public void renderOnMenu(GuiGraphics graphics, int x, int y, int w, int h) {
+        graphics.blit(id, x, y, startX, startY, w, h);
+    }
+
+    @Environment(EnvType.CLIENT)
+    public void renderCustomUV(GuiGraphics graphics, int x, int y, int u, int v, int w, int h) {
+        graphics.blit(id, x, y, u, v, w, h);
     }
 
     @Environment(EnvType.CLIENT)
