@@ -35,7 +35,7 @@ public class CoffeeBrewerScreen extends AbstractContainerScreen<CoffeeBrewerMenu
         int j = (this.height - this.imageHeight) / 2;
         graphics.blit(TEXTURE, i, j, 0, 0, this.imageWidth, this.imageHeight);
         int k = menu.getFuel();
-        int l = Mth.clamp((18 * k + 6 - 1) / 6, 0, 18);
+        int l = Mth.clamp((18 * k + 1000 - 1) / 1000, 0, 18);
         if (l > 0) {
             graphics.blit(TEXTURE, i + 60, j + 44, 176, 29, l, 4);
         }

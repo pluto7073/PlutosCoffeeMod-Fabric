@@ -1,14 +1,17 @@
 package ml.pluto7073.plutoscoffee;
 
 import ml.pluto7073.plutoscoffee.coffee.CoffeeGrounds;
+import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
 import ml.pluto7073.plutoscoffee.registry.*;
 import ml.pluto7073.plutoscoffee.version.VersionChecker;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,6 +38,7 @@ public class PlutosCoffee implements ModInitializer {
 
         ModVillagerProfessions.postInit();
         ServerLifecycleEvents.SERVER_STARTING.register(PlutosCoffee::initStructurePoolElements);
+        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new MachineWaterSources());
 
         logger.info("Pluto's Coffee Mod Initialized");
     }

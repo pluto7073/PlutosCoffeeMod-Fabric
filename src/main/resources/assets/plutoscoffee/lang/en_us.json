@@ -42,6 +42,7 @@
   "container.coffee_grinder": "Coffee Grinder",
   "container.coffee_brewer": "Coffee Brewer",
   "container.espresso_machine": "Espresso Machine",
+  "container.machine.water_tooltip": "Water: %1$s / %2$s mb",
   "itemGroup.plutoscoffee.pc_group": "Pluto's Coffee Mod Items",
   "stat.plutoscoffee.drink_coffee": "Bottles of Coffee Drank",
   "stat.plutoscoffee.interact_with_coffee_brewer": "Interactions with Coffee Brewer",

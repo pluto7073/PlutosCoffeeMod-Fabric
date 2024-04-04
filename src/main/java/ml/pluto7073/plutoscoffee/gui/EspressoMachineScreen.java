@@ -33,7 +33,7 @@ public class EspressoMachineScreen extends AbstractContainerScreen<EspressoMachi
         int j = (this.height - this.imageHeight) / 2;
         context.blit(TEXTURE, i, j, 0, 0, this.imageWidth, this.imageHeight);
         int k = menu.getWater();
-        int l = Mth.clamp((18 * k + 24 - 1) / 24, 0, 18);
+        int l = Mth.clamp((18 * k + 1000 - 1) / 1000, 0, 18);
         if (l > 0) {
             context.blit(TEXTURE, i + 60, j + 44, 176, 29, l, 4);
         }

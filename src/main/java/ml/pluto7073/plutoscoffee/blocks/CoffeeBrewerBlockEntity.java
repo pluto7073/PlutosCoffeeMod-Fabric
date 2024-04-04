@@ -4,6 +4,7 @@ import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
+import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
 import ml.pluto7073.plutoscoffee.gui.CoffeeBrewerMenu;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
@@ -96,10 +97,15 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
 
     public static void tick(Level level, BlockPos pos, BlockState state, CoffeeBrewerBlockEntity blockEntity) {
         ItemStack fuelStack = blockEntity.inventory.get(FUEL_SLOT_INDEX);
-        if (blockEntity.fuel <= 0 && fuelStack.is(Items.WATER_BUCKET)) {
-            blockEntity.fuel = MAX_FUEL_USES;
-            //noinspection DataFlowIssue
-            fuelStack = new ItemStack(Items.WATER_BUCKET.getCraftingRemainingItem(), 1);
+        int waterAmount = MachineWaterSources.getWaterAmount(fuelStack);
+        if (blockEntity.fuel <= 1000 - waterAmount && waterAmount > 0) {
+            blockEntity.fuel += waterAmount;
+            if (fuelStack.getItem().hasCraftingRemainingItem()) {
+                //noinspection DataFlowIssue
+                fuelStack = new ItemStack(fuelStack.getItem().getCraftingRemainingItem(), 1);
+            } else {
+                fuelStack = ItemStack.EMPTY;
+            }
             blockEntity.inventory.set(FUEL_SLOT_INDEX, fuelStack);
             setChanged(level, pos, state);
         }

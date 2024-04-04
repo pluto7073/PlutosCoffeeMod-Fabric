@@ -2,6 +2,7 @@ package ml.pluto7073.plutoscoffee.gui;
 
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.registry.ModScreens;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -12,6 +13,7 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
+@MethodsReturnNonnullByDefault
 public class CoffeeGrindrMenu extends AbstractContainerMenu {
 
     private final Container container;

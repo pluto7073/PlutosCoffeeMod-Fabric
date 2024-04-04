@@ -8,13 +8,16 @@ import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.entry.EntryStack;
+import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
+import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
 import ml.pluto7073.plutoscoffee.compat.rei.CoffeeREI;
 import ml.pluto7073.plutoscoffee.compat.rei.ItemIcon;
 import ml.pluto7073.plutoscoffee.compat.rei.display.PullingDisplay;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +33,11 @@ public class PullingCategory implements DisplayCategory<PullingDisplay> {
         widgets.add(Widgets.createArrow(new Point(origin.x + 27, origin.y + 91)));
 
         widgets.add(Widgets.createSlot(
-                new Point(origin.x + 4, origin.y + 50))
+                new Point(origin.x - 6, origin.y + 50))
+                .markInput().entries(EntryIngredients.ofIngredient(MachineWaterSources.asIngredient()))
+        );
+        widgets.add(Widgets.createSlot(
+                new Point(origin.x + 14, origin.y + 50))
                 .markInput().entries(display.getInputEntries().get(0))
         );
         widgets.add(Widgets.createSlot(

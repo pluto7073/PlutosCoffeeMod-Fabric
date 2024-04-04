@@ -3,6 +3,7 @@ package ml.pluto7073.plutoscoffee.blocks;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import ml.pluto7073.pdapi.tag.PDTags;
+import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
 import ml.pluto7073.plutoscoffee.gui.EspressoMachineMenu;
 import ml.pluto7073.plutoscoffee.recipe.PullingRecipe;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
@@ -47,7 +48,8 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
     private static final int[] TOP_SLOTS = { GROUNDS_SLOT_INDEX, MILK_SLOT_INDEX };
     private static final int[] BOTTOM_SLOTS = { GROUNDS_SLOT_INDEX, MILK_SLOT_INDEX, ESPRESSO_SLOT_INDEX, TRASH_SLOT_INDEX };
     private static final int[] SIDE_SLOTS = { WATER_SLOT_INDEX, MILK_SLOT_INDEX, ESPRESSO_SLOT_INDEX };
-    public static final int MAX_WATER_USES = 24;
+    public static final int WATER_TO_ESPRESSO = 50;
+    public static final int WATER_TO_STEAM = 25;
     public static final int PULL_TIME_PROPERTY_INDEX = 0;
     public static final int STEAM_TIME_PROPERTY_INDEX = 1;
     public static final int WATER_PROPERTY_INDEX = 2;
@@ -109,14 +111,19 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
         return true;
     }
 
-    public static void tick(Level world, BlockPos pos, BlockState state, EspressoMachineBlockEntity blockEntity) {
+    public static void tick(Level level, BlockPos pos, BlockState state, EspressoMachineBlockEntity blockEntity) {
         ItemStack fuelStack = blockEntity.inventory.get(WATER_SLOT_INDEX);
-        if (blockEntity.water <= 0 && fuelStack.is(Items.WATER_BUCKET)) {
-            blockEntity.water = MAX_WATER_USES;
-            //noinspection DataFlowIssue
-            fuelStack = new ItemStack(Items.WATER_BUCKET.getCraftingRemainingItem(), 1);
+        int waterAmount = MachineWaterSources.getWaterAmount(fuelStack);
+        if (blockEntity.water <= 1000 - waterAmount && waterAmount > 0) {
+            blockEntity.water += waterAmount;
+            if (fuelStack.getItem().hasCraftingRemainingItem()) {
+                //noinspection DataFlowIssue
+                fuelStack = new ItemStack(fuelStack.getItem().getCraftingRemainingItem(), 1);
+            } else {
+                fuelStack = ItemStack.EMPTY;
+            }
             blockEntity.inventory.set(WATER_SLOT_INDEX, fuelStack);
-            setChanged(world, pos, state);
+            setChanged(level, pos, state);
         }
 
         // Espresso Section
@@ -126,7 +133,7 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
         if (blockEntity.inventory.get(GROUNDS_SLOT_INDEX).isEmpty()) {
             recipe = null;
         } else {
-            recipe = blockEntity.matchGetter.getRecipeFor(blockEntity, world).orElse(null);
+            recipe = blockEntity.matchGetter.getRecipeFor(blockEntity, level).orElse(null);
         }
 
         boolean canPull = canPull(blockEntity.inventory, recipe);
@@ -137,18 +144,18 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
             boolean done = blockEntity.pullTime == 0;
             state = state.setValue(EspressoMachineBlock.PULLING, true);
             if (done && canPull) {
-                blockEntity.water -= 2;
-                pull(world, pos, blockEntity, recipe);
+                blockEntity.water -= WATER_TO_ESPRESSO;
+                pull(level, pos, blockEntity, recipe);
                 state = state.setValue(EspressoMachineBlock.PULLING, false);
-                setChanged(world, pos, state);
+                setChanged(level, pos, state);
             } else if (!canPull) {
                 blockEntity.pullTime = 0;
                 state = state.setValue(EspressoMachineBlock.PULLING, false);
-                setChanged(world, pos, state);
+                setChanged(level, pos, state);
             }
-        } else if (canPull && blockEntity.water > 1) {
+        } else if (canPull && blockEntity.water >= WATER_TO_ESPRESSO) {
             blockEntity.pullTime = recipe.pullTime;
-            setChanged(world, pos, state);
+            setChanged(level, pos, state);
         }
         boolean hasEspresso = !blockEntity.inventory.get(ESPRESSO_SLOT_INDEX).isEmpty() || !blockEntity.inventory.get(ESPRESSO_SLOT_2_INDEX).isEmpty();
         if (hasEspresso != blockEntity.lastTickEspresso) {
@@ -159,7 +166,7 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
 
             state = state.setValue(EspressoMachineBlock.HAS_ESPRESSO, hasEspresso);
 
-            world.setBlock(pos, state, 2);
+            level.setBlock(pos, state, 2);
         }
 
         boolean hasMilk = !blockEntity.inventory.get(MILK_SLOT_INDEX).isEmpty();
@@ -171,7 +178,7 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
 
             state = state.setValue(EspressoMachineBlock.HAS_MILK, hasMilk);
 
-            world.setBlock(pos, state, 2);
+            level.setBlock(pos, state, 2);
         }
 
         ItemStack milkStack = blockEntity.inventory.get(MILK_SLOT_INDEX);
@@ -190,9 +197,18 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
             }
             blockEntity.inventory.set(MILK_SLOT_INDEX, milkStack);
         } else {
+            if (blockEntity.steamLastTick) {
+                if (blockEntity.steamTime == 600) blockEntity.water -= 3 * WATER_TO_STEAM;
+                else if (blockEntity.steamTime >= 500) blockEntity.water -= 2 * WATER_TO_STEAM;
+                else if (blockEntity.steamTime >= 400) blockEntity.water -= WATER_TO_STEAM;
+            }
             blockEntity.steamTime = 0;
         }
+
+        blockEntity.steamLastTick = steaming;
     }
+
+    private boolean steamLastTick = false;
 
     private static boolean canPull(NonNullList<ItemStack> slots, PullingRecipe recipe) {
         if (recipe == null) return false;
