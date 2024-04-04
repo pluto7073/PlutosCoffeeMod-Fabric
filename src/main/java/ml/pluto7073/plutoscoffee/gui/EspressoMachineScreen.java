@@ -38,6 +38,10 @@ public class EspressoMachineScreen extends AbstractContainerScreen<EspressoMachi
             context.blit(TEXTURE, i + 60, j + 44, 176, 29, l, 4);
         }
 
+        if (mouseX >= i + 60 && mouseX <= i + 78 && mouseY >= j + 44 && mouseY <= j + 48) {
+            context.renderTooltip(this.font, Component.translatable("container.machine.water_tooltip", menu.getWater(), 1000), mouseX, mouseY);
+        }
+
         int m = menu.getPullTime();
         if (m > 0) {
             int n = (int) (28.0F * (1.0F - m / 400.0F));

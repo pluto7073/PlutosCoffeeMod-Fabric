@@ -40,6 +40,10 @@ public class CoffeeBrewerScreen extends AbstractContainerScreen<CoffeeBrewerMenu
             graphics.blit(TEXTURE, i + 60, j + 44, 176, 29, l, 4);
         }
 
+        if (mouseX >= i + 60 && mouseX <= i + 78 && mouseY >= j + 44 && mouseY <= j + 48) {
+            graphics.renderTooltip(this.font, Component.translatable("container.machine.water_tooltip", menu.getFuel(), 1000), mouseX, mouseY);
+        }
+
         int m = menu.getBrewTime();
         if (m > 0) {
             int n = (int) (28.0F * (1.0F - (float) m / 600.0F));
