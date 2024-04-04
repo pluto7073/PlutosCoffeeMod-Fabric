@@ -98,8 +98,9 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
     public static void tick(Level level, BlockPos pos, BlockState state, CoffeeBrewerBlockEntity blockEntity) {
         ItemStack fuelStack = blockEntity.inventory.get(FUEL_SLOT_INDEX);
         int waterAmount = MachineWaterSources.getWaterAmount(fuelStack);
-        if (blockEntity.fuel <= 1000 - waterAmount && waterAmount > 0) {
+        if ((blockEntity.fuel <= 1000 - waterAmount || blockEntity.fuel < WATER_FOR_COFFEE) && waterAmount > 0) {
             blockEntity.fuel += waterAmount;
+            if (blockEntity.fuel > 1000) blockEntity.fuel = 1000;
             if (fuelStack.getItem().hasCraftingRemainingItem()) {
                 //noinspection DataFlowIssue
                 fuelStack = new ItemStack(fuelStack.getItem().getCraftingRemainingItem(), 1);

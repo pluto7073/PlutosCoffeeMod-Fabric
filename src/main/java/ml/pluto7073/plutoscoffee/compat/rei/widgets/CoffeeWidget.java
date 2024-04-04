@@ -34,4 +34,6 @@ public class CoffeeWidget extends Widget {
 
     public void draw(GuiGraphics graphics, int xOffset, int yOffset) {}
 
+
+
 }

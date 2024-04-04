@@ -114,8 +114,9 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
     public static void tick(Level level, BlockPos pos, BlockState state, EspressoMachineBlockEntity blockEntity) {
         ItemStack fuelStack = blockEntity.inventory.get(WATER_SLOT_INDEX);
         int waterAmount = MachineWaterSources.getWaterAmount(fuelStack);
-        if (blockEntity.water <= 1000 - waterAmount && waterAmount > 0) {
+        if ((blockEntity.water <= 1000 - waterAmount || blockEntity.water < 25) && waterAmount > 0) {
             blockEntity.water += waterAmount;
+            if (blockEntity.water > 1000) blockEntity.water = 1000;
             if (fuelStack.getItem().hasCraftingRemainingItem()) {
                 //noinspection DataFlowIssue
                 fuelStack = new ItemStack(fuelStack.getItem().getCraftingRemainingItem(), 1);
@@ -183,7 +184,7 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
 
         ItemStack milkStack = blockEntity.inventory.get(MILK_SLOT_INDEX);
 
-        boolean steaming = milkStack.is(PDTags.MILK_BOTTLES) || milkStack.is(ModItems.LATTE);
+        boolean steaming = (milkStack.is(PDTags.MILK_BOTTLES) || milkStack.is(ModItems.LATTE)) && blockEntity.water >= WATER_TO_STEAM;
         if (steaming) {
             blockEntity.steamTime++;
             if (blockEntity.steamTime > 600) blockEntity.steamTime = 600;
@@ -198,9 +199,7 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
             blockEntity.inventory.set(MILK_SLOT_INDEX, milkStack);
         } else {
             if (blockEntity.steamLastTick) {
-                if (blockEntity.steamTime == 600) blockEntity.water -= 3 * WATER_TO_STEAM;
-                else if (blockEntity.steamTime >= 500) blockEntity.water -= 2 * WATER_TO_STEAM;
-                else if (blockEntity.steamTime >= 400) blockEntity.water -= WATER_TO_STEAM;
+                if (blockEntity.steamTime >= 400) blockEntity.water -= WATER_TO_STEAM;
             }
             blockEntity.steamTime = 0;
         }

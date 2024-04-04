@@ -1,6 +1,7 @@
 package ml.pluto7073.plutoscoffee.compat.rei;
 
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
+import me.shedaniel.rei.api.client.registry.category.ButtonArea;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
@@ -20,6 +21,9 @@ public class CoffeeREI implements REIClientPlugin {
     @Override
     public void registerCategories(CategoryRegistry registry) {
         registry.add(new PullingCategory());
+        registry.configure(PULLING_DISPLAY, configuration -> {
+            configuration.setPlusButtonArea(ButtonArea.defaultArea());
+        });
         registry.addWorkstations(PULLING_DISPLAY, EntryStacks.of(ModItems.ESPRESSO_MACHINE));
     }
 
