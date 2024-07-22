@@ -30,8 +30,6 @@ import java.util.List;
 
 public final class CoffeeUtil {
 
-    private static final double CAFFEINE_HALF_LIFE_TICKS = 2500.0;
-
     private CoffeeUtil(){}
 
     public static <T> boolean collectionContainsOnlyAll(Collection<T> c1, Collection<T> c2) {
@@ -141,7 +139,9 @@ public final class CoffeeUtil {
 
     public static int getLatteColour(DrinkAddition[] addIns) {
         int color = 0xFFFFFF;
-        if (Arrays.stream(addIns).map(DrinkAdditions::getId).anyMatch(id -> id.toString().equals("plutoscoffee:espresso_shot"))) {
+        if (Arrays.stream(addIns).map(DrinkAdditions::getId).anyMatch(id -> id.toString().equals("plutoscoffee:espresso_shot")
+                || id.toString().equals("plutoscoffee:blonde_espresso_shot")
+                || id.toString().equals("plutoscoffee:decaf_espresso_shot"))) {
             color = BrewedCoffee.COLOUR_WITH_MILK;
         }
         float r = (color >> 16 & 255) / 255.0F;
@@ -151,7 +151,9 @@ public final class CoffeeUtil {
         int allowedShots = 2;
         for (DrinkAddition addition : addIns) {
             if (!addition.changesColor()) continue;
-            if (DrinkAdditions.getId(addition).toString().equals("plutoscoffee:espresso_shot") && allowedShots > 0) {
+            if ((DrinkAdditions.getId(addition).toString().equals("plutoscoffee:espresso_shot") ||
+                    DrinkAdditions.getId(addition).toString().equals("plutoscoffee:blonde_espresso_shot") ||
+                    DrinkAdditions.getId(addition).toString().equals("plutoscoffee:decaf_espresso_shot")) && allowedShots > 0) {
                 allowedShots--;
                 continue;
             }
