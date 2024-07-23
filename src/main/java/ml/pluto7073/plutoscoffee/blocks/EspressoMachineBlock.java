@@ -126,7 +126,7 @@ public class EspressoMachineBlock extends BaseEntityBlock {
         return false;
     }
 
-    public BlockState getPlacementState(BlockPlaceContext ctx) {
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
         return this.defaultBlockState().setValue(FACING, ctx.getHorizontalDirection().getOpposite());
     }
 
