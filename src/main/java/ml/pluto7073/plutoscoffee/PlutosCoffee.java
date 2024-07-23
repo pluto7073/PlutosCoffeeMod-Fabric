@@ -62,6 +62,18 @@ public class PlutosCoffee implements ModInitializer {
 
         ResourceLocation snowyLocation = new ResourceLocation("minecraft:village/snowy/houses");
         CoffeeUtil.addElementToStructurePool(templatePoolRegistry, snowyLocation, "village/snowy/houses/snowy_cafe", 2);
+
+        ResourceLocation plainsLocation = new ResourceLocation("minecraft:village/plains/houses");
+        CoffeeUtil.addElementToStructurePool(templatePoolRegistry, plainsLocation, "village/plains/houses/plains_cafe", 2);
+
+        ResourceLocation desertLocation = new ResourceLocation("minecraft:village/desert/houses");
+        CoffeeUtil.addElementToStructurePool(templatePoolRegistry, desertLocation, "village/desert/houses/desert_cafe", 2);
+
+        ResourceLocation savannaLocation = new ResourceLocation("minecraft:village/savanna/houses");
+        CoffeeUtil.addElementToStructurePool(templatePoolRegistry, savannaLocation, "village/savanna/houses/savanna_cafe", 2);
+
+        ResourceLocation taigaLocation = new ResourceLocation("minecraft:village/taiga/houses");
+        CoffeeUtil.addElementToStructurePool(templatePoolRegistry, taigaLocation, "village/taiga/houses/taiga_cafe", 2);
     }
 
     public static ResourceLocation asId(String id) {
