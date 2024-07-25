@@ -40,7 +40,7 @@ dependencies {
 	modCompileOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
 	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"
 
-	modImplementation "ml.pluto7073:pdapi:${project.pdapi_version}"
+	modImplementation "ml.pluto7073:pdapi:${project.minecraft_version}+${project.pdapi_version}"
 
 	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
 }

@@ -1,5 +1,6 @@
 package ml.pluto7073.plutoscoffee.coffee;
 
+import com.google.gson.JsonObject;
 import ml.pluto7073.pdapi.addition.OnDrink;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import net.minecraft.resources.ResourceLocation;
@@ -38,7 +39,7 @@ public class CoffeeType {
      * @param action do this when this coffee type is drank
      * @param caffeineContent amount in mg of caffeine to add to the drinker.
      */
-    public CoffeeType(String baseName, Item grounds, OnDrink action, int caffeineContent) {
+    public CoffeeType(String baseName, Item grounds, CoffeeOnDrink action, int caffeineContent) {
         this.baseName = baseName;
         this.grounds = grounds;
         this.action = action;
@@ -59,6 +60,15 @@ public class CoffeeType {
 
     public int getCaffeineContent() {
         return caffeineContent;
+    }
+
+    @FunctionalInterface
+    public interface CoffeeOnDrink extends OnDrink {
+
+        @Override
+        default JsonObject toJson() {
+            return new JsonObject();
+        }
     }
 
 }
