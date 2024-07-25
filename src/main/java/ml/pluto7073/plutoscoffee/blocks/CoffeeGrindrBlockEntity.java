@@ -163,7 +163,7 @@ public class CoffeeGrindrBlockEntity extends BaseContainerBlockEntity implements
     protected void saveAdditional(CompoundTag nbt) {
         super.saveAdditional(nbt);
         nbt.putShort("GrindTime", (short) grindTime);
-        ContainerHelper.loadAllItems(nbt, this.inventory);
+        ContainerHelper.saveAllItems(nbt, this.inventory);
     }
 
     public ItemStack getItem(int slot) {
