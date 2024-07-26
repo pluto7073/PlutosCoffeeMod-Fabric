@@ -1,0 +1,33 @@
+{
+  "type": "pdapi:specialty_drink",
+  "base": "plutoscoffee:latte",
+  "additions": [
+    "pdapi:honey",
+    "plutoscoffee:caramel",
+    "plutoscoffee:caramel",
+    "plutoscoffee:espresso_shot",
+    "plutoscoffee:espresso_shot"
+  ],
+  "caffeine": 150,
+  "color": 8872502,
+  "onDrinkActions": [
+    {
+      "type": "pdapi:apply_status_effect",
+      "effect": "minecraft:health_boost",
+      "duration": 2400,
+      "amplifier": 2
+    },
+    {
+      "type": "pdapi:apply_status_effect",
+      "effect": "minecraft:regeneration",
+      "duration": 200,
+      "amplifier": 0
+    },
+    {
+      "type": "pdapi:apply_status_effect",
+      "effect": "minecraft:absorption",
+      "duration": 200,
+      "amplifier": 0
+    }
+  ]
+}

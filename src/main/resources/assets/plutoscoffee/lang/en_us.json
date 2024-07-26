@@ -49,8 +49,13 @@
   "title.plutoscoffee.config": "Pluto's Coffee Mod Settings",
   "title.category.pulling": "Espresso Pulling",
   "title.category.grinding": "Coffee Grinding",
+  "category.pulling.pullTime.tooltip": "Shot Pulling Time: %1$s",
   "config.plutoscoffee.shouldShowCoffeeBar": "Show Current Caffeine Levels",
   "config.plutoscoffee.shouldShowCoffeeBar.tooltip": "Whether or not to show the current amount of caffeine in your system above the hunger bar",
   "pack.plutoscoffee.dark_gui": "Dark GUI",
-  "entity.minecraft.villager.barista": "Barista"
+  "entity.minecraft.villager.barista": "Barista",
+  "drink.plutoscoffee.specialty_drinks/caffe_latte": "Caffè Latte",
+  "drink.plutoscoffee.specialty_drinks/mocha": "Mocha",
+  "drink.plutoscoffee.specialty_drinks/sweet_caramel_latte": "Sweet Caramel Latte",
+  "drink.plutoscoffee.specialty_drinks/red_eye": "Red Eye"
 }

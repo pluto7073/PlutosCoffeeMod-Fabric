@@ -1,0 +1,19 @@
+{
+  "type": "pdapi:specialty_drink",
+  "base": "plutoscoffee:brewed_coffee",
+  "additions": [
+    "plutoscoffee:espresso_shot",
+    "plutoscoffee:espresso_shot",
+    "plutoscoffee:espresso_shot"
+  ],
+  "caffeine": 350,
+  "color": 985088,
+  "onDrinkActions": [
+    {
+      "type": "pdapi:apply_status_effect",
+      "effect": "minecraft:haste",
+      "duration": 2400,
+      "amplifier": 2
+    }
+  ]
+}
