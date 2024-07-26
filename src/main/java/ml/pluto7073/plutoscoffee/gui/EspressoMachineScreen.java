@@ -46,7 +46,7 @@ public class EspressoMachineScreen extends AbstractContainerScreen<EspressoMachi
 
         int m = menu.getPullTime();
         if (m > 0) {
-            int n = (int) (28.0F * (1.0F - m / 400.0F));
+            int n = (int) (28.0F * (1.0F - (float) m / menu.getTotalPullTime()));
             if (n > 0) {
                 //context.blit(TEXTURE, i + 97, j + 16, 176, 0, 9, n);
                 ModGuiTextures.PROGRESS_ARROW.renderOnMenu(context, i + 97, j + 16, 9, n);

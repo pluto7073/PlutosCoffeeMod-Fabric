@@ -3,6 +3,7 @@ package ml.pluto7073.plutoscoffee.gui;
 import ml.pluto7073.pdapi.tag.PDTags;
 import ml.pluto7073.plutoscoffee.blocks.EspressoMachineBlockEntity;
 import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
+import ml.pluto7073.plutoscoffee.recipe.PullingRecipe;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.registry.ModScreens;
 import ml.pluto7073.plutoscoffee.tags.ModItemTags;
@@ -73,6 +74,10 @@ public class EspressoMachineMenu extends AbstractContainerMenu {
 
     public int getSteamTime() {
         return this.containerData.get(EspressoMachineBlockEntity.STEAM_TIME_PROPERTY_INDEX);
+    }
+
+    public int getTotalPullTime() {
+        return this.containerData.get(EspressoMachineBlockEntity.TOTAL_PULL_TIME_PROPERTY_INDEX);
     }
 
     private static class EspressoSlot extends Slot {

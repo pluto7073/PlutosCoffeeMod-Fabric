@@ -35,6 +35,8 @@ import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+
 @MethodsReturnNonnullByDefault
 public class EspressoMachineBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeHolder {
 
@@ -53,7 +55,8 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
     public static final int PULL_TIME_PROPERTY_INDEX = 0;
     public static final int STEAM_TIME_PROPERTY_INDEX = 1;
     public static final int WATER_PROPERTY_INDEX = 2;
-    public static final int PROPERTY_COUNT = 3;
+    public static final int TOTAL_PULL_TIME_PROPERTY_INDEX = 3;
+    public static final int PROPERTY_COUNT = 4;
 
     private NonNullList<ItemStack> inventory;
     private int pullTime;
@@ -76,6 +79,12 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
                     case PULL_TIME_PROPERTY_INDEX -> pullTime;
                     case STEAM_TIME_PROPERTY_INDEX -> steamTime;
                     case WATER_PROPERTY_INDEX -> water;
+                    case TOTAL_PULL_TIME_PROPERTY_INDEX -> {
+                        if (getItem(GROUNDS_SLOT_INDEX).isEmpty()) yield 400;
+                        Optional<PullingRecipe> recipe = matchGetter.getRecipeFor(EspressoMachineBlockEntity.this, level);
+                        if (recipe.isEmpty()) yield 400;
+                        yield recipe.get().pullTime;
+                    }
                     default -> 0;
                 };
             }

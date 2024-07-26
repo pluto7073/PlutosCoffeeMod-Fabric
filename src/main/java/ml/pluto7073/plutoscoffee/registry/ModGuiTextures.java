@@ -13,6 +13,7 @@ public enum ModGuiTextures {
     CAFFEINE_DISPLAY_FILL(0, 8, 80, 8),
     BREWER("container/coffee_brewer", 176, 166),
     PROGRESS_ARROW("container/coffee_brewer", 176, 0, 9, 28),
+    PROGRESS_OUTLINE("container/coffee_brewer", 97, 16, 9, 28),
     PROGRESS_BUBBLE("container/coffee_brewer", 185, 29, 9, 29),
     WATER("container/coffee_brewer", 176, 29, 18, 4),
     GRINDR("container/coffee_grinder", 176, 166),

@@ -1,5 +1,7 @@
 package ml.pluto7073.plutoscoffee.coffee;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.tags.ModItemTags;
 import net.minecraft.world.item.Item;
@@ -22,6 +24,10 @@ public class CoffeeGrounds {
 
     public static Item getBeans(Item groundsItem) {
         return GROUNDS_TO_BEANS_REGISTRY.get(groundsItem);
+    }
+
+    public static ImmutableMap<Item, Item> getBeansToGroundsRegistry() {
+        return ImmutableMap.copyOf(BEANS_TO_GROUNDS_REGISTRY);
     }
 
     static {

@@ -1,25 +1,23 @@
 package ml.pluto7073.plutoscoffee.compat.rei.category;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
+import me.shedaniel.rei.api.client.gui.DrawableConsumer;
 import me.shedaniel.rei.api.client.gui.Renderer;
 import me.shedaniel.rei.api.client.gui.widgets.Widget;
 import me.shedaniel.rei.api.client.gui.widgets.Widgets;
 import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
-import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
 import ml.pluto7073.plutoscoffee.compat.rei.CoffeeREI;
-import ml.pluto7073.plutoscoffee.compat.rei.ItemIcon;
 import ml.pluto7073.plutoscoffee.compat.rei.display.PullingDisplay;
 import ml.pluto7073.plutoscoffee.registry.ModGuiTextures;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,20 +28,20 @@ public class PullingCategory implements DisplayCategory<PullingDisplay> {
     public List<Widget> setupDisplay(PullingDisplay display, Rectangle bounds) {
         ArrayList<Widget> widgets = new ArrayList<>();
         widgets.add(Widgets.createRecipeBase(bounds));
-        Point origin = new Point(bounds.getCenterX() - 41, bounds.getMinY());
+        Point origin = new Point(bounds.getCenterX() - 41, bounds.getMinY() - 10);
 
         widgets.add(Widgets.createArrow(new Point(origin.x + 27, origin.y + 91)));
 
         widgets.add(Widgets.createSlot(
-                new Point(origin.x - 6, origin.y + 50))
+                new Point(origin.x - 6, origin.y + 40))
                 .markInput().entries(EntryIngredients.ofIngredient(MachineWaterSources.asIngredient()))
         );
         widgets.add(Widgets.createSlot(
-                new Point(origin.x + 14, origin.y + 50))
+                new Point(origin.x + 14, origin.y + 40))
                 .markInput().entries(display.getInputEntries().get(0))
         );
         widgets.add(Widgets.createSlot(
-                new Point(origin.x + 4, origin.y + 91))
+                new Point(origin.x + 2, origin.y + 91))
                 .markInput().entries(display.getInputEntries().get(1))
         );
         widgets.add(Widgets.createResultSlotBackground(new Point(origin.x + 61, origin.y + 91)));
@@ -51,8 +49,20 @@ public class PullingCategory implements DisplayCategory<PullingDisplay> {
                 new Point(origin.x + 61, origin.y + 91)).disableBackground()
                 .markOutput().entries(display.getOutputEntries().get(0))
         );
-        widgets.add(Widgets.createDrawableWidget((graphics, mouseX, mouseY, delta) -> {
-            ModGuiTextures.PROGRESS_ARROW.render(graphics, origin.x + 9, origin.y + 68);
+        widgets.add(Widgets.createDrawableWidget(new DrawableConsumer() {
+            int tick = 0;
+
+            @Override
+            public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+                int n = (int) (28.0F * (1.0F - (float) tick / display.getPullTime()));
+                ModGuiTextures.PROGRESS_OUTLINE.render(graphics, origin.x + 7, origin.y + 58);
+                ModGuiTextures.PROGRESS_ARROW.renderOnMenu(graphics, origin.x + 7, origin.y + 58, 9, n);
+                tick--;
+                if (tick <= 0) tick = display.getPullTime();
+                if (mouseX >= origin.x + 7 && mouseX <= origin.x + 16 && mouseY >= origin.y + 58 && mouseY <= origin.y + 86) {
+                    graphics.renderTooltip(Minecraft.getInstance().font, Component.translatable("category.pulling.pullTime.tooltip", display.getPullTime() / 20), mouseX, mouseY);
+                }
+            }
         }));
         return widgets;
         // TODO finish
