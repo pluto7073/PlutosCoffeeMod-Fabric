@@ -28,6 +28,11 @@
       "effect": "minecraft:absorption",
       "duration": 200,
       "amplifier": 0
+    },
+    {
+      "type": "pdapi:restore_hunger",
+      "food": 3,
+      "saturation": 10
     }
   ]
 }

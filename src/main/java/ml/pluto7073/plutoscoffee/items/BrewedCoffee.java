@@ -34,10 +34,12 @@ public class BrewedCoffee extends AbstractCustomizableDrinkItem {
     }
 
     @Override
-    public int getCaffeineContent(ItemStack stack) {
+    public int getChemicalContent(String name, ItemStack stack) {
+        int total = super.getChemicalContent(name, stack);
+        if (!"caffeine".equals(name)) return total;
         CoffeeType type = CoffeeUtil.getCoffeeType(stack);
-        if (type == null) return super.getCaffeineContent(stack);
-        return type.getCaffeineContent() + super.getCaffeineContent(stack);
+        if (type == null) return total;
+        return type.getCaffeineContent() + total;
     }
 
     @Override

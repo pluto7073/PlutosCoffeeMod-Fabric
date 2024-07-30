@@ -1,6 +1,7 @@
 package ml.pluto7073.plutoscoffee.items;
 
 import ml.pluto7073.pdapi.DrinkUtil;
+import ml.pluto7073.pdapi.addition.chemicals.ConsumableChemicalRegistry;
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.registry.ModStats;
 import net.minecraft.ChatFormatting;
@@ -41,9 +42,7 @@ public class EspressoShotItem extends Item {
 
         if (!level.isClientSide) {
             if (player != null) {
-                float currentCaffeine = DrinkUtil.getPlayerCaffeine(player);
-                currentCaffeine += caffeine;
-                DrinkUtil.setPlayerCaffeine(player, currentCaffeine);
+                ConsumableChemicalRegistry.CAFFEINE.add(player, caffeine);
             }
         }
 
