@@ -37,7 +37,7 @@ public class Client implements ClientModInitializer {
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex > 0 ? -1 : CoffeeUtil.getCoffeeColour(stack), ModItems.BREWED_COFFEE);
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex > 0 ? -1 : CoffeeUtil.getLatteColour(stack), ModItems.LATTE);
 
-        CONFIG = new CoffeeConfig(new File("config/plutoscoffee.properties"));
+        CONFIG = new CoffeeConfig();
     }
 
 }

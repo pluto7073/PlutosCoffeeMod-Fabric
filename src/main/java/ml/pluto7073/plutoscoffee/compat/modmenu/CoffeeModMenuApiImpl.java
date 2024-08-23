@@ -19,7 +19,7 @@ public class CoffeeModMenuApiImpl implements ModMenuApi {
             ConfigBuilder builder = ConfigBuilder.create()
                     .setParentScreen(parent)
                     .setTitle(Component.translatable("title.plutoscoffee.config"))
-                    .setSavingRunnable(() -> Client.CONFIG.save(new File("config/plutoscoffee.properties")))
+                    .setSavingRunnable(() -> Client.CONFIG.save())
                     .setDefaultBackgroundTexture(new ResourceLocation("minecraft:textures/gui/options_background.png"));
 
             ConfigCategory category = builder.getOrCreateCategory(Component.translatable("title.plutoscoffee.config"));
