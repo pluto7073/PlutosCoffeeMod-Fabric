@@ -1,20 +1,15 @@
 package ml.pluto7073.plutoscoffee.registry;
 
-import com.mojang.datafixers.types.Type;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.blocks.*;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.datafix.fixes.References;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.properties.PistonType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 
@@ -25,9 +20,9 @@ public class ModBlocks {
     public static final Block COFFEE_GRINDR = new CoffeeGrindrBlock(FabricBlockSettings.create().mapColor(MapColor.COLOR_GRAY).requiresTool().strength(0.5F).luminance((state) -> 1).nonOpaque());
     public static final Block ESPRESSO_MACHINE = new EspressoMachineBlock(FabricBlockSettings.create().mapColor(MapColor.COLOR_GRAY).requiresTool().strength(0.5f).luminance(state -> 1).nonOpaque());
 
-    public static final BlockEntityType<CoffeeBrewerBlockEntity> COFFEE_BREWER_BLOCK_ENTITY_TYPE = create("coffee_brewer", BlockEntityType.Builder.of(CoffeeBrewerBlockEntity::new, COFFEE_BREWER));
-    public static final BlockEntityType<CoffeeGrindrBlockEntity> COFFEE_GRINDR_BLOCK_ENTITY_TYPE = create("coffee_grinder", BlockEntityType.Builder.of(CoffeeGrindrBlockEntity::new, COFFEE_GRINDR));
-    public static final BlockEntityType<EspressoMachineBlockEntity> ESPRESSO_MACHINE_BLOCK_ENTITY_TYPE = create("espresso_machine", BlockEntityType.Builder.of(EspressoMachineBlockEntity::new, ESPRESSO_MACHINE));
+    public static final BlockEntityType<CoffeeBrewerBlockEntity> COFFEE_BREWER_BLOCK_ENTITY_TYPE = create(BlockEntityType.Builder.of(CoffeeBrewerBlockEntity::new, COFFEE_BREWER));
+    public static final BlockEntityType<CoffeeGrindrBlockEntity> COFFEE_GRINDR_BLOCK_ENTITY_TYPE = create(BlockEntityType.Builder.of(CoffeeGrindrBlockEntity::new, COFFEE_GRINDR));
+    public static final BlockEntityType<EspressoMachineBlockEntity> ESPRESSO_MACHINE_BLOCK_ENTITY_TYPE = create(BlockEntityType.Builder.of(EspressoMachineBlockEntity::new, ESPRESSO_MACHINE));
 
     private static void register(String id, Block block) {
         Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation(PlutosCoffee.MOD_ID, id), block);
@@ -37,9 +32,8 @@ public class ModBlocks {
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, id, entityType);
     }
 
-    private static <T extends BlockEntity> BlockEntityType<T> create(String id, BlockEntityType.Builder<T> builder) {
-        Type<?> type = Util.fetchChoiceType(References.BLOCK_ENTITY, id);
-        return builder.build(type);
+    private static <T extends BlockEntity> BlockEntityType<T> create(BlockEntityType.Builder<T> builder) {
+        return builder.build(null);
     }
 
     public static void init() {
