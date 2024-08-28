@@ -33,6 +33,7 @@ public class PlutosCoffee implements ModInitializer {
         ModStats.registerStats();
         CoffeeGrounds.init();
         ModRecipes.init();
+        ModSounds.init();
         ModPointOfInterests.init();
         ModVillagerProfessions.init();
 
