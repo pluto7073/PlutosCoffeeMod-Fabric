@@ -73,11 +73,7 @@ public enum ModGuiTextures {
 
     @Environment(EnvType.CLIENT)
     public void renderSection(GuiGraphics graphics, int x, int y, int w, int h) {
-        if (fullWidth != w || fullHeight != h) {
-            graphics.blit(id, x, y, startX, startY, w, h, fullWidth, fullHeight);
-            return;
-        }
-        graphics.blit(id, x, y, startX, startY, w, h);
+        graphics.blit(id, x, y, startX, startY, w, h, fullWidth, fullHeight);
     }
 
 }
