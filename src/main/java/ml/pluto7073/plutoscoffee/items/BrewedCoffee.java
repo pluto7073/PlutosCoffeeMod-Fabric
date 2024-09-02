@@ -46,11 +46,6 @@ public class BrewedCoffee extends AbstractCustomizableDrinkItem {
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity user) {
         Player player = user instanceof Player ? (Player) user : null;
 
-        if (!level.isClientSide) {
-            CoffeeType type = CoffeeUtil.getCoffeeType(stack);
-            type.onDrink(stack, level, user);
-        }
-
         if (player != null) {
             player.awardStat(ModStats.DRINK_COFFEE);
         }

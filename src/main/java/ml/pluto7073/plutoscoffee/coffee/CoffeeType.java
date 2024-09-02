@@ -1,19 +1,13 @@
 package ml.pluto7073.plutoscoffee.coffee;
 
-import com.google.gson.JsonObject;
-import ml.pluto7073.pdapi.addition.OnDrink;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 
 public class CoffeeType {
 
     private final String baseName;
     private final Item grounds;
-    private final OnDrink action;
     private final int caffeineContent;
 
     @SuppressWarnings("unused")
@@ -36,13 +30,11 @@ public class CoffeeType {
      *
      * @param baseName the id used in registering the coffee type
      * @param grounds the item to be used to brew the coffee
-     * @param action do this when this coffee type is drank
      * @param caffeineContent amount in mg of caffeine to add to the drinker.
      */
-    public CoffeeType(String baseName, Item grounds, CoffeeOnDrink action, int caffeineContent) {
+    public CoffeeType(String baseName, Item grounds, int caffeineContent) {
         this.baseName = baseName;
         this.grounds = grounds;
-        this.action = action;
         this.caffeineContent = caffeineContent;
     }
 
@@ -54,21 +46,8 @@ public class CoffeeType {
         return grounds;
     }
 
-    public void onDrink(ItemStack stack, Level level, LivingEntity user) {
-        action.onDrink(stack, level, user);
-    }
-
     public int getCaffeineContent() {
         return caffeineContent;
-    }
-
-    @FunctionalInterface
-    public interface CoffeeOnDrink extends OnDrink {
-
-        @Override
-        default JsonObject toJson() {
-            return new JsonObject();
-        }
     }
 
 }

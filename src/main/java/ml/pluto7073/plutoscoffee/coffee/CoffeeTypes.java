@@ -50,18 +50,12 @@ public class CoffeeTypes {
     }
 
     static {
-        EMPTY = register("empty", new CoffeeType("empty", Items.AIR, (stack, world, user) -> {}, 0));
-        LIGHT_ROAST = register("light_roast", new CoffeeType("light_roast", ModItems.GROUND_LIGHT_ROAST, (stack, world, user) -> {
-            //TODO: Light roast exclusives
-        }, 125));
-        MEDIUM_ROAST = register("medium_roast", new CoffeeType("medium_roast", ModItems.GROUND_MEDIUM_ROAST, (stack, world, user) -> {
-        }, 120));
-        DARK_ROAST = register("dark_roast", new CoffeeType("dark_roast", ModItems.GROUND_DARK_ROAST, (stack, world, user) -> {
-            //TODO: Dark roast exclusives
-        }, 115));
-        ESPRESSO = register("espresso", new CoffeeType("espresso", ModItems.GROUND_ESPRESSO_ROAST, (stack, world, user) -> {
-        }, 100));
-        DECAF = register("decaf", new CoffeeType("decaf", ModItems.GROUND_DECAF_ROAST, (stack, world, user) -> {}, 7));
+        EMPTY = register("empty", new CoffeeType("empty", Items.AIR, 0));
+        LIGHT_ROAST = register("light_roast", new CoffeeType("light_roast", ModItems.GROUND_LIGHT_ROAST, 125));
+        MEDIUM_ROAST = register("medium_roast", new CoffeeType("medium_roast", ModItems.GROUND_MEDIUM_ROAST, 120));
+        DARK_ROAST = register("dark_roast", new CoffeeType("dark_roast", ModItems.GROUND_DARK_ROAST, 115));
+        ESPRESSO = register("espresso", new CoffeeType("espresso", ModItems.GROUND_ESPRESSO_ROAST, 100));
+        DECAF = register("decaf", new CoffeeType("decaf", ModItems.GROUND_DECAF_ROAST, 7));
     }
 
 }
