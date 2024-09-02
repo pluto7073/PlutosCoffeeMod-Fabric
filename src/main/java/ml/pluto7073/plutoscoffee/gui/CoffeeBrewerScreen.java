@@ -24,9 +24,14 @@ public class CoffeeBrewerScreen extends AbstractContainerScreen<CoffeeBrewerMenu
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+        int i = (this.width - this.imageWidth) / 2;
+        int j = (this.height - this.imageHeight) / 2;
         this.renderBackground(graphics);
         super.render(graphics, mouseX, mouseY, delta);
         this.renderTooltip(graphics, mouseX, mouseY);
+        if (mouseX >= i + 60 && mouseX <= i + 78 && mouseY >= j + 44 && mouseY <= j + 48) {
+            graphics.renderTooltip(this.font, Component.translatable("container.machine.water_tooltip", menu.getFuel() / 81), mouseX, mouseY);
+        }
     }
 
     @Override
@@ -36,14 +41,10 @@ public class CoffeeBrewerScreen extends AbstractContainerScreen<CoffeeBrewerMenu
         //graphics.blit(TEXTURE, i, j, 0, 0, this.imageWidth, this.imageHeight);
         ModGuiTextures.BREWER.render(graphics, i, j);
         int k = menu.getFuel();
-        int l = Mth.clamp((18 * k + 1000 - 1) / 1000, 0, 18);
+        int l = Mth.clamp((18 * k + 81000 - 1) / 81000, 0, 18);
         if (l > 0) {
             //graphics.blit(TEXTURE, i + 60, j + 44, 176, 29, l, 4);
             ModGuiTextures.WATER.renderOnMenu(graphics, i + 60, j + 44, l, 4);
-        }
-
-        if (mouseX >= i + 60 && mouseX <= i + 78 && mouseY >= j + 44 && mouseY <= j + 48) {
-            graphics.renderTooltip(this.font, Component.translatable("container.machine.water_tooltip", menu.getFuel(), 1000), mouseX, mouseY);
         }
 
         int m = menu.getBrewTime();
