@@ -1,6 +1,7 @@
 package ml.pluto7073.plutoscoffee.blocks;
 
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
+import ml.pluto7073.pdapi.util.BasicSingleStorage;
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
@@ -8,6 +9,11 @@ import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
 import ml.pluto7073.plutoscoffee.gui.CoffeeBrewerMenu;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.FilteringStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -30,6 +36,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Iterator;
 
+import static ml.pluto7073.plutoscoffee.blocks.EspressoMachineBlockEntity.WATER;
+
+@SuppressWarnings("UnstableApiUsage")
 @MethodsReturnNonnullByDefault
 public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer {
 
@@ -46,7 +55,9 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
     int brewTime;
     private int lastTickSlot;
     private Item itemBrewing;
-    int fuel;
+    private final BasicSingleStorage water =
+            new BasicSingleStorage(WATER, 81000, this::setChanged);
+    public final Storage<FluidVariant> insert = FilteringStorage.insertOnlyOf(water);
     protected final ContainerData containerData;
 
     public CoffeeBrewerBlockEntity(BlockPos pos, BlockState state) {
@@ -56,7 +67,7 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
             public int get(int index) {
                 return switch (index) {
                     case BREW_TIME_PROPERTY_INDEX -> CoffeeBrewerBlockEntity.this.brewTime;
-                    case FUEL_PROPERTY_INDEX -> CoffeeBrewerBlockEntity.this.fuel;
+                    case FUEL_PROPERTY_INDEX -> (int) CoffeeBrewerBlockEntity.this.water.amount;
                     default -> 0;
                 };
             }
@@ -64,7 +75,7 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
             public void set(int index, int value) {
                 switch (index) {
                     case BREW_TIME_PROPERTY_INDEX -> CoffeeBrewerBlockEntity.this.brewTime = value;
-                    case FUEL_PROPERTY_INDEX -> CoffeeBrewerBlockEntity.this.fuel = value;
+                    case FUEL_PROPERTY_INDEX -> CoffeeBrewerBlockEntity.this.water.amount = value;
                 }
             }
 
@@ -98,17 +109,18 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
     public static void tick(Level level, BlockPos pos, BlockState state, CoffeeBrewerBlockEntity blockEntity) {
         ItemStack fuelStack = blockEntity.inventory.get(FUEL_SLOT_INDEX);
         int waterAmount = MachineWaterSources.getWaterAmount(fuelStack);
-        if ((blockEntity.fuel <= 1000 - waterAmount || blockEntity.fuel < WATER_FOR_COFFEE) && waterAmount > 0) {
-            blockEntity.fuel += waterAmount;
-            if (blockEntity.fuel > 1000) blockEntity.fuel = 1000;
-            if (fuelStack.getItem().hasCraftingRemainingItem()) {
-                //noinspection DataFlowIssue
-                fuelStack = new ItemStack(fuelStack.getItem().getCraftingRemainingItem(), 1);
-            } else {
-                fuelStack = ItemStack.EMPTY;
+        trans: try (Transaction transaction = Transaction.openOuter()) {
+            long waterInserted = blockEntity.water.insert(WATER, waterAmount, transaction);
+            if (waterAmount - waterInserted > 2025) {
+                transaction.abort();
+                break trans;
             }
-            blockEntity.inventory.set(FUEL_SLOT_INDEX, fuelStack);
-            setChanged(level, pos, state);
+            Item source = fuelStack.getItem().getCraftingRemainingItem();
+            if (fuelStack.is(ConventionalItemTags.POTIONS)) {
+                source = Items.GLASS_BOTTLE;
+            }
+            blockEntity.setItem(FUEL_SLOT_INDEX, source == null ? ItemStack.EMPTY : new ItemStack(source));
+            transaction.commit();
         }
 
         boolean recipe = canCraft(blockEntity.inventory);
@@ -119,14 +131,14 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
             --blockEntity.brewTime;
             boolean done = blockEntity.brewTime == 0;
             if (done && recipe) {
-                blockEntity.fuel -= WATER_FOR_COFFEE;
+                blockEntity.water.amount -= WATER_FOR_COFFEE;
                 craft(level, pos, blockEntity.inventory);
                 setChanged(level, pos, state);
             } else if (!recipe || !inputStack.is(blockEntity.itemBrewing)) {
                 blockEntity.brewTime = 0;
                 setChanged(level, pos, state);
             }
-        } else if (recipe && blockEntity.fuel >= WATER_FOR_COFFEE) {
+        } else if (recipe && blockEntity.water.amount >= WATER_FOR_COFFEE) {
             blockEntity.brewTime = 600;
             blockEntity.itemBrewing = inputStack.getItem();
             setChanged(level, pos, state);
@@ -189,14 +201,14 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
         inventory = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
         ContainerHelper.loadAllItems(nbt, inventory);
         brewTime = nbt.getShort("BrewTime");
-        fuel = nbt.getByte("Fuel");
+        water.amount = nbt.getInt("Fuel");
     }
 
     protected void saveAdditional(CompoundTag nbt) {
         super.saveAdditional(nbt);
         nbt.putShort("BrewTime", (short) brewTime);
         ContainerHelper.saveAllItems(nbt, this.inventory);
-        nbt.putByte("Fuel", (byte) fuel);
+        nbt.putInt("Fuel", (int) water.amount);
     }
 
     public ItemStack getItem(int slot) {
