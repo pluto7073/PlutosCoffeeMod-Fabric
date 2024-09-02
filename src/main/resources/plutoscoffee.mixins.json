@@ -8,10 +8,7 @@
     "StructurePoolAccessor"
   ],
   "client": [
-    "client.MenuScreensMixin",
-    "client.InGameHudMixin",
-    "client.MinecraftClientMixin",
-    "client.ResourceLoadStateTrackerMixin"
+    "client.InGameHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1

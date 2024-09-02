@@ -3,6 +3,7 @@ package ml.pluto7073.plutoscoffee.registry;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.blocks.*;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 
+@SuppressWarnings("UnstableApiUsage")
 public class ModBlocks {
 
     public static final Block COFFEE_CROP = new CoffeeCrop(FabricBlockSettings.create().mapColor(MapColor.COLOR_GREEN).noCollision().ticksRandomly().breakInstantly().sounds(SoundType.CROP).pistonBehavior(PushReaction.DESTROY));
@@ -45,5 +47,8 @@ public class ModBlocks {
         register("coffee_brewer", COFFEE_BREWER_BLOCK_ENTITY_TYPE);
         register("coffee_grinder", COFFEE_GRINDR_BLOCK_ENTITY_TYPE);
         register("espresso_machine", ESPRESSO_MACHINE_BLOCK_ENTITY_TYPE);
+
+        FluidStorage.SIDED.registerForBlockEntity((entity, dir) -> entity.insert, ESPRESSO_MACHINE_BLOCK_ENTITY_TYPE);
+        FluidStorage.SIDED.registerForBlockEntity((entity, dir) -> entity.insert, COFFEE_BREWER_BLOCK_ENTITY_TYPE);
     }
 }

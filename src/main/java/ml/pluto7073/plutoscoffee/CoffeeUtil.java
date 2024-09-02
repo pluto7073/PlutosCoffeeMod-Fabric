@@ -1,9 +1,9 @@
 package ml.pluto7073.plutoscoffee;
 
 import com.mojang.datafixers.util.Pair;
-import ml.pluto7073.pdapi.DrinkUtil;
+import ml.pluto7073.pdapi.util.DrinkUtil;
 import ml.pluto7073.pdapi.addition.DrinkAddition;
-import ml.pluto7073.pdapi.addition.DrinkAdditions;
+import ml.pluto7073.pdapi.addition.DrinkAdditionManager;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
@@ -90,7 +90,7 @@ public final class CoffeeUtil {
 
     public static int getCoffeeColour(DrinkAddition[] addIns) {
         int colour = BrewedCoffee.DEFAULT_COLOUR;
-        if (Arrays.stream(addIns).map(DrinkAdditions::getId).anyMatch(identifier -> identifier.toString().equals("pdapi:milk"))) {
+        if (Arrays.stream(addIns).map(DrinkAdditionManager::getId).anyMatch(identifier -> identifier.toString().equals("pdapi:milk"))) {
             colour = BrewedCoffee.COLOUR_WITH_MILK;
         }
         float r = (colour >> 16 & 255) / 255.0F;
@@ -100,7 +100,7 @@ public final class CoffeeUtil {
         int allowedMilk = 3;
         for (DrinkAddition addition : addIns) {
             if (!addition.changesColor()) continue;
-            if (DrinkAdditions.getId(addition).toString().equals("pdapi:milk") && allowedMilk > 0) {
+            if (DrinkAdditionManager.getId(addition).toString().equals("pdapi:milk") && allowedMilk > 0) {
                 allowedMilk--;
                 continue;
             }
@@ -139,7 +139,7 @@ public final class CoffeeUtil {
 
     public static int getLatteColour(DrinkAddition[] addIns) {
         int color = 0xFFFFFF;
-        if (Arrays.stream(addIns).map(DrinkAdditions::getId).anyMatch(id -> id.toString().equals("plutoscoffee:espresso_shot")
+        if (Arrays.stream(addIns).map(DrinkAdditionManager::getId).anyMatch(id -> id.toString().equals("plutoscoffee:espresso_shot")
                 || id.toString().equals("plutoscoffee:blonde_espresso_shot")
                 || id.toString().equals("plutoscoffee:decaf_espresso_shot"))) {
             color = BrewedCoffee.COLOUR_WITH_MILK;
@@ -151,9 +151,9 @@ public final class CoffeeUtil {
         int allowedShots = 2;
         for (DrinkAddition addition : addIns) {
             if (!addition.changesColor()) continue;
-            if ((DrinkAdditions.getId(addition).toString().equals("plutoscoffee:espresso_shot") ||
-                    DrinkAdditions.getId(addition).toString().equals("plutoscoffee:blonde_espresso_shot") ||
-                    DrinkAdditions.getId(addition).toString().equals("plutoscoffee:decaf_espresso_shot")) && allowedShots > 0) {
+            if ((DrinkAdditionManager.getId(addition).toString().equals("plutoscoffee:espresso_shot") ||
+                    DrinkAdditionManager.getId(addition).toString().equals("plutoscoffee:blonde_espresso_shot") ||
+                    DrinkAdditionManager.getId(addition).toString().equals("plutoscoffee:decaf_espresso_shot")) && allowedShots > 0) {
                 allowedShots--;
                 continue;
             }
