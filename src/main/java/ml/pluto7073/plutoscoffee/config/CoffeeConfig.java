@@ -3,16 +3,10 @@ package ml.pluto7073.plutoscoffee.config;
 import ml.pluto7073.pdapi.config.BaseConfig;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Properties;
-
 public class CoffeeConfig extends BaseConfig {
 
     public CoffeeConfig() {
-        super("plutoscoffee", "client", PlutosCoffee.logger);
+        super("plutoscoffee", "client", PlutosCoffee.LOGGER);
     }
     public boolean shouldShowCoffeeBar() {
         return getBoolean("shouldShowCoffeeBar");

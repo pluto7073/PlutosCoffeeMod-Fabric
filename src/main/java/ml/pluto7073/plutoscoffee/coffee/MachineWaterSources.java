@@ -1,7 +1,6 @@
 package ml.pluto7073.plutoscoffee.coffee;
 
 import com.google.gson.JsonObject;
-import it.unimi.dsi.fastutil.Hash;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.network.s2c.SyncMachineWaterSourcesRegistryS2CPacket;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -14,18 +13,14 @@ import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
-import org.apache.commons.compress.utils.Lists;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -91,7 +86,7 @@ public class MachineWaterSources implements SimpleSynchronousResourceReloadListe
                 MachineWaterSource source = fromJson(data);
                 register(id, source);
             } catch (Exception ex) {
-                PlutosCoffee.logger.error("Failed to load Coffee Machine Water Source " + id, ex);
+                PlutosCoffee.LOGGER.error("Failed to load Coffee Machine Water Source " + id, ex);
             }
         }
     }
