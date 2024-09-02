@@ -40,14 +40,6 @@
         "model": "plutoscoffee:block/espresso_machine_milk"
       },
       "when": {
-        "has_milk": "true"
-      }
-    },
-    {
-      "apply": {
-        "model": "plutoscoffee:block/espresso_machine_milk"
-      },
-      "when": {
         "has_milk": "true",
         "facing": "north"
       }
