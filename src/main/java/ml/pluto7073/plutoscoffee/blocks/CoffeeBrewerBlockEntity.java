@@ -47,7 +47,7 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
     private static final int[] TOP_SLOTS = {0};
     private static final int[] BOTTOM_SLOTS = {0, 2};
     private static final int[] SIDE_SLOTS = {1, 2};
-    private static final int WATER_FOR_COFFEE = 200;
+    private static final int WATER_FOR_COFFEE = 16200;
     public static final int BREW_TIME_PROPERTY_INDEX = 0;
     public static final int FUEL_PROPERTY_INDEX = 1;
     public static final int PROPERTY_COUNT = 2;
