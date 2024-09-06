@@ -79,7 +79,7 @@ public abstract class InGameHudMixin {
         //graphics.blit(ICONS, centerX + 10, baseYValue, 0, 0, 80, 8, 80, 16);
         //graphics.blit(ICONS, centerX + 10, baseYValue, 0, 9, scaledCaffeineOutput, 8, 80, 16);
         ModGuiTextures.CAFFEINE_DISPLAY_OUTLINE.renderSection(graphics, centerX + 10, baseYValue, 80, 8);
-        ModGuiTextures.CAFFEINE_DISPLAY_FILL.renderSection(graphics, centerX + 10, baseYValue, scaledCaffeineOutput, 8);
+        ModGuiTextures.CAFFEINE_DISPLAY_FILL.renderSection(graphics, centerX + 10, baseYValue - 1, scaledCaffeineOutput, 8);
 
         this.minecraft.getProfiler().pop();
     }
