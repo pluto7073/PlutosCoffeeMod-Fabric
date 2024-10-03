@@ -86,7 +86,7 @@ public class MachineWaterSources implements SimpleSynchronousResourceReloadListe
                 MachineWaterSource source = fromJson(data);
                 register(id, source);
             } catch (Exception ex) {
-                PlutosCoffee.LOGGER.error("Failed to load Coffee Machine Water Source " + id, ex);
+                PlutosCoffee.LOGGER.error("Failed to load Coffee Machine Water Source {}", id, ex);
             }
         }
     }

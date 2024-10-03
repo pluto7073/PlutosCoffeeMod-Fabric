@@ -1,7 +1,6 @@
 package ml.pluto7073.plutoscoffee.compat.rei.display;
 
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
-import me.shedaniel.rei.api.common.display.Display;
 import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.registry.RecipeManagerContext;
@@ -11,14 +10,14 @@ import ml.pluto7073.plutoscoffee.recipe.PullingRecipe;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.crafting.Recipe;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 public class PullingDisplay extends BasicDisplay {
 
-    private int groundsRequired, pullTime;
+    private final int groundsRequired;
+    private final int pullTime;
 
     public PullingDisplay(PullingRecipe recipe) {
         this(List.of(EntryIngredients.ofIngredient(recipe.grounds), EntryIngredients.ofIngredient(recipe.base)), Collections.singletonList(EntryIngredients.of(recipe.getResultItem())),

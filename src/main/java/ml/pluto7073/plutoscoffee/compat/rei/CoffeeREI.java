@@ -28,9 +28,7 @@ public class CoffeeREI implements REIClientPlugin {
     @Override
     public void registerCategories(CategoryRegistry registry) {
         registry.add(new PullingCategory());
-        registry.configure(PULLING_DISPLAY, configuration -> {
-            configuration.setPlusButtonArea(ButtonArea.defaultArea());
-        });
+        registry.configure(PULLING_DISPLAY, configuration -> configuration.setPlusButtonArea(ButtonArea.defaultArea()));
         registry.addWorkstations(PULLING_DISPLAY, EntryStacks.of(ModItems.ESPRESSO_MACHINE));
 
         registry.add(new GrindingCategory());
@@ -42,9 +40,7 @@ public class CoffeeREI implements REIClientPlugin {
         registry.registerRecipeFiller(PullingRecipe.class, ModRecipes.PULLING_RECIPE_TYPE, PullingDisplay::new);
         registry.registerFiller(GrindingRecipe.class, GrindingDisplay::new);
 
-        CoffeeGrounds.getBeansToGroundsRegistry().forEach((beans, grounds) -> {
-            registry.add(new GrindingRecipe(Ingredient.of(beans), new ItemStack(grounds)));
-        });
+        CoffeeGrounds.getBeansToGroundsRegistry().forEach((beans, grounds) -> registry.add(new GrindingRecipe(Ingredient.of(beans), new ItemStack(grounds))));
     }
 
     @Override

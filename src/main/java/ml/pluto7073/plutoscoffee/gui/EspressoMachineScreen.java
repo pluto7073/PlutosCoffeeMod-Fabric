@@ -70,7 +70,7 @@ public class EspressoMachineScreen extends AbstractContainerScreen<EspressoMachi
                     case 0 -> ModGuiTextures.STEAM_COLD.renderOnMenu(context, i + 128, j + 52 - n, 5, n);
                     case 1 -> ModGuiTextures.STEAM_HOT.renderOnMenu(context, i + 128, j + 52 - n, 5, n);
                     case 2 -> ModGuiTextures.STEAM_BURNT.renderOnMenu(context, i + 128, j + 52 - n, 5, n);
-                };
+                }
                 //context.blit(TEXTURE, i + 128, j + 52 - n, tempU, 33, 5, n);
             }
 

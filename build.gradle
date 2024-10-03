@@ -27,6 +27,10 @@ loom {
 			vmArg "-XX:+AllowEnhancedClassRedefinition"
 			vmArg "-XX:+IgnoreUnrecognizedVMOptions"
 		}
+
+		server {
+			runDir "run/server"
+		}
 	}
 
 }

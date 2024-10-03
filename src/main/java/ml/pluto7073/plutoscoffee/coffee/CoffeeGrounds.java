@@ -1,9 +1,7 @@
 package ml.pluto7073.plutoscoffee.coffee;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
-import ml.pluto7073.plutoscoffee.tags.ModItemTags;
 import net.minecraft.world.item.Item;
 
 import java.util.HashMap;

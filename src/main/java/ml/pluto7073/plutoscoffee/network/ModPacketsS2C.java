@@ -1,6 +1,5 @@
 package ml.pluto7073.plutoscoffee.network;
 
-import ml.pluto7073.plutoscoffee.coffee.MachineWaterSource;
 import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
 import ml.pluto7073.plutoscoffee.network.s2c.SyncMachineWaterSourcesRegistryS2CPacket;
 import net.fabricmc.api.EnvType;

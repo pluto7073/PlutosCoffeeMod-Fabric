@@ -1,6 +1,5 @@
 package ml.pluto7073.plutoscoffee.compat.rei.display;
 
-import com.google.common.collect.Lists;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.DisplaySerializer;
 import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
@@ -57,10 +56,6 @@ public class GrindingDisplay extends BasicDisplay {
                 return new GrindingDisplay(beans, grounds);
             }
         };
-    }
-
-    public EntryIngredient getBeans() {
-        return beans;
     }
 
     public EntryStack<?> getGrounds() {

@@ -9,8 +9,6 @@ import ml.pluto7073.plutoscoffee.Client;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-import java.io.File;
-
 public class CoffeeModMenuApiImpl implements ModMenuApi {
 
     @Override

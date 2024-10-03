@@ -20,14 +20,12 @@ public enum ModGuiTextures {
     ESPRESSO_MACHINE("container/espresso_machine", 176, 166),
     STEAM_COLD("container/espresso_machine", 181, 33, 5, 32),
     STEAM_HOT("container/espresso_machine", 186, 33, 5, 32),
-    STEAM_BURNT("container/espresso_machine", 176, 33, 5, 32)
-
-    ;
+    STEAM_BURNT("container/espresso_machine", 176, 33, 5, 32);
 
     public final ResourceLocation id;
-    public int width, height;
-    public int startX, startY;
-    public int fullWidth, fullHeight;
+    public final int width, height;
+    public final int startX, startY;
+    public final int fullWidth, fullHeight;
 
     ModGuiTextures(String id, int w, int h) {
         this(id, 0, 0, w, h);

@@ -1,11 +1,9 @@
 package ml.pluto7073.plutoscoffee.gui;
 
-import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.registry.ModGuiTextures;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public class CoffeeGrindrScreen extends AbstractContainerScreen<CoffeeGrindrMenu> {

@@ -27,8 +27,4 @@ public class ModPointOfInterests {
         PlutosCoffee.LOGGER.info("Drink Workstation POI Registered");
     }
 
-    private static PoiType get(ResourceKey<PoiType> key) {
-        return BuiltInRegistries.POINT_OF_INTEREST_TYPE.get(key);
-    }
-
 }

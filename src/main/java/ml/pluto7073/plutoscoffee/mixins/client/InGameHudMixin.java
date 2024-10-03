@@ -2,7 +2,6 @@ package ml.pluto7073.plutoscoffee.mixins.client;
 
 import ml.pluto7073.pdapi.util.DrinkUtil;
 import ml.pluto7073.plutoscoffee.Client;
-import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.registry.ModGuiTextures;
 import net.fabricmc.api.EnvType;
@@ -11,7 +10,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -19,7 +17,6 @@ import net.minecraft.world.level.GameType;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -27,10 +24,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Environment(EnvType.CLIENT)
 @Mixin(Gui.class)
 public abstract class InGameHudMixin {
-
-    @Unique private static final ResourceLocation CAFFEINE_OUTLINE_TEXTURE = PlutosCoffee.asId("textures/gui/caffeine_content/outline.png");
-    @Unique private static final ResourceLocation CAFFEINE_FILL_TEXTURE = PlutosCoffee.asId("textures/gui/caffeine_content/fill.png");
-    @Unique private static final ResourceLocation ICONS = PlutosCoffee.asId("textures/gui/pc_icons.png");
 
     @Shadow @Final private Minecraft minecraft;
 
