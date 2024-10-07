@@ -1,29 +1,26 @@
 package ml.pluto7073.plutoscoffee;
 
 import com.mojang.datafixers.util.Pair;
-import ml.pluto7073.pdapi.DrinkUtil;
+import ml.pluto7073.pdapi.util.DrinkUtil;
 import ml.pluto7073.pdapi.addition.DrinkAddition;
-import ml.pluto7073.pdapi.addition.DrinkAdditions;
+import ml.pluto7073.pdapi.addition.DrinkAdditionManager;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
 import ml.pluto7073.plutoscoffee.items.BrewedCoffee;
 import ml.pluto7073.plutoscoffee.mixins.StructurePoolAccessor;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
-import ml.pluto7073.plutoscoffee.registry.ModMisc;
 import ml.pluto7073.plutoscoffee.tags.ModItemTags;
 import net.fabricmc.fabric.api.tag.convention.v1.TagUtil;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.registry.Registry;
-import net.minecraft.structure.pool.SinglePoolElement;
-import net.minecraft.structure.pool.StructurePool;
-import net.minecraft.structure.pool.StructurePoolElement;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
+import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -32,8 +29,6 @@ import java.util.Collection;
 import java.util.List;
 
 public final class CoffeeUtil {
-
-    private static final double CAFFEINE_HALF_LIFE_TICKS = 2500.0;
 
     private CoffeeUtil(){}
 
@@ -51,16 +46,16 @@ public final class CoffeeUtil {
 
     public static CoffeeType getCoffeeType(ItemStack stack) {
         DrinkUtil.convertStackFromPlutosCoffee(stack);
-        return getCoffeeType(stack.getSubNbt(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY));
+        return getCoffeeType(stack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY));
     }
 
     public static ItemStack setCoffeeType(ItemStack stack, CoffeeType type) {
         DrinkUtil.convertStackFromPlutosCoffee(stack);
-        Identifier id = CoffeeTypes.getIdentifier(type);
+        ResourceLocation id = CoffeeTypes.getIdentifier(type);
         if (type == CoffeeTypes.EMPTY) {
-            stack.removeSubNbt(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY);
+            stack.removeTagKey(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY);
         } else {
-            stack.getOrCreateSubNbt(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).putString("CoffeeType", id.toString());
+            stack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).putString("CoffeeType", id.toString());
         }
         return stack;
     }
@@ -68,11 +63,11 @@ public final class CoffeeUtil {
     public static ItemStack getBaseCoffee(CoffeeType type) {
         ItemStack stack = new ItemStack(ModItems.BREWED_COFFEE);
         if (type == CoffeeTypes.EMPTY) return stack;
-        stack.getOrCreateSubNbt(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).putString("CoffeeType", CoffeeTypes.getIdentifier(type).toString());
+        stack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).putString("CoffeeType", CoffeeTypes.getIdentifier(type).toString());
         return stack;
     }
 
-    public static CoffeeType getCoffeeType(@Nullable NbtCompound nbt) {
+    public static CoffeeType getCoffeeType(@Nullable CompoundTag nbt) {
         return nbt == null ? CoffeeTypes.EMPTY : CoffeeType.byId(nbt.getString("CoffeeType"));
     }
 
@@ -95,7 +90,7 @@ public final class CoffeeUtil {
 
     public static int getCoffeeColour(DrinkAddition[] addIns) {
         int colour = BrewedCoffee.DEFAULT_COLOUR;
-        if (Arrays.stream(addIns).map(DrinkAdditions::getId).anyMatch(identifier -> identifier.toString().equals("pdapi:milk"))) {
+        if (Arrays.stream(addIns).map(DrinkAdditionManager::getId).anyMatch(identifier -> identifier.toString().equals("pdapi:milk"))) {
             colour = BrewedCoffee.COLOUR_WITH_MILK;
         }
         float r = (colour >> 16 & 255) / 255.0F;
@@ -105,7 +100,7 @@ public final class CoffeeUtil {
         int allowedMilk = 3;
         for (DrinkAddition addition : addIns) {
             if (!addition.changesColor()) continue;
-            if (DrinkAdditions.getId(addition).toString().equals("pdapi:milk") && allowedMilk > 0) {
+            if (DrinkAdditionManager.getId(addition).toString().equals("pdapi:milk") && allowedMilk > 0) {
                 allowedMilk--;
                 continue;
             }
@@ -122,14 +117,14 @@ public final class CoffeeUtil {
     }
 
     public static ItemStack getWithAdditions(ItemStack stack, String... additions) {
-        NbtList adds = new NbtList();
-        if (stack.getOrCreateSubNbt(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).contains("Additions")) {
-            adds = stack.getOrCreateSubNbt(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).getList("Additions", NbtElement.STRING_TYPE);
+        ListTag adds = new ListTag();
+        if (stack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).contains("Additions")) {
+            adds = stack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).getList("Additions", ListTag.TAG_STRING);
         }
         for (String s : additions) {
             adds.add(DrinkUtil.stringAsNbt(s));
         }
-        stack.getOrCreateSubNbt(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).put("Additions", adds);
+        stack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).put("Additions", adds);
         return stack;
     }
 
@@ -144,7 +139,9 @@ public final class CoffeeUtil {
 
     public static int getLatteColour(DrinkAddition[] addIns) {
         int color = 0xFFFFFF;
-        if (Arrays.stream(addIns).map(DrinkAdditions::getId).anyMatch(id -> id.toString().equals("plutoscoffee:espresso_shot"))) {
+        if (Arrays.stream(addIns).map(DrinkAdditionManager::getId).anyMatch(id -> id.toString().equals("plutoscoffee:espresso_shot")
+                || id.toString().equals("plutoscoffee:blonde_espresso_shot")
+                || id.toString().equals("plutoscoffee:decaf_espresso_shot"))) {
             color = BrewedCoffee.COLOUR_WITH_MILK;
         }
         float r = (color >> 16 & 255) / 255.0F;
@@ -154,7 +151,9 @@ public final class CoffeeUtil {
         int allowedShots = 2;
         for (DrinkAddition addition : addIns) {
             if (!addition.changesColor()) continue;
-            if (DrinkAdditions.getId(addition).toString().equals("plutoscoffee:espresso_shot") && allowedShots > 0) {
+            if ((DrinkAdditionManager.getId(addition).toString().equals("plutoscoffee:espresso_shot") ||
+                    DrinkAdditionManager.getId(addition).toString().equals("plutoscoffee:blonde_espresso_shot") ||
+                    DrinkAdditionManager.getId(addition).toString().equals("plutoscoffee:decaf_espresso_shot")) && allowedShots > 0) {
                 allowedShots--;
                 continue;
             }
@@ -179,19 +178,19 @@ public final class CoffeeUtil {
     /**
      * Borrowed from the FriendsAndFoes mod by Faboslav
      */
-    public static void addElementToStructurePool(Registry<StructurePool> templateRegistry, Identifier poolLocation, String name, int weight) {
-        StructurePool pool = templateRegistry.get(poolLocation);
+    public static void addElementToStructurePool(Registry<StructureTemplatePool> templateRegistry, ResourceLocation poolLocation, String name, int weight) {
+        StructureTemplatePool pool = templateRegistry.get(poolLocation);
         if (pool == null) return;
 
-        SinglePoolElement piece = SinglePoolElement.ofLegacySingle(PlutosCoffee.asId(name).toString()).apply(StructurePool.Projection.RIGID);
+        SinglePoolElement piece = SinglePoolElement.single(PlutosCoffee.asId(name).toString()).apply(StructureTemplatePool.Projection.RIGID);
 
         for (int i = 0; i < weight; i++) {
-            ((StructurePoolAccessor) pool).getElements().add(piece);
+            ((StructurePoolAccessor) pool).getTemplates().add(piece);
         }
 
-        List<Pair<StructurePoolElement, Integer>> pieceCounts = new ArrayList<>(((StructurePoolAccessor) pool).getElementCounts());
+        List<Pair<StructurePoolElement, Integer>> pieceCounts = new ArrayList<>(((StructurePoolAccessor) pool).getRawTemplates());
         pieceCounts.add(new Pair<>(piece, weight));
-        ((StructurePoolAccessor) pool).setElementCounts(pieceCounts);
+        ((StructurePoolAccessor) pool).setRawTemplates(pieceCounts);
     }
 
 }

@@ -1,55 +1,62 @@
 package ml.pluto7073.plutoscoffee.gui;
 
-import ml.pluto7073.plutoscoffee.PlutosCoffee;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
+import ml.pluto7073.plutoscoffee.registry.ModGuiTextures;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Inventory;
 
-public class CoffeeBrewerScreen extends HandledScreen<CoffeeBrewerScreenHandler> {
+public class CoffeeBrewerScreen extends AbstractContainerScreen<CoffeeBrewerMenu> {
 
-    private static final Identifier TEXTURE = new Identifier(PlutosCoffee.MOD_ID, "textures/gui/container/coffee_brewer.png");
     private static final int[] BUBBLE_PROGRESS = {29, 24, 20, 16, 11, 6, 0};
 
-    public CoffeeBrewerScreen(CoffeeBrewerScreenHandler handler, PlayerInventory inventory, Text title) {
+    public CoffeeBrewerScreen(CoffeeBrewerMenu handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
     }
 
     protected void init() {
         super.init();
-        this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2;
+        this.titleLabelX = (this.imageWidth - this.font.width(this.title)) / 2;
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        this.renderBackground(context);
-        super.render(context, mouseX, mouseY, delta);
-        this.drawMouseoverTooltip(context, mouseX, mouseY);
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
+        int i = (this.width - this.imageWidth) / 2;
+        int j = (this.height - this.imageHeight) / 2;
+        this.renderBackground(graphics);
+        super.render(graphics, mouseX, mouseY, delta);
+        this.renderTooltip(graphics, mouseX, mouseY);
+        if (mouseX >= i + 60 && mouseX <= i + 78 && mouseY >= j + 44 && mouseY <= j + 48) {
+            graphics.renderTooltip(this.font, Component.translatable("container.machine.water_tooltip", menu.getFuel() / 81), mouseX, mouseY);
+        }
     }
 
     @Override
-    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
-        int i = (this.width - this.backgroundWidth) / 2;
-        int j = (this.height - this.backgroundHeight) / 2;
-        context.drawTexture(TEXTURE, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
-        int k = handler.getFuel();
-        int l = MathHelper.clamp((18 * k + 6 - 1) / 6, 0, 18);
+    protected void renderBg(GuiGraphics graphics, float delta, int mouseX, int mouseY) {
+        int i = (this.width - this.imageWidth) / 2;
+        int j = (this.height - this.imageHeight) / 2;
+        //graphics.blit(TEXTURE, i, j, 0, 0, this.imageWidth, this.imageHeight);
+        ModGuiTextures.BREWER.render(graphics, i, j);
+        int k = menu.getFuel();
+        int l = Mth.clamp((18 * k + 81000 - 1) / 81000, 0, 18);
         if (l > 0) {
-            context.drawTexture(TEXTURE, i + 60, j + 44, 176, 29, l, 4);
+            //graphics.blit(TEXTURE, i + 60, j + 44, 176, 29, l, 4);
+            ModGuiTextures.WATER.renderOnMenu(graphics, i + 60, j + 44, l, 4);
         }
 
-        int m = handler.getBrewTime();
+        int m = menu.getBrewTime();
         if (m > 0) {
             int n = (int) (28.0F * (1.0F - (float) m / 600.0F));
             if (n > 0) {
-                context.drawTexture(TEXTURE, i + 97, j + 16, 176, 0, 9, n);
+                ModGuiTextures.PROGRESS_ARROW.renderOnMenu(graphics, i + 97, j + 16, 9, n);
+                //graphics.blit(TEXTURE, i + 97, j + 16, 176, 0, 9, n);
             }
 
             n = BUBBLE_PROGRESS[m / 2 % 7];
             if (n > 0) {
-                context.drawTexture(TEXTURE, i + 63, j + 14 + 29 - n, 185, 29 - n, 12, n);
+                ModGuiTextures.PROGRESS_BUBBLE.renderCustomUV(graphics, i + 63, j + 43 - n, 185, 29 - n, 12, n);
+                //graphics.blit(TEXTURE, i + 63, j + 14 + 29 - n, 185, 29 - n, 12, n);
             }
         }
     }

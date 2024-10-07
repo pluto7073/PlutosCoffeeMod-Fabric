@@ -1,4 +1,4 @@
-package ml.pluto7073.plutoscoffee.config;
+package ml.pluto7073.plutoscoffee.compat.modmenu;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
@@ -6,10 +6,8 @@ import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import ml.pluto7073.plutoscoffee.Client;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-
-import java.io.File;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 public class CoffeeModMenuApiImpl implements ModMenuApi {
 
@@ -18,17 +16,17 @@ public class CoffeeModMenuApiImpl implements ModMenuApi {
         return (parent) -> {
             ConfigBuilder builder = ConfigBuilder.create()
                     .setParentScreen(parent)
-                    .setTitle(Text.translatable("title.plutoscoffee.config"))
-                    .setSavingRunnable(() -> Client.CONFIG.save(new File("config/plutoscoffee.properties")))
-                    .setDefaultBackgroundTexture(new Identifier("minecraft:textures/gui/options_background.png"));
+                    .setTitle(Component.translatable("title.plutoscoffee.config"))
+                    .setSavingRunnable(() -> Client.CONFIG.save())
+                    .setDefaultBackgroundTexture(new ResourceLocation("minecraft:textures/gui/options_background.png"));
 
-            ConfigCategory category = builder.getOrCreateCategory(Text.translatable("title.plutoscoffee.config"));
+            ConfigCategory category = builder.getOrCreateCategory(Component.translatable("title.plutoscoffee.config"));
 
             ConfigEntryBuilder entryBuilder = builder.entryBuilder();
 
-            category.addEntry(entryBuilder.startBooleanToggle(Text.translatable("config.plutoscoffee.shouldShowCoffeeBar"), Client.CONFIG.shouldShowCoffeeBar())
+            category.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.plutoscoffee.shouldShowCoffeeBar"), Client.CONFIG.shouldShowCoffeeBar())
                     .setDefaultValue(true)
-                    .setTooltip(Text.translatable("config.plutoscoffee.shouldShowCoffeeBar.tooltip"))
+                    .setTooltip(Component.translatable("config.plutoscoffee.shouldShowCoffeeBar.tooltip"))
                     .setSaveConsumer(newVal -> Client.CONFIG.setShouldShowCoffeeBar(newVal))
                     .build());
 

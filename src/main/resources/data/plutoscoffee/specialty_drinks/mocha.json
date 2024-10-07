@@ -1,0 +1,22 @@
+{
+  "type": "pdapi:specialty_drink",
+  "base": "plutoscoffee:latte",
+  "additions": [
+    "plutoscoffee:mocha_syrup",
+    "plutoscoffee:mocha_syrup",
+    "plutoscoffee:espresso_shot",
+    "plutoscoffee:espresso_shot"
+  ],
+  "caffeine": 150,
+  "color": 1839885,
+  "onDrinkActions": [
+    {
+      "type": "pdapi:restore_hunger",
+      "food": 12,
+      "saturation": 10
+    },
+    {
+      "type": "pdapi:clear_harmful_effects"
+    }
+  ]
+}

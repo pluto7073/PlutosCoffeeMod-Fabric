@@ -41,7 +41,10 @@
       "ml.pluto7073.plutoscoffee.Client"
     ],
     "modmenu": [
-      "ml.pluto7073.plutoscoffee.config.CoffeeModMenuApiImpl"
+      "ml.pluto7073.plutoscoffee.compat.modmenu.CoffeeModMenuApiImpl"
+    ],
+    "rei_client": [
+      "ml.pluto7073.plutoscoffee.compat.rei.CoffeeREI"
     ]
   },
   "mixins": [
@@ -51,14 +54,15 @@
 
   "depends": {
     "fabricloader": ">=0.15.7",
-    "fabric": "*",
+    "fabric-api": "*",
     "minecraft": "~1.20.1",
     "java": ">=17",
     "cloth-config": ">=11.1.118",
-    "pdapi": ">=0.1.2+1.20.1"
+    "pdapi": ">=0.1.4"
   },
   "suggests": {
     "flamingo": "*",
-    "modmenu": "*"
+    "modmenu": "*",
+    "rei": "*"
   }
 }

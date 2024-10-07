@@ -1,136 +1,128 @@
 package ml.pluto7073.plutoscoffee.blocks;
 
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
-import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.registry.ModStats;
-import net.minecraft.block.*;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.pathing.NavigationType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.state.property.IntProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ItemScatterer;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class CoffeeGrindrBlock extends BlockWithEntity {
+@SuppressWarnings("deprecation")
+@MethodsReturnNonnullByDefault
+public class CoffeeGrindrBlock extends BaseEntityBlock {
 
     public static final BooleanProperty FULL_PROPERTY;
     public static final DirectionProperty FACING_PROPERTY;
     protected static final VoxelShape SHAPE;
 
-    public CoffeeGrindrBlock(Settings settings) {
-        super(settings);
-        this.setDefaultState(this.getStateManager().getDefaultState()
-                .with(FULL_PROPERTY, false)
-                .with(FACING_PROPERTY, Direction.NORTH));
+    public CoffeeGrindrBlock(Properties properties) {
+        super(properties);
+        this.registerDefaultState(this.getStateDefinition().any()
+                .setValue(FULL_PROPERTY, false)
+                .setValue(FACING_PROPERTY, Direction.NORTH));
     }
 
     @Override
-    public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
+    public RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
     }
 
     @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new CoffeeGrindrBlockEntity(pos, state);
     }
 
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        return world.isClient ? null : checkType(type, ModBlocks.COFFEE_GRINDR_BLOCK_ENTITY_TYPE, CoffeeGrindrBlockEntity::tick);
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return level.isClientSide ? null : createTickerHelper(type, ModBlocks.COFFEE_GRINDR_BLOCK_ENTITY_TYPE, CoffeeGrindrBlockEntity::tick);
     }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FULL_PROPERTY).add(FACING_PROPERTY);
     }
 
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (world.isClient) {
-            return ActionResult.SUCCESS;
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (level.isClientSide) {
+            return InteractionResult.SUCCESS;
         } else {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
+            BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof CoffeeGrindrBlockEntity) {
-                player.openHandledScreen((CoffeeGrindrBlockEntity) blockEntity);
-                player.incrementStat(ModStats.INTERACT_WITH_COFFEE_GRINDR);
+                player.openMenu((CoffeeGrindrBlockEntity) blockEntity);
+                player.awardStat(ModStats.INTERACT_WITH_COFFEE_GRINDR);
             }
-            return ActionResult.CONSUME;
+            return InteractionResult.CONSUME;
         }
     }
 
-    public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        if (stack.hasCustomName()) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        if (stack.hasCustomHoverName()) {
+            BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof CoffeeGrindrBlockEntity) {
-                ((CoffeeGrindrBlockEntity) blockEntity).setCustomName(stack.getName());
+                ((CoffeeGrindrBlockEntity) blockEntity).setCustomName(stack.getHoverName());
             }
         }
     }
 
-    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if (!state.isOf(newState.getBlock())) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved) {
+        if (!state.is(newState.getBlock())) {
+            BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof CoffeeGrindrBlockEntity) {
-                ItemScatterer.spawn(world, pos, (CoffeeGrindrBlockEntity) blockEntity);
+                Containers.dropContents(level, pos, (CoffeeGrindrBlockEntity) blockEntity);
             }
-            super.onStateReplaced(state, world, pos, newState, moved);
+            super.onRemove(state, level, pos, newState, moved);
         }
     }
 
-    public boolean hasComparatorOutput(BlockState state) {
+    public boolean hasAnalogOutputSignal(BlockState state) {
         return true;
     }
 
-    public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
-        return ScreenHandler.calculateComparatorOutput(world.getBlockEntity(pos));
+    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(level.getBlockEntity(pos));
     }
 
-    public boolean canPathfindThrough(BlockState state, BlockView world, BlockPos pos, NavigationType type) {
+    public boolean isPathfindable(BlockState state, BlockGetter world, BlockPos pos, PathComputationType type) {
         return false;
     }
 
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING_PROPERTY, ctx.getHorizontalPlayerFacing().getOpposite());
-    }
-
-    @Override
-    public Item asItem() {
-        return ModItems.COFFEE_GRINDR;
-    }
-
-    @Override
-    public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
-        return new ItemStack(ModItems.COFFEE_GRINDR, 1);
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        return this.defaultBlockState().setValue(FACING_PROPERTY, ctx.getHorizontalDirection().getOpposite());
     }
 
     static {
-        FULL_PROPERTY = BooleanProperty.of("full");
-        FACING_PROPERTY = Properties.HORIZONTAL_FACING;
-        SHAPE = Block.createCuboidShape(3, 0, 3, 13, 16, 13);
+        FULL_PROPERTY = BooleanProperty.create("full");
+        FACING_PROPERTY = BlockStateProperties.HORIZONTAL_FACING;
+        SHAPE = Block.box(3, 0, 3, 13, 16, 13);
     }
 
 }

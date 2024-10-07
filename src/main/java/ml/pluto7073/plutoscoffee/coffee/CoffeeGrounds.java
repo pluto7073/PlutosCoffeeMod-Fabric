@@ -1,8 +1,8 @@
 package ml.pluto7073.plutoscoffee.coffee;
 
+import com.google.common.collect.ImmutableMap;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
-import ml.pluto7073.plutoscoffee.tags.ModItemTags;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 
 import java.util.HashMap;
 
@@ -24,11 +24,16 @@ public class CoffeeGrounds {
         return GROUNDS_TO_BEANS_REGISTRY.get(groundsItem);
     }
 
+    public static ImmutableMap<Item, Item> getBeansToGroundsRegistry() {
+        return ImmutableMap.copyOf(BEANS_TO_GROUNDS_REGISTRY);
+    }
+
     static {
         register(ModItems.LIGHT_ROAST_BEAN, ModItems.GROUND_LIGHT_ROAST);
         register(ModItems.MEDIUM_ROAST_BEAN, ModItems.GROUND_MEDIUM_ROAST);
         register(ModItems.DARK_ROAST_BEAN, ModItems.GROUND_DARK_ROAST);
         register(ModItems.ESPRESSO_ROAST_BEAN, ModItems.GROUND_ESPRESSO_ROAST);
+        register(ModItems.DECAF_ROAST_BEAN, ModItems.GROUND_DECAF_ROAST);
     }
 
     public static void init() {}

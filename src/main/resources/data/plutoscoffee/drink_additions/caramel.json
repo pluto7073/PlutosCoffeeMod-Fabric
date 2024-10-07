@@ -4,12 +4,6 @@
   "onDrinkActions": [
     {
       "type": "pdapi:apply_status_effect",
-      "effect": "minecraft:health_boost",
-      "duration": 2400,
-      "amplifier": 2
-    },
-    {
-      "type": "pdapi:apply_status_effect",
       "effect": "minecraft:regeneration",
       "duration": 200,
       "amplifier": 0
@@ -17,7 +11,7 @@
     {
       "type": "pdapi:apply_status_effect",
       "effect": "minecraft:absorption",
-      "duration": 200,
+      "duration": 400,
       "amplifier": 0
     }
   ]

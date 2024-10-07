@@ -1,43 +1,41 @@
 package ml.pluto7073.plutoscoffee.gui;
 
-import ml.pluto7073.plutoscoffee.PlutosCoffee;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
+import ml.pluto7073.plutoscoffee.registry.ModGuiTextures;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
 
-public class CoffeeGrindrScreen extends HandledScreen<CoffeeGrindrScreenHandler> {
+public class CoffeeGrindrScreen extends AbstractContainerScreen<CoffeeGrindrMenu> {
 
-    private static final Identifier TEXTURE = new Identifier(PlutosCoffee.MOD_ID, "textures/gui/container/coffee_grinder.png");
-
-    public CoffeeGrindrScreen(CoffeeGrindrScreenHandler handler, PlayerInventory inventory, Text title) {
+    public CoffeeGrindrScreen(CoffeeGrindrMenu handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
     }
 
     protected void init() {
         super.init();
-        this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2;
+        this.titleLabelX = (this.imageWidth - this.font.width(this.title)) / 2;
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
         this.renderBackground(context);
         super.render(context, mouseX, mouseY, delta);
-        this.drawMouseoverTooltip(context, mouseX, mouseY);
+        this.renderTooltip(context, mouseX, mouseY);
     }
 
-    protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
-        int i = (this.width - this.backgroundWidth) / 2;
-        int j = (this.height - this.backgroundHeight) / 2;
-        context.drawTexture(TEXTURE, i, j, 0, 0, this.backgroundWidth, this.backgroundHeight);
+    protected void renderBg(GuiGraphics context, float delta, int mouseX, int mouseY) {
+        int i = (this.width - this.imageWidth) / 2;
+        int j = (this.height - this.imageHeight) / 2;
+        //context.blit(TEXTURE, i, j, 0, 0, this.imageWidth, this.imageHeight);
+        ModGuiTextures.GRINDR.render(context, i, j);
 
-        int m = handler.getGrindTime();
+        int m = menu.getGrindTime();
         if (m > 0) {
             int n = (int) (28.0F * (1.0F - (float) m / 20.0F));
             if (n > 0) {
-                context.drawTexture(TEXTURE, i + 97, j + 16, 176, 0, 9, n);
+                //context.blit(TEXTURE, i + 97, j + 16, 176, 0, 9, n);
+                ModGuiTextures.PROGRESS_ARROW.renderOnMenu(context, i + 97, j + 16, 9, n);
             }
         }
     }
