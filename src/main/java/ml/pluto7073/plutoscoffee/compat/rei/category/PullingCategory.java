@@ -28,7 +28,7 @@ public class PullingCategory implements DisplayCategory<PullingDisplay> {
     public List<Widget> setupDisplay(PullingDisplay display, Rectangle bounds) {
         ArrayList<Widget> widgets = new ArrayList<>();
         widgets.add(Widgets.createRecipeBase(bounds));
-        Point origin = new Point(bounds.getCenterX() - 41, bounds.getMinY() - 10);
+        Point origin = new Point(bounds.getCenterX() - 41, bounds.getMinY() - 16);
 
         widgets.add(Widgets.createArrow(new Point(origin.x + 27, origin.y + 91)));
 
@@ -49,6 +49,7 @@ public class PullingCategory implements DisplayCategory<PullingDisplay> {
                 new Point(origin.x + 61, origin.y + 91)).disableBackground()
                 .markOutput().entries(display.getOutputEntries().get(0))
         );
+        widgets.add(Widgets.createTooltip(new Rectangle(origin.x + 7, origin.y + 58, 9, 28), Component.translatable("category.pulling.pullTime.tooltip", display.getPullTime() / 20)));
         widgets.add(Widgets.createDrawableWidget(new DrawableConsumer() {
             int tick = 0;
 
@@ -59,18 +60,14 @@ public class PullingCategory implements DisplayCategory<PullingDisplay> {
                 ModGuiTextures.PROGRESS_ARROW.renderOnMenu(graphics, origin.x + 7, origin.y + 58, 9, n);
                 tick--;
                 if (tick <= 0) tick = display.getPullTime();
-                if (mouseX >= origin.x + 7 && mouseX <= origin.x + 16 && mouseY >= origin.y + 58 && mouseY <= origin.y + 86) {
-                    graphics.renderTooltip(Minecraft.getInstance().font, Component.translatable("category.pulling.pullTime.tooltip", display.getPullTime() / 20), mouseX, mouseY);
-                }
             }
         }));
         return widgets;
-        // TODO finish
     }
 
     @Override
     public int getDisplayHeight() {
-        return DisplayCategory.super.getDisplayHeight() + 54;
+        return DisplayCategory.super.getDisplayHeight() + 48;
     }
 
     @Override
