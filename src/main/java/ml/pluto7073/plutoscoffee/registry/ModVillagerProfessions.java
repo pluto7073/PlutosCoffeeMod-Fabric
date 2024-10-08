@@ -49,10 +49,10 @@ public class ModVillagerProfessions {
                         new VillagerTrades.EmeraldForItems(ModItems.USED_COFFEE_GROUNDS, 26, 16, 2)
                 },
                 2, new VillagerTrades.ItemListing[]{
-                        new VillagerTrades.ItemsAndEmeraldsToItems(ModItems.LIGHT_ROAST_BEAN, 3, 2, ModItems.GROUND_LIGHT_ROAST, 12, 12, 5),
-                        new VillagerTrades.ItemsAndEmeraldsToItems(ModItems.MEDIUM_ROAST_BEAN, 3, 2, ModItems.GROUND_MEDIUM_ROAST, 12, 12, 5),
-                        new VillagerTrades.ItemsAndEmeraldsToItems(ModItems.DARK_ROAST_BEAN, 3, 2, ModItems.GROUND_DARK_ROAST, 12, 12, 5),
-                        new VillagerTrades.ItemsAndEmeraldsToItems(ModItems.ESPRESSO_ROAST_BEAN, 3, 2, ModItems.GROUND_ESPRESSO_ROAST, 12, 12, 5)
+                        new VillagerTrades.ItemsAndEmeraldsToItems(ModItems.LIGHT_ROAST_BEAN, 3, 2, ModItems.GROUND_LIGHT_ROAST, 12, 12, 5, 0.05F),
+                        new VillagerTrades.ItemsAndEmeraldsToItems(ModItems.MEDIUM_ROAST_BEAN, 3, 2, ModItems.GROUND_MEDIUM_ROAST, 12, 12, 5, 0.05F),
+                        new VillagerTrades.ItemsAndEmeraldsToItems(ModItems.DARK_ROAST_BEAN, 3, 2, ModItems.GROUND_DARK_ROAST, 12, 12, 5, 0.05F),
+                        new VillagerTrades.ItemsAndEmeraldsToItems(ModItems.ESPRESSO_ROAST_BEAN, 3, 2, ModItems.GROUND_ESPRESSO_ROAST, 12, 12, 5, 0.05F)
                 },
                 3, new VillagerTrades.ItemListing[]{
                         new VillagerTrades.ItemsForEmeralds(CoffeeUtil.getBaseCoffee(CoffeeTypes.LIGHT_ROAST), 3, 1, 12, 10),
@@ -66,7 +66,7 @@ public class ModVillagerProfessions {
                         new VillagerTrades.ItemsForEmeralds(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), "pdapi:glow_berries"), 7, 1, 12, 20),
                         new VillagerTrades.ItemsForEmeralds(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), "pdapi:honey", "pdapi:sugar"), 5, 1, 12, 20),
                         new VillagerTrades.ItemsForEmeralds(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), "plutoscoffee:mocha_syrup", "plutoscoffee:caramel"), 8, 1, 12, 20),
-                        new VillagerTrades.ItemsAndEmeraldsToItems(ModItems.DARK_ROAST_BEAN, 16, 2, ModItems.DECAF_ROAST_BEAN, 16, 12, 20)
+                        new VillagerTrades.ItemsAndEmeraldsToItems(ModItems.DARK_ROAST_BEAN, 16, 2, ModItems.DECAF_ROAST_BEAN, 16, 12, 20, 0.05F)
                 },
                 5, new VillagerTrades.ItemListing[]{
                         new VillagerTrades.ItemsForEmeralds(ModItems.COFFEE_BREWER, 24, 1, 12, 25),

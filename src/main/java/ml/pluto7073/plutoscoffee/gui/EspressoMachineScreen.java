@@ -23,7 +23,7 @@ public class EspressoMachineScreen extends AbstractContainerScreen<EspressoMachi
     public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
-        this.renderBackground(context);
+        this.renderBackground(context, mouseX, mouseY, delta);
         super.render(context, mouseX, mouseY, delta);
         this.renderTooltip(context, mouseX, mouseY);
         if (mouseX >= i + 60 && mouseX <= i + 78 && mouseY >= j + 44 && mouseY <= j + 48) {

@@ -9,7 +9,7 @@
   "groundsRequired": 2,
   "pullTime": 400,
   "result": {
-    "item": "plutoscoffee:espresso_shot",
-    "count": 1
+    "id": "plutoscoffee:espresso_shot",
+    "Count": 1
   }
 }

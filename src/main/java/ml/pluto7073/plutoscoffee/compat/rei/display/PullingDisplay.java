@@ -9,6 +9,7 @@ import ml.pluto7073.plutoscoffee.compat.rei.CoffeeREI;
 import ml.pluto7073.plutoscoffee.recipe.PullingRecipe;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,17 +20,18 @@ public class PullingDisplay extends BasicDisplay {
     private final int groundsRequired;
     private final int pullTime;
 
-    public PullingDisplay(PullingRecipe recipe) {
-        this(List.of(EntryIngredients.ofIngredient(recipe.grounds), EntryIngredients.ofIngredient(recipe.base)), Collections.singletonList(EntryIngredients.of(recipe.getResultItem())),
-                recipe, recipe.groundsRequired, recipe.pullTime);
+    public PullingDisplay(RecipeHolder<PullingRecipe> recipe) {
+        this(List.of(EntryIngredients.ofIngredient(recipe.value().grounds), EntryIngredients.ofIngredient(recipe.value().base)),
+                Collections.singletonList(EntryIngredients.of(recipe.value().getResultItem())),
+                recipe, recipe.value().groundsRequired, recipe.value().pullTime);
     }
 
     public PullingDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs, CompoundTag tag) {
         this(inputs, outputs, RecipeManagerContext.getInstance().byId(tag, "location"), tag.getInt("groundsRequired"), tag.getInt("pullTime"));
     }
 
-    public PullingDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs, Recipe<?> recipe, int groundsRequired, int pullTime) {
-        super(inputs, outputs, Optional.ofNullable(recipe).map(Recipe::getId));
+    public PullingDisplay(List<EntryIngredient> inputs, List<EntryIngredient> outputs, RecipeHolder<?> recipe, int groundsRequired, int pullTime) {
+        super(inputs, outputs, Optional.ofNullable(recipe).map(RecipeHolder::id));
         this.groundsRequired = groundsRequired;
         this.pullTime = pullTime;
     }

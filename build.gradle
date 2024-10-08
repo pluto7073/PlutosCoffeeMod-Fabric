@@ -12,6 +12,7 @@ base {
 
 repositories {
 	maven { url "https://maven.shedaniel.me/" }
+	maven { url "https://maven.architectury.dev/" }
 	maven { url "https://maven.terraformersmc.com/releases/" }
 	maven { url "https://pluto-mod-maven.web.app/maven" }
 	maven { url = "https://maven.parchmentmc.org" }
@@ -54,6 +55,8 @@ dependencies {
 	modImplementation "ml.pluto7073:pdapi:${project.minecraft_version}+${project.pdapi_version}"
 
 	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
+
+	modApi "dev.architectury:architectury-fabric:10.1.20" // For REI
 }
 
 processResources {

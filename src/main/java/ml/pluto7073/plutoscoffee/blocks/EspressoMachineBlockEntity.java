@@ -33,11 +33,11 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.RecipeHolder;
+import net.minecraft.world.inventory.RecipeCraftingHolder;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
@@ -49,7 +49,7 @@ import java.util.Optional;
 
 @SuppressWarnings("UnstableApiUsage")
 @MethodsReturnNonnullByDefault
-public class EspressoMachineBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeHolder {
+public class EspressoMachineBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeCraftingHolder {
 
     public static final FluidVariant WATER = FluidVariant.of(Fluids.WATER);
 
@@ -95,7 +95,7 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
                     case WATER_PROPERTY_INDEX -> (int) waterStorage.amount;
                     case TOTAL_PULL_TIME_PROPERTY_INDEX -> {
                         if (getItem(GROUNDS_SLOT_INDEX).isEmpty()) yield 400;
-                        Optional<PullingRecipe> recipe = matchGetter.getRecipeFor(EspressoMachineBlockEntity.this, level);
+                        Optional<PullingRecipe> recipe = matchGetter.getRecipeFor(EspressoMachineBlockEntity.this, level).map(RecipeHolder::value);
                         if (recipe.isEmpty()) yield 400;
                         yield recipe.get().pullTime;
                     }
@@ -158,7 +158,7 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
         if (blockEntity.inventory.get(GROUNDS_SLOT_INDEX).isEmpty()) {
             recipe = null;
         } else {
-            recipe = blockEntity.matchGetter.getRecipeFor(blockEntity, level).orElse(null);
+            recipe = blockEntity.matchGetter.getRecipeFor(blockEntity, level).map(RecipeHolder::value).orElse(null);
         }
 
         boolean canPull = canPull(blockEntity.inventory, recipe);
@@ -360,16 +360,16 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
     }
 
     @Override
-    public void setRecipeUsed(@Nullable Recipe<?> recipe) {
+    public void setRecipeUsed(@Nullable RecipeHolder<?> recipe) {
         if (recipe != null) {
-            ResourceLocation resourceLocation = recipe.getId();
+            ResourceLocation resourceLocation = recipe.id();
             this.recipesUsed.addTo(resourceLocation, 1);
         }
 
     }
 
     @Nullable
-    public Recipe<?> getRecipeUsed() {
+    public RecipeHolder<?> getRecipeUsed() {
         return null;
     }
 

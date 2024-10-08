@@ -24,7 +24,7 @@ public class CoffeeBrewerScreen extends AbstractContainerScreen<CoffeeBrewerMenu
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
-        this.renderBackground(graphics);
+        this.renderBackground(graphics, mouseX, mouseY, delta);
         super.render(graphics, mouseX, mouseY, delta);
         this.renderTooltip(graphics, mouseX, mouseY);
         if (mouseX >= i + 60 && mouseX <= i + 78 && mouseY >= j + 44 && mouseY <= j + 48) {

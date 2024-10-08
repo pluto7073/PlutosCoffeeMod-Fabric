@@ -1,12 +1,15 @@
 package ml.pluto7073.plutoscoffee.coffee;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.mojang.serialization.JsonOps;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.network.s2c.SyncMachineWaterSourcesRegistryS2CPacket;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.Resource;
@@ -92,7 +95,8 @@ public class MachineWaterSources implements SimpleSynchronousResourceReloadListe
     }
 
     private static MachineWaterSource fromJson(JsonObject data) {
-        Ingredient source = Ingredient.fromJson(GsonHelper.getAsJsonObject(data, "source"));
+        Ingredient source =
+                Util.getOrThrow(Ingredient.CODEC.parse(JsonOps.INSTANCE, GsonHelper.getAsJsonObject(data, "source")), JsonParseException::new);
         int water = GsonHelper.getAsInt(data, "water");
         return new MachineWaterSource(source, water);
     }

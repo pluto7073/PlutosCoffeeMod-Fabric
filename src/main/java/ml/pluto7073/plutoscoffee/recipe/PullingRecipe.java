@@ -1,6 +1,8 @@
 package ml.pluto7073.plutoscoffee.recipe;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import ml.pluto7073.plutoscoffee.blocks.EspressoMachineBlockEntity;
 import ml.pluto7073.plutoscoffee.registry.ModRecipes;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -17,13 +19,11 @@ import net.minecraft.world.level.Level;
 @MethodsReturnNonnullByDefault
 public class PullingRecipe implements Recipe<Container> {
 
-    private final ResourceLocation id;
     public final Ingredient grounds, base;
     public final int groundsRequired, pullTime;
     final ItemStack result;
 
-    public PullingRecipe(ResourceLocation id, Ingredient grounds, Ingredient base, int groundsRequired, int pullTime, ItemStack result) {
-        this.id = id;
+    public PullingRecipe(Ingredient grounds, Ingredient base, int groundsRequired, int pullTime, ItemStack result) {
         this.grounds = grounds;
         this.base = base;
         this.groundsRequired = groundsRequired;
@@ -59,11 +59,6 @@ public class PullingRecipe implements Recipe<Container> {
     }
 
     @Override
-    public ResourceLocation getId() {
-        return id;
-    }
-
-    @Override
     public NonNullList<Ingredient> getIngredients() {
         return NonNullList.of(grounds, base);
     }
@@ -80,24 +75,27 @@ public class PullingRecipe implements Recipe<Container> {
 
     public static class Serializer implements RecipeSerializer<PullingRecipe> {
 
+        private static final Codec<PullingRecipe> CODEC = RecordCodecBuilder.create(instance ->
+                instance.group(Ingredient.CODEC.fieldOf("grounds").forGetter(recipe -> recipe.grounds),
+                        Ingredient.CODEC.fieldOf("base").forGetter(recipe -> recipe.base),
+                        Codec.INT.fieldOf("groundsRequired").forGetter(recipe -> recipe.groundsRequired),
+                        Codec.INT.fieldOf("pullTime").orElse(400).forGetter(recipe -> recipe.pullTime),
+                        ItemStack.CODEC.fieldOf("result").forGetter(recipe -> recipe.result))
+                        .apply(instance, PullingRecipe::new));
+
         @Override
-        public PullingRecipe fromJson(ResourceLocation id, JsonObject json) {
-            Ingredient grounds = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "grounds"));
-            Ingredient base = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "base"));
-            int groundsRequired = GsonHelper.getAsInt(json, "groundsRequired");
-            int pullTime = GsonHelper.getAsInt(json, "pullTime", 400);
-            ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
-            return new PullingRecipe(id, grounds, base, groundsRequired, pullTime, result);
+        public Codec<PullingRecipe> codec() {
+            return CODEC;
         }
 
         @Override
-        public PullingRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+        public PullingRecipe fromNetwork(FriendlyByteBuf buf) {
             Ingredient grounds = Ingredient.fromNetwork(buf);
             Ingredient base = Ingredient.fromNetwork(buf);
             int groundsCount = buf.readInt();
             int pullTime = buf.readInt();
             ItemStack result = buf.readItem();
-            return new PullingRecipe(id, grounds, base, groundsCount, pullTime, result);
+            return new PullingRecipe(grounds, base, groundsCount, pullTime, result);
         }
 
         @Override
