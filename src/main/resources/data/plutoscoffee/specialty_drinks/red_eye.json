@@ -6,7 +6,9 @@
     "plutoscoffee:espresso_shot",
     "plutoscoffee:espresso_shot"
   ],
-  "caffeine": 350,
+  "chemicals": {
+    "caffeine": 350
+  },
   "color": 985088,
   "onDrinkActions": [
     {

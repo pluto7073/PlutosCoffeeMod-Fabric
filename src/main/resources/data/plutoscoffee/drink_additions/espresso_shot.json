@@ -1,5 +1,7 @@
 {
   "changesColor": true,
   "color": 1444354,
-  "caffeine": 75
+  "chemicals": {
+    "caffeine": 75
+  }
 }

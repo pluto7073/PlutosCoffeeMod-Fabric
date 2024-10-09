@@ -1,5 +1,7 @@
 package ml.pluto7073.plutoscoffee.blocks;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
 import ml.pluto7073.plutoscoffee.registry.ModStats;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -40,11 +42,17 @@ public class CoffeeBrewerBlock extends BaseEntityBlock {
      * 2 - Filled Bottle
      */
     public static final IntegerProperty BOTTLE_PROPERTY;
+    public static final MapCodec<CoffeeBrewerBlock> CODEC = simpleCodec(CoffeeBrewerBlock::new);
     protected static final VoxelShape SHAPE;
 
     public CoffeeBrewerBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.stateDefinition.any().setValue(BOTTLE_PROPERTY, 0));
+    }
+
+    @Override
+    protected MapCodec<CoffeeBrewerBlock> codec() {
+        return CODEC;
     }
 
     public RenderShape getRenderShape(BlockState state) {

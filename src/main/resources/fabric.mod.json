@@ -53,12 +53,11 @@
   "accessWidener": "plutoscoffee.accesswidener",
 
   "depends": {
-    "fabricloader": ">=0.15.7",
+    "fabricloader": ">=0.16.5",
     "fabric-api": "*",
-    "minecraft": "~1.20.1",
+    "minecraft": "~1.20.3",
     "java": ">=17",
-    "cloth-config": ">=11.1.118",
-    "pdapi": ">=0.1.4"
+    "pdapi": ">=1.0.1"
   },
   "suggests": {
     "flamingo": "*",

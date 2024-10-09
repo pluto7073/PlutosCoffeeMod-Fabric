@@ -1,5 +1,6 @@
 package ml.pluto7073.plutoscoffee.blocks;
 
+import com.mojang.serialization.MapCodec;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
 import ml.pluto7073.plutoscoffee.registry.ModStats;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -36,6 +37,7 @@ public class CoffeeGrindrBlock extends BaseEntityBlock {
 
     public static final BooleanProperty FULL_PROPERTY;
     public static final DirectionProperty FACING_PROPERTY;
+    public static final MapCodec<CoffeeGrindrBlock> CODEC = simpleCodec(CoffeeGrindrBlock::new);
     protected static final VoxelShape SHAPE;
 
     public CoffeeGrindrBlock(Properties properties) {
@@ -43,6 +45,11 @@ public class CoffeeGrindrBlock extends BaseEntityBlock {
         this.registerDefaultState(this.getStateDefinition().any()
                 .setValue(FULL_PROPERTY, false)
                 .setValue(FACING_PROPERTY, Direction.NORTH));
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Override

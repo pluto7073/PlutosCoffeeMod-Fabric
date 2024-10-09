@@ -1,5 +1,6 @@
 package ml.pluto7073.plutoscoffee.blocks;
 
+import com.mojang.serialization.MapCodec;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.registry.ModStats;
@@ -42,6 +43,7 @@ public class EspressoMachineBlock extends BaseEntityBlock {
     public static final BooleanProperty PULLING;
     public static final BooleanProperty HAS_MILK;
     public static final DirectionProperty FACING;
+    public static final MapCodec<EspressoMachineBlock> CODEC = simpleCodec(EspressoMachineBlock::new);
 
     protected static VoxelShape SHAPE;
 
@@ -52,6 +54,11 @@ public class EspressoMachineBlock extends BaseEntityBlock {
                 .setValue(PULLING, false)
                 .setValue(HAS_MILK, false)
                 .setValue(FACING, Direction.NORTH));
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     public RenderShape getRenderShape(BlockState state) {
