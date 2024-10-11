@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smelting",
+  "category": "food",
+  "cookingtime": 200,
+  "experience": 0.25,
+  "ingredient": {
+    "item": "plutoscoffee:medium_roast_bean"
+  },
+  "result": {
+    "id": "plutoscoffee:dark_roast_bean"
+  }
+}

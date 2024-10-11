@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "minecraft:bucket"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "iBi",
+    "iPi",
+    "i i"
+  ],
+  "result": {
+    "count": 1,
+    "id": "plutoscoffee:coffee_brewer"
+  }
+}

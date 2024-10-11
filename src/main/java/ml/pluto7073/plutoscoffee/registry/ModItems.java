@@ -1,6 +1,9 @@
 package ml.pluto7073.plutoscoffee.registry;
 
+import ml.pluto7073.pdapi.component.DrinkAdditions;
+import ml.pluto7073.pdapi.component.PDComponents;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
+import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
 import ml.pluto7073.plutoscoffee.items.*;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -31,11 +34,12 @@ public class ModItems {
     public static final Item CARAMEL = new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
     public static final Item MOCHA_SAUCE = new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
 
-    public static final Item BREWED_COFFEE = new BrewedCoffee(new Item.Properties().stacksTo(1));
+    public static final Item BREWED_COFFEE = new BrewedCoffee(new Item.Properties().stacksTo(1).component(PDComponents.ADDITIONS, DrinkAdditions.EMPTY)
+            .component(ModComponents.COFFEE_TYPE, CoffeeTypes.EMPTY));
     public static final Item BLONDE_ESPRESSO_SHOT = new EspressoShotItem(85, new Item.Properties().stacksTo(16).craftRemainder(Items.GLASS_BOTTLE));
     public static final Item ESPRESSO_SHOT = new EspressoShotItem(75, new Item.Properties().stacksTo(16).craftRemainder(Items.GLASS_BOTTLE));
     public static final Item DECAF_ESPRESSO_SHOT = new EspressoShotItem(2, new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
-    public static final Item LATTE = new LatteItem(new Item.Properties().stacksTo(1));
+    public static final Item LATTE = new LatteItem(new Item.Properties().stacksTo(1).component(PDComponents.ADDITIONS, DrinkAdditions.EMPTY));
 
     private static void register(String id, Item item) {
         Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(PlutosCoffee.MOD_ID, id), item);

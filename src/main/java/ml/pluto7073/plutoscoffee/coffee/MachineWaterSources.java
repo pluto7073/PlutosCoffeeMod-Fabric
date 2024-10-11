@@ -8,15 +8,16 @@ import ml.pluto7073.plutoscoffee.network.s2c.SyncMachineWaterSourcesRegistryS2CP
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.Util;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -54,7 +55,7 @@ public class MachineWaterSources implements SimpleSynchronousResourceReloadListe
         for (MachineWaterSource s : REGISTRY.values()) {
             list.addAll(Stream.of(s.ingredient().getItems()).peek(stack -> {
                 if (stack.is(ConventionalItemTags.POTIONS)) {
-                    PotionUtils.setPotion(stack, Potions.WATER);
+                    stack.set(DataComponents.POTION_CONTENTS, new PotionContents(Potions.WATER));
                 }
             }).toList());
         }
@@ -95,8 +96,7 @@ public class MachineWaterSources implements SimpleSynchronousResourceReloadListe
     }
 
     private static MachineWaterSource fromJson(JsonObject data) {
-        Ingredient source =
-                Util.getOrThrow(Ingredient.CODEC.parse(JsonOps.INSTANCE, GsonHelper.getAsJsonObject(data, "source")), JsonParseException::new);
+        Ingredient source = Ingredient.CODEC.parse(JsonOps.INSTANCE, GsonHelper.getAsJsonObject(data, "source")).getOrThrow();
         int water = GsonHelper.getAsInt(data, "water");
         return new MachineWaterSource(source, water);
     }

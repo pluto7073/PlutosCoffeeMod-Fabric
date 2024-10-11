@@ -1,0 +1,24 @@
+{
+  "changesColor": true,
+  "chemicals": {
+    "caffeine": 0
+  },
+  "color": 5711373,
+  "maxAmount": 0,
+  "name": "",
+  "onDrinkActions": [
+    {
+      "type": "pdapi:apply_status_effect",
+      "amplifier": 0,
+      "duration": 200,
+      "effect": "minecraft:regeneration"
+    },
+    {
+      "type": "pdapi:apply_status_effect",
+      "amplifier": 0,
+      "duration": 400,
+      "effect": "minecraft:absorption"
+    }
+  ],
+  "weight": 0
+}

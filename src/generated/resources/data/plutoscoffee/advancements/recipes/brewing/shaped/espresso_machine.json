@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_coffee_grounds": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#plutoscoffee:ground_coffee_beans"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "plutoscoffee:shaped/espresso_machine"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_coffee_grounds"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "plutoscoffee:shaped/espresso_machine"
+    ]
+  }
+}

@@ -124,54 +124,6 @@
     {
       "rolls": {
         "min": 0,
-        "max": 1
-      },
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "plutoscoffee:latte",
-          "functions": [
-            {
-              "function": "minecraft:set_nbt",
-              "tag": "{Coffee:{Additions:[\"plutoscoffee:espresso_shot\",\"plutoscoffee:espresso_shot\"]}}"
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "plutoscoffee:brewed_coffee",
-          "functions": [
-            {
-              "function": "minecraft:set_nbt",
-              "tag": "{Coffee:{CoffeeType:\"plutoscoffee:light_roast\"}}"
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "plutoscoffee:brewed_coffee",
-          "functions": [
-            {
-              "function": "minecraft:set_nbt",
-              "tag": "{Coffee:{CoffeeType:\"plutoscoffee:medium_roast\"}}"
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "plutoscoffee:brewed_coffee",
-          "functions": [
-            {
-              "function": "minecraft:set_nbt",
-              "tag": "{Coffee:{CoffeeType:\"plutoscoffee:dark_roast\"}}"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "rolls": {
-        "min": 0,
         "max": 2
       },
       "entries": [

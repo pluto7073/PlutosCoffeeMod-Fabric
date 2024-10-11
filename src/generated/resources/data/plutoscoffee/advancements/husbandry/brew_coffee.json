@@ -1,0 +1,33 @@
+{
+  "parent": "plutoscoffee:husbandry/obtain_coffee_cherry",
+  "criteria": {
+    "has_coffee": {
+      "conditions": {
+        "items": [
+          {
+            "items": "plutoscoffee:brewed_coffee"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.plutoscoffee.husbandry.brew_coffee.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "plutoscoffee:roasted_coffee_bean"
+    },
+    "title": {
+      "translate": "advancements.plutoscoffee.husbandry.brew_coffee.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_coffee"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

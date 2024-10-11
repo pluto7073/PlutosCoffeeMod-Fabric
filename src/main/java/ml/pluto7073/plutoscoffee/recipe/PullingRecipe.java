@@ -2,13 +2,17 @@ package ml.pluto7073.plutoscoffee.recipe;
 
 import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import ml.pluto7073.plutoscoffee.blocks.EspressoMachineBlockEntity;
 import ml.pluto7073.plutoscoffee.registry.ModRecipes;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
@@ -40,7 +44,7 @@ public class PullingRecipe implements Recipe<Container> {
     }
 
     @Override
-    public ItemStack assemble(Container inventory, RegistryAccess registryManager) {
+    public ItemStack assemble(Container inventory, HolderLookup.Provider provider) {
         return result.copy();
     }
 
@@ -50,7 +54,7 @@ public class PullingRecipe implements Recipe<Container> {
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess registryManager) {
+    public ItemStack getResultItem(HolderLookup.Provider provider) {
         return result.copy();
     }
 
@@ -75,36 +79,41 @@ public class PullingRecipe implements Recipe<Container> {
 
     public static class Serializer implements RecipeSerializer<PullingRecipe> {
 
-        private static final Codec<PullingRecipe> CODEC = RecordCodecBuilder.create(instance ->
+        private static final MapCodec<PullingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
                 instance.group(Ingredient.CODEC.fieldOf("grounds").forGetter(recipe -> recipe.grounds),
                         Ingredient.CODEC.fieldOf("base").forGetter(recipe -> recipe.base),
                         Codec.INT.fieldOf("groundsRequired").forGetter(recipe -> recipe.groundsRequired),
                         Codec.INT.fieldOf("pullTime").orElse(400).forGetter(recipe -> recipe.pullTime),
                         ItemStack.CODEC.fieldOf("result").forGetter(recipe -> recipe.result))
                         .apply(instance, PullingRecipe::new));
+        public static final StreamCodec<RegistryFriendlyByteBuf, PullingRecipe> STREAM_CODEC =
+                StreamCodec.of(Serializer::toNetwork, Serializer::fromNetwork);
 
         @Override
-        public Codec<PullingRecipe> codec() {
+        public MapCodec<PullingRecipe> codec() {
             return CODEC;
         }
 
         @Override
-        public PullingRecipe fromNetwork(FriendlyByteBuf buf) {
-            Ingredient grounds = Ingredient.fromNetwork(buf);
-            Ingredient base = Ingredient.fromNetwork(buf);
+        public StreamCodec<RegistryFriendlyByteBuf, PullingRecipe> streamCodec() {
+            return STREAM_CODEC;
+        }
+
+        public static PullingRecipe fromNetwork(RegistryFriendlyByteBuf buf) {
+            Ingredient grounds = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
+            Ingredient base = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
             int groundsCount = buf.readInt();
             int pullTime = buf.readInt();
-            ItemStack result = buf.readItem();
+            ItemStack result = ItemStack.STREAM_CODEC.decode(buf);
             return new PullingRecipe(grounds, base, groundsCount, pullTime, result);
         }
 
-        @Override
-        public void toNetwork(FriendlyByteBuf buf, PullingRecipe recipe) {
-            recipe.grounds.toNetwork(buf);
-            recipe.base.toNetwork(buf);
+        public static void toNetwork(RegistryFriendlyByteBuf buf, PullingRecipe recipe) {
+            Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.grounds);
+            Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.base);
             buf.writeInt(recipe.groundsRequired);
             buf.writeInt(recipe.pullTime);
-            buf.writeItem(recipe.result);
+            ItemStack.STREAM_CODEC.encode(buf, recipe.result);
         }
 
     }

@@ -21,8 +21,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-import java.io.File;
-
 @Environment(EnvType.CLIENT)
 public class Client implements ClientModInitializer {
 
@@ -32,7 +30,7 @@ public class Client implements ClientModInitializer {
         FabricLoader.getInstance().getModContainer(PlutosCoffee.MOD_ID).ifPresent(container ->
                 ResourceManagerHelper.registerBuiltinResourcePack(new ResourceLocation(PlutosCoffee.MOD_ID, "dark_gui"), container, Component.translatable("pack.plutoscoffee.dark_gui"),ResourcePackActivationType.NORMAL));
 
-        ModPacketsS2C.register();
+        ModPacketsS2C.registerReceivers();
 
         MenuScreens.register(ModScreens.BREWER_MENU_TYPE, CoffeeBrewerScreen::new);
         MenuScreens.register(ModScreens.GRINDR_SCREEN_HANDLER_TYPE, CoffeeGrindrScreen::new);

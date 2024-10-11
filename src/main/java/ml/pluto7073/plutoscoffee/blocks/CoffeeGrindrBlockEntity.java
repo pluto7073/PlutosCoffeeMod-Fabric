@@ -7,6 +7,7 @@ import ml.pluto7073.plutoscoffee.registry.ModBlocks;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -73,6 +74,16 @@ public class CoffeeGrindrBlockEntity extends BaseContainerBlockEntity implements
     }
 
     @Override
+    protected NonNullList<ItemStack> getItems() {
+        return inventory;
+    }
+
+    @Override
+    protected void setItems(NonNullList<ItemStack> nonNullList) {
+        inventory = nonNullList;
+    }
+
+    @Override
     public int getContainerSize() {
         return inventory.size();
     }
@@ -132,7 +143,7 @@ public class CoffeeGrindrBlockEntity extends BaseContainerBlockEntity implements
             ItemStack output = slots.get(OUTPUT_SLOT_INDEX);
             if (output.isEmpty()) return true;
 
-            return output.is(CoffeeGrounds.getGrounds(input.getItem())) && output.getCount() <= output.getItem().getMaxStackSize() - 4;
+            return output.is(CoffeeGrounds.getGrounds(input.getItem())) && output.getCount() <= output.getItem().getDefaultMaxStackSize() - 4;
         }
     }
 
@@ -153,17 +164,17 @@ public class CoffeeGrindrBlockEntity extends BaseContainerBlockEntity implements
         level.levelEvent(10002, pos, 0);
     }
 
-    public void load(CompoundTag nbt) {
-        super.load(nbt);
+    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
+        super.loadAdditional(nbt, provider);
         inventory = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(nbt, inventory);
+        ContainerHelper.loadAllItems(nbt, inventory, provider);
         grindTime = nbt.getShort("GrindTime");
     }
 
-    protected void saveAdditional(CompoundTag nbt) {
-        super.saveAdditional(nbt);
+    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
+        super.saveAdditional(nbt, provider);
         nbt.putShort("GrindTime", (short) grindTime);
-        ContainerHelper.saveAllItems(nbt, this.inventory);
+        ContainerHelper.saveAllItems(nbt, this.inventory, provider);
     }
 
     public ItemStack getItem(int slot) {

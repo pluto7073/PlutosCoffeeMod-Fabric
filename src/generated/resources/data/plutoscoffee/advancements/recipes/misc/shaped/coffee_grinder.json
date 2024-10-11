@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_beans": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#plutoscoffee:roasted_coffee_beans"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_grounds": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#plutoscoffee:ground_coffee_beans"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "plutoscoffee:shaped/coffee_grinder"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_grounds",
+      "has_beans"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "plutoscoffee:shaped/coffee_grinder"
+    ]
+  }
+}

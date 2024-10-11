@@ -1,0 +1,10 @@
+{
+  "type": "pdapi:drink_workstation",
+  "addition": {
+    "item": "plutoscoffee:decaf_espresso_shot"
+  },
+  "base": {
+    "tag": "pdapi:workstation_drinks"
+  },
+  "result": "plutoscoffee:decaf_espresso_shot"
+}

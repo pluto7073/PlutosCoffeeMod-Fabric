@@ -1,10 +1,21 @@
 package ml.pluto7073.plutoscoffee.coffee;
 
+import com.mojang.serialization.Codec;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
 public class CoffeeType {
+
+    public static final Codec<CoffeeType> BY_ID_CODEC =
+            ResourceLocation.CODEC.xmap(CoffeeTypes.REGISTRY::get, CoffeeTypes::getIdentifier);
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, CoffeeType> BY_ID_STREAM_CODEC =
+            StreamCodec.of(RegistryFriendlyByteBuf::writeResourceLocation, RegistryFriendlyByteBuf::readResourceLocation)
+                    .map(CoffeeTypes.REGISTRY::get, CoffeeTypes::getIdentifier);
 
     private final String baseName;
     private final Item grounds;

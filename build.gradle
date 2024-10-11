@@ -10,6 +10,15 @@ base {
 	archivesName = project.archives_base_name
 }
 
+sourceSets {
+	main {
+		resources {
+			srcDir("src/generated/resources")
+			exclude(".cache")
+		}
+	}
+}
+
 repositories {
 	maven { url "https://maven.shedaniel.me/" }
 	maven { url "https://maven.architectury.dev/" }
@@ -32,6 +41,17 @@ loom {
 
 		server {
 			runDir "run/server"
+		}
+
+		datagen {
+			client()
+
+			name "Minecraft Datagen"
+
+			vmArg "-Dfabric-api.datagen"
+			vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
+			vmArg "-Dfabric-api.datagen.modid=plutoscoffee"
+			vmArg "-Dporting_lib.datagen.existing_resources=${file("src/main/resources")}"
 		}
 	}
 
@@ -69,14 +89,14 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 17
+	it.options.release = 21
 }
 
 java {
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
 }
 
 jar {

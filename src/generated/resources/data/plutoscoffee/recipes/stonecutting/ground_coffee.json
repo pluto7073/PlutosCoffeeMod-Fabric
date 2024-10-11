@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "plutoscoffee:roasted_coffee_bean"
+  },
+  "result": {
+    "count": 1,
+    "id": "plutoscoffee:ground_coffee"
+  }
+}

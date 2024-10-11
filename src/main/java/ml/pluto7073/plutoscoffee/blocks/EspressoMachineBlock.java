@@ -78,7 +78,7 @@ public class EspressoMachineBlock extends BaseEntityBlock {
         return SHAPE;
     }
 
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
         if (world.isClientSide) {
             return InteractionResult.SUCCESS;
         } else {
@@ -88,15 +88,6 @@ public class EspressoMachineBlock extends BaseEntityBlock {
                 player.awardStat(ModStats.INTERACT_WITH_ESPRESSO_MACHINE);
             }
             return InteractionResult.CONSUME;
-        }
-    }
-
-    public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        if (stack.hasCustomHoverName()) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof EspressoMachineBlockEntity) {
-                ((EspressoMachineBlockEntity) blockEntity).setCustomName(stack.getHoverName());
-            }
         }
     }
 

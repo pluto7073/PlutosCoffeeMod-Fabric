@@ -1,0 +1,10 @@
+{
+  "type": "pdapi:drink_workstation",
+  "addition": {
+    "item": "plutoscoffee:caramel"
+  },
+  "base": {
+    "tag": "pdapi:workstation_drinks"
+  },
+  "result": "plutoscoffee:caramel"
+}

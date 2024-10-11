@@ -9,18 +9,18 @@ public class CoffeeBean extends Item {
 
     public static FoodProperties.Builder COFFEE_BEAN_FOOD_COMPONENT = new FoodProperties.Builder()
             .fast()
-            .alwaysEat()
+            .alwaysEdible()
             .nutrition(1)
-            .saturationMod(0.5f)
+            .saturationModifier(0.5f)
             .effect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 20 * 10), 1)
             .effect(new MobEffectInstance(MobEffects.JUMP, 20 * 10), 1)
             .effect(new MobEffectInstance(MobEffects.DIG_SPEED, 20 * 10), 1);
 
     public static FoodProperties.Builder DECAF_BEAN_FOOD_COMPONENT = new FoodProperties.Builder()
             .fast()
-            .alwaysEat()
+            .alwaysEdible()
             .nutrition(1)
-            .saturationMod(0);
+            .saturationModifier(0);
 
     public CoffeeBean() {
         super(new Item.Properties());

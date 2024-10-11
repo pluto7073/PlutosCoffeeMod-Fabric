@@ -38,7 +38,6 @@ public class BrewedCoffee extends AbstractCustomizableDrinkItem {
         int total = super.getChemicalContent(name, stack);
         if (!"caffeine".equals(name)) return total;
         CoffeeType type = CoffeeUtil.getCoffeeType(stack);
-        if (type == null) return total;
         return type.getCaffeineContent() + total;
     }
 
@@ -54,11 +53,10 @@ public class BrewedCoffee extends AbstractCustomizableDrinkItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag context) {
-        if (CoffeeUtil.getCoffeeType(stack) != CoffeeTypes.EMPTY
-                && CoffeeUtil.getCoffeeType(stack) != null)
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag config) {
+        if (CoffeeUtil.getCoffeeType(stack) != CoffeeTypes.EMPTY)
             tooltip.add(Component.translatable(CoffeeUtil.getCoffeeType(stack).getTranslationKey()).withStyle(ChatFormatting.GRAY));
-        super.appendHoverText(stack, level, tooltip, context);
+        super.appendHoverText(stack, context, tooltip, config);
     }
 
 }

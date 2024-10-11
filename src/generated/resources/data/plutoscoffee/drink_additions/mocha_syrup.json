@@ -1,0 +1,17 @@
+{
+  "changesColor": true,
+  "chemicals": {
+    "caffeine": 0
+  },
+  "color": 3152394,
+  "maxAmount": 0,
+  "name": "",
+  "onDrinkActions": [
+    {
+      "type": "pdapi:restore_hunger",
+      "food": 6,
+      "saturation": 5
+    }
+  ],
+  "weight": 0
+}

@@ -43,6 +43,9 @@
     "modmenu": [
       "ml.pluto7073.plutoscoffee.compat.modmenu.CoffeeModMenuApiImpl"
     ],
+    "fabric-datagen": [
+      "ml.pluto7073.plutoscoffee.CoffeeDatagen"
+    ],
     "rei_client": [
       "ml.pluto7073.plutoscoffee.compat.rei.CoffeeREI"
     ]
@@ -55,9 +58,9 @@
   "depends": {
     "fabricloader": ">=0.16.5",
     "fabric-api": "*",
-    "minecraft": "~1.20.3",
+    "minecraft": "~1.20.5",
     "java": ">=17",
-    "pdapi": ">=1.0.1"
+    "pdapi": ">=2.0.1"
   },
   "suggests": {
     "flamingo": "*",

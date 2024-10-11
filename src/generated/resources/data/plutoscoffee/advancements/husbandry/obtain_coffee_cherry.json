@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:husbandry/plant_seed",
+  "criteria": {
+    "has_cherry": {
+      "conditions": {
+        "items": [
+          {
+            "items": "plutoscoffee:coffee_berry"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.plutoscoffee.husbandry.obtain_coffee_cherry.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "plutoscoffee:coffee_berry"
+    },
+    "title": {
+      "translate": "advancements.plutoscoffee.husbandry.obtain_coffee_cherry.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_cherry"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

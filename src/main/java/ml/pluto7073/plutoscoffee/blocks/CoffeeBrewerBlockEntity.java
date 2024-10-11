@@ -17,6 +17,7 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -87,6 +88,16 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
 
     protected Component getDefaultName() {
         return Component.translatable("container.coffee_brewer");
+    }
+
+    @Override
+    protected NonNullList<ItemStack> getItems() {
+        return inventory;
+    }
+
+    @Override
+    protected void setItems(NonNullList<ItemStack> nonNullList) {
+        inventory = nonNullList;
     }
 
     public int getContainerSize() {
@@ -186,8 +197,7 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
         ItemStack input = slots.get(INPUT_SLOT_INDEX);
 
         CoffeeType type = CoffeeTypes.getFromGrounds(input.getItem());
-        ItemStack result = new ItemStack(ModItems.BREWED_COFFEE, 1);
-        result.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).putString("CoffeeType", CoffeeTypes.getId(type));
+        ItemStack result = CoffeeUtil.getBaseCoffee(type);
         slots.set(2, result);
 
         input.shrink(1);
@@ -196,18 +206,18 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
         level.levelEvent(10001, pos, 0);
     }
 
-    public void load(CompoundTag nbt) {
-        super.load(nbt);
+    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
+        super.loadAdditional(nbt, provider);
         inventory = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(nbt, inventory);
+        ContainerHelper.loadAllItems(nbt, inventory, provider);
         brewTime = nbt.getShort("BrewTime");
         water.amount = nbt.getInt("Fuel");
     }
 
-    protected void saveAdditional(CompoundTag nbt) {
-        super.saveAdditional(nbt);
+    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
+        super.saveAdditional(nbt, provider);
         nbt.putShort("BrewTime", (short) brewTime);
-        ContainerHelper.saveAllItems(nbt, this.inventory);
+        ContainerHelper.saveAllItems(nbt, this.inventory, provider);
         nbt.putInt("Fuel", (int) water.amount);
     }
 

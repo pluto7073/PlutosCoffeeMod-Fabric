@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "item": "minecraft:glass_bottle"
+    },
+    "s": {
+      "item": "minecraft:sugar"
+    }
+  },
+  "pattern": [
+    "sss",
+    "sss",
+    " G "
+  ],
+  "result": {
+    "count": 1,
+    "id": "plutoscoffee:caramel"
+  }
+}

@@ -78,7 +78,7 @@ public class CoffeeGrindrBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         } else {
@@ -88,15 +88,6 @@ public class CoffeeGrindrBlock extends BaseEntityBlock {
                 player.awardStat(ModStats.INTERACT_WITH_COFFEE_GRINDR);
             }
             return InteractionResult.CONSUME;
-        }
-    }
-
-    public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        if (stack.hasCustomHoverName()) {
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (blockEntity instanceof CoffeeGrindrBlockEntity) {
-                ((CoffeeGrindrBlockEntity) blockEntity).setCustomName(stack.getHoverName());
-            }
         }
     }
 

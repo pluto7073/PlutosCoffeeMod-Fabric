@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "item": "minecraft:glass_bottle"
+    },
+    "c": {
+      "item": "minecraft:cocoa_beans"
+    },
+    "s": {
+      "item": "minecraft:sugar"
+    }
+  },
+  "pattern": [
+    "scs",
+    "csc",
+    " G "
+  ],
+  "result": {
+    "count": 1,
+    "id": "plutoscoffee:mocha_syrup"
+  }
+}

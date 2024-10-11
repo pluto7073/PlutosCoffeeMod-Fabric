@@ -72,7 +72,7 @@ public class CoffeeBrewerBlock extends BaseEntityBlock {
         return SHAPE;
     }
 
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         } else {
@@ -82,15 +82,6 @@ public class CoffeeBrewerBlock extends BaseEntityBlock {
                 player.awardStat(ModStats.INTERACT_WITH_COFFEE_BREWER);
             }
             return InteractionResult.CONSUME;
-        }
-    }
-
-    public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        if (stack.hasCustomHoverName()) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof CoffeeBrewerBlockEntity) {
-                ((CoffeeBrewerBlockEntity) blockEntity).setCustomName(stack.getHoverName());
-            }
         }
     }
 
