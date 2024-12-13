@@ -8,6 +8,7 @@ import ml.pluto7073.plutoscoffee.registry.ModStats;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -34,9 +35,9 @@ public class BrewedCoffee extends AbstractCustomizableDrinkItem {
     }
 
     @Override
-    public int getChemicalContent(String name, ItemStack stack) {
-        int total = super.getChemicalContent(name, stack);
-        if (!"caffeine".equals(name)) return total;
+    public float getChemicalContent(ResourceLocation id, ItemStack stack) {
+        float total = super.getChemicalContent(id, stack);
+        if (!"pdapi:caffeine".equals(id.toString())) return total;
         CoffeeType type = CoffeeUtil.getCoffeeType(stack);
         if (type == null) return total;
         return type.getCaffeineContent() + total;

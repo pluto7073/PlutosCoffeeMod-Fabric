@@ -1,5 +1,8 @@
 package ml.pluto7073.plutoscoffee.registry;
 
+import ml.pluto7073.pdapi.PDAPI;
+import ml.pluto7073.pdapi.addition.chemicals.CaffeineHandler;
+import ml.pluto7073.pdapi.util.PseudoDataFixerRegistry;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.items.*;
 import net.minecraft.core.Registry;
@@ -12,15 +15,15 @@ import net.minecraft.world.item.Items;
 
 public class ModItems {
 
-    public static final Item COFFEE_BERRY = new ItemNameBlockItem(ModBlocks.COFFEE_CROP, new Item.Properties());
+    public static final Item COFFEE_CHERRY = new ItemNameBlockItem(ModBlocks.COFFEE_CROP, new Item.Properties());
     public static final Item COFFEE_BREWER = new BlockItem(ModBlocks.COFFEE_BREWER, new Item.Properties());
     public static final Item COFFEE_GRINDR = new BlockItem(ModBlocks.COFFEE_GRINDR, new Item.Properties());
     public static final Item ESPRESSO_MACHINE = new BlockItem(ModBlocks.ESPRESSO_MACHINE, new Item.Properties());
     public static final Item COFFEE_BEAN = new CoffeeBean();
-    public static final Item LIGHT_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.build()));
-    public static final Item MEDIUM_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.build()));
-    public static final Item DARK_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.build()));
-    public static final Item ESPRESSO_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.build()));
+    public static final Item LIGHT_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.addChemical(PDAPI.asId("caffeine"), 10).build()));
+    public static final Item MEDIUM_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.addChemical(PDAPI.asId("caffeine"), 9).build()));
+    public static final Item DARK_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.addChemical(PDAPI.asId("caffeine"), 8).build()));
+    public static final Item ESPRESSO_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.addChemical(PDAPI.asId("caffeine"), 7).build()));
     public static final Item DECAF_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.DECAF_BEAN_FOOD_COMPONENT.build()));
     public static final Item GROUND_LIGHT_ROAST = new Item(new Item.Properties());
     public static final Item GROUND_MEDIUM_ROAST = new Item(new Item.Properties());
@@ -43,9 +46,9 @@ public class ModItems {
 
     public static void init() {
         register("coffee_bean", COFFEE_BEAN);
-        register("coffee_berry", COFFEE_BERRY);
-        register("ground_coffee", GROUND_LIGHT_ROAST);
-        register("roasted_coffee_bean", LIGHT_ROAST_BEAN);
+        register("coffee_cherry", COFFEE_CHERRY);
+        register("ground_light_roast", GROUND_LIGHT_ROAST);
+        register("light_roast_bean", LIGHT_ROAST_BEAN);
         register("caramel", CARAMEL);
         register("mocha_syrup", MOCHA_SAUCE);
         register("medium_roast_bean", MEDIUM_ROAST_BEAN);
@@ -53,7 +56,7 @@ public class ModItems {
         register("dark_roast_bean", DARK_ROAST_BEAN);
         register("ground_dark_roast", GROUND_DARK_ROAST);
         register("espresso_roast_bean", ESPRESSO_ROAST_BEAN);
-        register("espresso_grounds", GROUND_ESPRESSO_ROAST);
+        register("ground_espresso_roast", GROUND_ESPRESSO_ROAST);
         register("decaf_roast_bean", DECAF_ROAST_BEAN);
         register("ground_decaf_roast", GROUND_DECAF_ROAST);
         register("brewed_coffee", BREWED_COFFEE);
@@ -66,6 +69,11 @@ public class ModItems {
         register("coffee_brewer", COFFEE_BREWER);
         register("coffee_grinder", COFFEE_GRINDR);
         register("espresso_machine", ESPRESSO_MACHINE);
+
+        PseudoDataFixerRegistry.register(PlutosCoffee.asId("coffee_berry"), PlutosCoffee.asId("coffee_cherry"));
+        PseudoDataFixerRegistry.register(PlutosCoffee.asId("roasted_coffee_bean"), PlutosCoffee.asId("light_roast_bean"));
+        PseudoDataFixerRegistry.register(PlutosCoffee.asId("ground_coffee"), PlutosCoffee.asId("ground_light_roast"));
+        PseudoDataFixerRegistry.register(PlutosCoffee.asId("espresso_grounds"), PlutosCoffee.asId("ground_espresso_roast"));
     }
 
 }

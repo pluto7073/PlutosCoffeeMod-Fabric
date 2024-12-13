@@ -1,7 +1,7 @@
 {
   "type": "plutoscoffee:pulling",
   "grounds": {
-    "item": "plutoscoffee:espresso_grounds"
+    "item": "plutoscoffee:ground_espresso_roast"
   },
   "base": {
     "item": "minecraft:glass_bottle"

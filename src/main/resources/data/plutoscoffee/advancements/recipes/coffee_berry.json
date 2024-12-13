@@ -17,7 +17,7 @@
         "items": [
           {
             "items": [
-              "plutoscoffee:coffee_berry"
+              "plutoscoffee:coffee_cherry"
             ]
           }
         ]
@@ -26,10 +26,10 @@
   },
   "rewards": {
     "recipes": [
-      "plutoscoffee:roasted_coffee_bean",
+      "plutoscoffee:light_roast",
       "plutoscoffee:medium_roast",
       "plutoscoffee:dark_roast",
-      "plutoscoffee:coffee_berry",
+      "plutoscoffee:coffee_cherry",
       "plutoscoffee:coffee_bean"
     ]
   }

@@ -1,6 +1,6 @@
 package ml.pluto7073.plutoscoffee.items;
 
-import ml.pluto7073.pdapi.addition.chemicals.ConsumableChemicalRegistry;
+import ml.pluto7073.pdapi.addition.chemicals.CaffeineHandler;
 import ml.pluto7073.plutoscoffee.registry.ModStats;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -40,7 +40,7 @@ public class EspressoShotItem extends Item {
 
         if (!level.isClientSide) {
             if (player != null) {
-                ConsumableChemicalRegistry.CAFFEINE.add(player, caffeine);
+                CaffeineHandler.INSTANCE.add(player, caffeine);
             }
         }
 

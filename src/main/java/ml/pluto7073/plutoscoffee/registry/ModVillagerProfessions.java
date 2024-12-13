@@ -8,7 +8,6 @@ import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
 import ml.pluto7073.plutoscoffee.items.LatteItem;
-import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -43,7 +42,7 @@ public class ModVillagerProfessions {
     public static void postInit() {
         VillagerTrades.TRADES.put(BARISTA, new Int2ObjectOpenHashMap<>(ImmutableMap.of(
                 1, new VillagerTrades.ItemListing[]{
-                        new VillagerTrades.EmeraldForItems(ModItems.COFFEE_BERRY, 24, 16, 2),
+                        new VillagerTrades.EmeraldForItems(ModItems.COFFEE_CHERRY, 24, 16, 2),
                         new VillagerTrades.ItemsForEmeralds(ModItems.MOCHA_SAUCE, 1, 3, 16, 2),
                         new VillagerTrades.EmeraldForItems(ModItems.COFFEE_BEAN, 22, 16, 2),
                         new VillagerTrades.EmeraldForItems(ModItems.USED_COFFEE_GROUNDS, 26, 16, 2)

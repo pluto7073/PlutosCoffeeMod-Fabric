@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "plutoscoffee:coffee_berry",
+          "name": "plutoscoffee:coffee_cherry",
           "functions": [
             {
               "function": "minecraft:set_count",
