@@ -1,5 +1,6 @@
 package ml.pluto7073.plutoscoffee.coffee;
 
+import com.mojang.serialization.Codec;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -12,6 +13,8 @@ import java.util.Set;
 
 public class CoffeeTypes {
 
+    public static final Codec<CoffeeType> BY_ID_CODEC =
+            ResourceLocation.CODEC.xmap(CoffeeTypes::get, CoffeeTypes::getIdentifier);
     public static final Map<ResourceLocation, CoffeeType> REGISTRY = new HashMap<>();
 
     public static final CoffeeType EMPTY;
@@ -28,6 +31,10 @@ public class CoffeeTypes {
 
     public static String getId(CoffeeType type) {
         return getIdentifier(type).getPath();
+    }
+
+    public static CoffeeType get(ResourceLocation id) {
+        return REGISTRY.get(id);
     }
 
     public static ResourceLocation getIdentifier(CoffeeType type) {

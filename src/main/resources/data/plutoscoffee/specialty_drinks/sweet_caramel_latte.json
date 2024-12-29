@@ -1,6 +1,8 @@
 {
-  "type": "pdapi:specialty_drink",
-  "base": "plutoscoffee:latte",
+  "base": {
+    "type": "pdapi:item",
+    "item": "plutoscoffee:latte"
+  },
   "additions": [
     "pdapi:honey",
     "plutoscoffee:caramel",
@@ -8,7 +10,7 @@
     "plutoscoffee:espresso_shot",
     "plutoscoffee:espresso_shot"
   ],
-  "pdapi:caffeine": 150,
+  "chemicals": {},
   "color": 8872502,
   "onDrinkActions": [
     {

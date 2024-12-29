@@ -1,5 +1,7 @@
 {
   "changesColor": true,
   "color": 1444354,
-  "pdapi:caffeine": 85
+  "chemicals": {
+    "pdapi:caffeine": 85
+  }
 }
