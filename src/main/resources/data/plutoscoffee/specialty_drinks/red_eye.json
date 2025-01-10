@@ -1,12 +1,16 @@
 {
-  "type": "pdapi:specialty_drink",
-  "base": "plutoscoffee:brewed_coffee",
+  "base": {
+    "type": "pdapi:item",
+    "item": "plutoscoffee:brewed_coffee"
+  },
   "additions": [
     "plutoscoffee:espresso_shot",
     "plutoscoffee:espresso_shot",
     "plutoscoffee:espresso_shot"
   ],
-  "caffeine": 350,
+  "chemicals": {
+    "pdapi:caffeine": 115
+  },
   "color": 985088,
   "onDrinkActions": [
     {

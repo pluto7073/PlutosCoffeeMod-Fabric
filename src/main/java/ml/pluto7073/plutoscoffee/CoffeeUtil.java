@@ -27,6 +27,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public final class CoffeeUtil {
 
@@ -89,31 +92,20 @@ public final class CoffeeUtil {
     }
 
     public static int getCoffeeColour(DrinkAddition[] addIns) {
-        int colour = BrewedCoffee.DEFAULT_COLOUR;
+        int color = BrewedCoffee.DEFAULT_COLOUR;
         if (Arrays.stream(addIns).map(DrinkAdditionManager::getId).anyMatch(identifier -> identifier.toString().equals("pdapi:milk"))) {
-            colour = BrewedCoffee.COLOUR_WITH_MILK;
+            color = BrewedCoffee.COLOUR_WITH_MILK;
         }
-        float r = (colour >> 16 & 255) / 255.0F;
-        float g = (colour >> 8 & 255) / 255.0F;
-        float b = (colour & 255) / 255.0F;
-        int colourCount = 1;
-        int allowedMilk = 3;
-        for (DrinkAddition addition : addIns) {
-            if (!addition.changesColor()) continue;
-            if (DrinkAdditionManager.getId(addition).toString().equals("pdapi:milk") && allowedMilk > 0) {
-                allowedMilk--;
-                continue;
+        final AtomicInteger allowedMilk = new AtomicInteger(2);
+        List<Integer> colors = Arrays.stream(addIns).filter(addition -> {
+            if (DrinkAdditionManager.getId(addition).toString().equals("pdapi:milk") && allowedMilk.get() > 0) {
+                allowedMilk.decrementAndGet();
+                return false;
             }
-            int additionColour = addition.getColor();
-            r += (additionColour >> 16 & 255) / 255.0F;
-            g += (additionColour >> 8 & 255) / 255.0F;
-            b += (additionColour & 255) / 255.0F;
-            colourCount += 1;
-        }
-        r = r / (float) colourCount * 255.0F;
-        g = g / (float) colourCount * 255.0F;
-        b = b / (float) colourCount * 255.0F;
-        return (int) r << 16 | (int) g << 8 | (int) b;
+            return true;
+        }).filter(DrinkAddition::changesColor).map(DrinkAddition::getColor).collect(Collectors.toCollection(ArrayList::new));
+        colors.add(0, color);
+        return DrinkUtil.averageColors(colors);
     }
 
     public static ItemStack getWithAdditions(ItemStack stack, String... additions) {
@@ -139,34 +131,19 @@ public final class CoffeeUtil {
 
     public static int getLatteColour(DrinkAddition[] addIns) {
         int color = 0xFFFFFF;
-        if (Arrays.stream(addIns).map(DrinkAdditionManager::getId).anyMatch(id -> id.toString().equals("plutoscoffee:espresso_shot")
-                || id.toString().equals("plutoscoffee:blonde_espresso_shot")
-                || id.toString().equals("plutoscoffee:decaf_espresso_shot"))) {
+        if (Arrays.stream(addIns).map(DrinkAdditionManager::getId).anyMatch(id -> id.getPath().contains("espresso_shot"))) {
             color = BrewedCoffee.COLOUR_WITH_MILK;
         }
-        float r = (color >> 16 & 255) / 255.0F;
-        float g = (color >> 8 & 255) / 255.0F;
-        float b = (color & 255) / 255.0F;
-        int colourCount = 1;
-        int allowedShots = 2;
-        for (DrinkAddition addition : addIns) {
-            if (!addition.changesColor()) continue;
-            if ((DrinkAdditionManager.getId(addition).toString().equals("plutoscoffee:espresso_shot") ||
-                    DrinkAdditionManager.getId(addition).toString().equals("plutoscoffee:blonde_espresso_shot") ||
-                    DrinkAdditionManager.getId(addition).toString().equals("plutoscoffee:decaf_espresso_shot")) && allowedShots > 0) {
-                allowedShots--;
-                continue;
+        final AtomicInteger allowedShots = new AtomicInteger(2);
+        List<Integer> colors = Arrays.stream(addIns).filter(addition -> {
+            if (DrinkAdditionManager.getId(addition).getPath().contains("espresso_shot") && allowedShots.get() > 0) {
+                allowedShots.decrementAndGet();
+                return false;
             }
-            int additionColour = addition.getColor();
-            r += (additionColour >> 16 & 255) / 255.0F;
-            g += (additionColour >> 8 & 255) / 255.0F;
-            b += (additionColour & 255) / 255.0F;
-            colourCount += 1;
-        }
-        r = r / (float) colourCount * 255.0F;
-        g = g / (float) colourCount * 255.0F;
-        b = b / (float) colourCount * 255.0F;
-        return (int) r << 16 | (int) g << 8 | (int) b;
+            return true;
+        }).filter(DrinkAddition::changesColor).map(DrinkAddition::getColor).collect(Collectors.toCollection(ArrayList::new));
+        colors.add(0, color);
+        return DrinkUtil.averageColors(colors);
     }
 
     public static int calculateHealthBarHeightPixels(int health, int maxHeartsPerRow, int rowHeight) {

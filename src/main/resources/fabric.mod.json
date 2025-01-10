@@ -50,15 +50,14 @@
   "mixins": [
     "plutoscoffee.mixins.json"
   ],
-  "accessWidener": "plutoscoffee.accesswidener",
 
   "depends": {
-    "fabricloader": ">=0.15.7",
-    "fabric-api": "*",
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": ">=${fabric_version}",
     "minecraft": "~1.20.1",
     "java": ">=17",
     "cloth-config": ">=11.1.118",
-    "pdapi": ">=0.1.4"
+    "pdapi": ">=${pdapi_version}"
   },
   "suggests": {
     "flamingo": "*",

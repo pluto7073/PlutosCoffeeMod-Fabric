@@ -31,7 +31,7 @@ public class ModMisc {
             stacks.accept(new ItemStack(ModItems.COFFEE_GRINDR, 1));
             stacks.accept(new ItemStack(ModItems.ESPRESSO_MACHINE, 1));
             stacks.accept(new ItemStack(PDItems.DRINK_WORKSTATION, 1));
-            stacks.accept(new ItemStack(ModItems.COFFEE_BERRY, 1));
+            stacks.accept(new ItemStack(ModItems.COFFEE_CHERRY, 1));
             stacks.accept(new ItemStack(ModItems.COFFEE_BEAN, 1));
             stacks.accept(new ItemStack(ModItems.LIGHT_ROAST_BEAN, 1));
             stacks.accept(new ItemStack(ModItems.MEDIUM_ROAST_BEAN, 1));

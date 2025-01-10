@@ -22,6 +22,7 @@ public class PlutosCoffee implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        ModDrinkBases.init();
         ModBlocks.init();
         ModItems.init();
         ModMisc.init();

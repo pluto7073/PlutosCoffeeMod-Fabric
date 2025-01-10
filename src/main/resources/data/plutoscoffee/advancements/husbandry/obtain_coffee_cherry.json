@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "plutoscoffee:coffee_berry"
+      "item": "plutoscoffee:coffee_cherry"
     },
     "title": "That's not a cherry!",
     "description": "Find a coffee cherry in a village",
@@ -17,7 +17,7 @@
         "items": [
           {
             "items": [
-              "plutoscoffee:coffee_berry"
+              "plutoscoffee:coffee_cherry"
             ]
           }
         ]

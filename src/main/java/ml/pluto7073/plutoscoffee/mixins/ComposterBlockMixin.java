@@ -18,7 +18,7 @@ public class ComposterBlockMixin {
 
     @Inject(at = @At("TAIL"), method = "bootStrap")
     private static void teatime_registerModCompostItems(CallbackInfo ci) {
-        add(0.3F, ModItems.COFFEE_BERRY);
+        add(0.3F, ModItems.COFFEE_CHERRY);
         add(0.75F, ModItems.USED_COFFEE_GROUNDS);
         add(0.3f, ModItems.GROUND_LIGHT_ROAST);
         add(0.3f, ModItems.GROUND_MEDIUM_ROAST);

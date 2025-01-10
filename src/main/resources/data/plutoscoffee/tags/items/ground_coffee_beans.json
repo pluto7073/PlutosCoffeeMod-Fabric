@@ -1,10 +1,10 @@
 {
   "replace": false,
   "values": [
-    "plutoscoffee:ground_coffee",
+    "plutoscoffee:ground_light_roast",
     "plutoscoffee:ground_medium_roast",
     "plutoscoffee:ground_dark_roast",
-    "plutoscoffee:espresso_grounds",
+    "plutoscoffee:ground_espresso_roast",
     "plutoscoffee:ground_decaf_roast"
   ]
 }

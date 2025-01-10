@@ -1,5 +1,7 @@
 package ml.pluto7073.plutoscoffee.items;
 
+import ml.pluto7073.pdapi.PDAPI;
+import ml.pluto7073.pdapi.addition.chemicals.CaffeineHandler;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -11,16 +13,14 @@ public class CoffeeBean extends Item {
             .fast()
             .alwaysEat()
             .nutrition(1)
-            .saturationMod(0.5f)
-            .effect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 20 * 10), 1)
-            .effect(new MobEffectInstance(MobEffects.JUMP, 20 * 10), 1)
-            .effect(new MobEffectInstance(MobEffects.DIG_SPEED, 20 * 10), 1);
+            .saturationMod(0.5f);
 
     public static FoodProperties.Builder DECAF_BEAN_FOOD_COMPONENT = new FoodProperties.Builder()
             .fast()
             .alwaysEat()
             .nutrition(1)
-            .saturationMod(0);
+            .saturationMod(0)
+            .addChemical(PDAPI.asId("caffeine"), 0.1f);
 
     public CoffeeBean() {
         super(new Item.Properties());

@@ -1,9 +1,9 @@
 plugins {
-	id 'fabric-loom' version '1.5-SNAPSHOT'
+	id 'fabric-loom' version '1.6.+'
 	id 'maven-publish'
 }
 
-version = project.mod_version
+version = project.minecraft_version + "+" + project.mod_version
 group = project.maven_group
 
 base {
@@ -19,8 +19,6 @@ repositories {
 }
 
 loom {
-
-	accessWidenerPath = file("src/main/resources/plutoscoffee.accesswidener")
 
 	runs {
 		configureEach {
@@ -39,7 +37,7 @@ dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings(loom.layered {
 		it.mappings "org.quiltmc:quilt-mappings:${minecraft_version}+build.${quilt_mappings}:intermediary-v2"
-		it.parchment "org.parchmentmc.data:parchment-${minecraft_version}:${parchment_version}@zip"
+		//it.parchment "org.parchmentmc.data:parchment-${minecraft_version}:${parchment_version}@zip"
 		it.officialMojangMappings { nameSyntheticMembers = false }
 	})
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
@@ -57,10 +55,16 @@ dependencies {
 }
 
 processResources {
-	inputs.property "version", project.version
+	Map<String, String> properties = new HashMap<>();
+	properties.put("version", mod_version)
+	properties.put("loader_version", loader_version)
+	properties.put("fabric_version", fabric_version)
+	properties.put("pdapi_version", pdapi_version)
+
+	properties.forEach((k, v) -> inputs.property(k, v))
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+		expand properties
 	}
 }
 
