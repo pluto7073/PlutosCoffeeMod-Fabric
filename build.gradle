@@ -1,6 +1,8 @@
 plugins {
 	id 'fabric-loom' version '1.6.+'
 	id 'maven-publish'
+	id "com.modrinth.minotaur" version "2.+"
+	id "com.github.breadmoirai.github-release" version "2.+"
 }
 
 version = project.minecraft_version + "+" + project.mod_version
@@ -85,6 +87,17 @@ jar {
 	}
 }
 
+tasks.register("buildOrPublish") {
+	String user = System.getenv("MAVEN_USER")
+	if (user != null && !user.isEmpty()) {
+		dependsOn(tasks.publish)
+		println("prepared for publish")
+	} else {
+		dependsOn(tasks.build)
+		println("prepared for build")
+	}
+}
+
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
@@ -95,3 +108,5 @@ publishing {
 	repositories {
 	}
 }
+
+apply from: "gradle/publishing/publishing.gradle"

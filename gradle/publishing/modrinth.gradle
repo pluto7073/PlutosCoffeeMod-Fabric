@@ -1,0 +1,17 @@
+
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = "plutos-coffee-mod"
+    uploadFile = file("build/libs/${remapJar.archiveBaseName.get()}-${version}.jar")
+    additionalFiles = [ file("build/libs/${remapJar.archiveBaseName.get()}-${version}-sources.jar") ]
+    gameVersions = project.minecraft_dependency.split(',').toList()
+    dependencies {
+        required.project "fabric-api"
+        required.project "pdapi"
+        optional.project "modmenu"
+        optional.project "cloth-config"
+    }
+    loaders = [ "fabric" ]
+    changelog = changelog_text
+}
