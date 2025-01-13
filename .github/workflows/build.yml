@@ -41,6 +41,9 @@ jobs:
       - name: validate gradle wrapper
         uses: gradle/wrapper-validation-action@v2
 
+      - name: modify run perms
+        run: chmod +x ./gradlew
+
       - name: build or publish
         run: ./gradlew buildOrPublish
 
