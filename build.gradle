@@ -3,6 +3,7 @@ plugins {
 	id 'maven-publish'
 	id "com.modrinth.minotaur" version "2.+"
 	id "com.github.breadmoirai.github-release" version "2.+"
+	id "com.matthewprenger.cursegradle" version "1.+"
 }
 
 version = project.minecraft_version + "+" + project.mod_version

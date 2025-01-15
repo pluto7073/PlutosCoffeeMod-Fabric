@@ -8,6 +8,7 @@ tasks.register("publishMod") {
     group "publishing"
     dependsOn(tasks.modrinth)
     dependsOn(tasks.githubRelease)
+    dependsOn(tasks.curseforge)
 }
 
 static String getChangelog(File logFile) {
@@ -17,3 +18,4 @@ static String getChangelog(File logFile) {
 
 apply from: 'gradle/publishing/github.gradle'
 apply from: 'gradle/publishing/modrinth.gradle'
+apply from: 'gradle/publishing/curseforge.gradle'
