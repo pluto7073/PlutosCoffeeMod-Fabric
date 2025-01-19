@@ -1,0 +1,22 @@
+{
+  "base": {
+    "type": "pdapi:item",
+    "item": "plutoscoffee:latte"
+  },
+  "additions": [
+    "pdapi_compat:farmersdelight/pumpkin",
+    "pdapi_compat:farmersdelight/pumpkin",
+    "plutoscoffee:espresso_shot",
+    "plutoscoffee:espresso_shot"
+  ],
+  "chemicals": {},
+  "color": 13203248,
+  "onDrinkActions": [
+    {
+      "type": "pdapi:apply_status_effects",
+      "effect": "minecraft:absorption",
+      "amplifier": 0,
+      "duration": 1200
+    }
+  ]
+}
