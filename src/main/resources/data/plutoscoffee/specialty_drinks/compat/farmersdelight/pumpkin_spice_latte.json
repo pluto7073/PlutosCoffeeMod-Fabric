@@ -13,7 +13,7 @@
   "color": 13203248,
   "onDrinkActions": [
     {
-      "type": "pdapi:apply_status_effects",
+      "type": "pdapi:apply_status_effect",
       "effect": "minecraft:absorption",
       "amplifier": 0,
       "duration": 1200
