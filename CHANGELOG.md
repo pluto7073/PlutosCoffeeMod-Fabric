@@ -10,6 +10,7 @@
 
 ## Fixes
 - Pumpkin Spice Latte should now only load when Farmer's Delight loads
+- Espresso Machine & Coffee Brewer now return empty buckets and bottles from water filling correctly
 
 ---
 

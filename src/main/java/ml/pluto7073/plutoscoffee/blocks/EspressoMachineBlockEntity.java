@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import ml.pluto7073.pdapi.tag.PDTags;
 import ml.pluto7073.pdapi.util.BasicSingleStorage;
+import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
 import ml.pluto7073.plutoscoffee.gui.EspressoMachineMenu;
 import ml.pluto7073.plutoscoffee.recipe.PullingRecipe;
@@ -135,21 +136,7 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, EspressoMachineBlockEntity blockEntity) {
-        ItemStack fuelStack = blockEntity.inventory.get(WATER_SLOT_INDEX);
-        int waterAmount = MachineWaterSources.getWaterAmount(fuelStack);
-        trans: try (Transaction transaction = Transaction.openOuter()) {
-            long waterInserted = blockEntity.waterStorage.insert(WATER, waterAmount, transaction);
-            if (waterAmount - waterInserted > 2025) {
-                transaction.abort();
-                break trans;
-            }
-            Item source = fuelStack.getItem().getCraftingRemainingItem();
-            if (fuelStack.is(ConventionalItemTags.POTIONS)) {
-                source = Items.GLASS_BOTTLE;
-            }
-            blockEntity.setItem(WATER_SLOT_INDEX, source == null ? ItemStack.EMPTY : new ItemStack(source));
-            transaction.commit();
-        }
+        CoffeeUtil.updateWaterMachine(blockEntity, WATER_SLOT_INDEX, blockEntity.waterStorage);
 
         // Espresso Section
 

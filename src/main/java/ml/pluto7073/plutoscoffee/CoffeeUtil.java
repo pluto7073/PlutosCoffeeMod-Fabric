@@ -7,17 +7,23 @@ import ml.pluto7073.pdapi.addition.DrinkAdditionManager;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
+import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
 import ml.pluto7073.plutoscoffee.items.BrewedCoffee;
 import ml.pluto7073.plutoscoffee.mixins.StructurePoolAccessor;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.tags.ModItemTags;
+import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 import net.fabricmc.fabric.api.tag.convention.v1.TagUtil;
+import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
@@ -30,6 +36,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static ml.pluto7073.plutoscoffee.blocks.EspressoMachineBlockEntity.WATER;
 
 public final class CoffeeUtil {
 
@@ -45,6 +53,25 @@ public final class CoffeeUtil {
             l2.remove(t);
         }
         return (l1.isEmpty()) && (l2.isEmpty());
+    }
+
+    @SuppressWarnings("UnstableApiUsage")
+    public static void updateWaterMachine(BaseContainerBlockEntity blockEntity, int waterSlot, SingleFluidStorage fluid) {
+        ItemStack fuelStack = blockEntity.getItem(waterSlot);
+        int waterAmount = MachineWaterSources.getWaterAmount(fuelStack);
+        trans: try (Transaction transaction = Transaction.openOuter()) {
+            long waterInserted = fluid.insert(WATER, waterAmount, transaction);
+            if (waterAmount - waterInserted > 2025 || waterAmount == 0) {
+                transaction.abort();
+                break trans;
+            }
+            Item source = fuelStack.getItem().getCraftingRemainingItem();
+            if (fuelStack.is(ConventionalItemTags.POTIONS)) {
+                source = Items.GLASS_BOTTLE;
+            }
+            blockEntity.setItem(waterSlot, source == null ? ItemStack.EMPTY : new ItemStack(source));
+            transaction.commit();
+        }
     }
 
     public static CoffeeType getCoffeeType(ItemStack stack) {

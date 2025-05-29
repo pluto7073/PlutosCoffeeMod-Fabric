@@ -107,21 +107,7 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, CoffeeBrewerBlockEntity blockEntity) {
-        ItemStack fuelStack = blockEntity.inventory.get(FUEL_SLOT_INDEX);
-        int waterAmount = MachineWaterSources.getWaterAmount(fuelStack);
-        trans: try (Transaction transaction = Transaction.openOuter()) {
-            long waterInserted = blockEntity.water.insert(WATER, waterAmount, transaction);
-            if (waterAmount - waterInserted > 2025) {
-                transaction.abort();
-                break trans;
-            }
-            Item source = fuelStack.getItem().getCraftingRemainingItem();
-            if (fuelStack.is(ConventionalItemTags.POTIONS)) {
-                source = Items.GLASS_BOTTLE;
-            }
-            blockEntity.setItem(FUEL_SLOT_INDEX, source == null ? ItemStack.EMPTY : new ItemStack(source));
-            transaction.commit();
-        }
+        CoffeeUtil.updateWaterMachine(blockEntity, FUEL_SLOT_INDEX, blockEntity.water);
 
         boolean recipe = canCraft(blockEntity.inventory);
         boolean brewing = blockEntity.brewTime > 0;
