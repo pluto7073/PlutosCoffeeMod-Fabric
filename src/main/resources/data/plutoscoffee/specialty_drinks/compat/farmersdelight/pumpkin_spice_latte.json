@@ -18,5 +18,13 @@
       "amplifier": 0,
       "duration": 1200
     }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "farmersdelight"
+      ]
+    }
   ]
 }

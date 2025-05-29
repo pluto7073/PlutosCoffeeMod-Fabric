@@ -1,5 +1,10 @@
 
 ## Fixes
+- Pumpkin Spice Latte should now only load when Farmer's Delight loads
+
+---
+
+## Fixes
 - [PDAPI#1](https://github.com/pluto7073/PlutosDrinksAPI/issues/1) Fixed Pumpkin Spice Latte causing datapacks to not be loadable due to a typo 
 
 ---
