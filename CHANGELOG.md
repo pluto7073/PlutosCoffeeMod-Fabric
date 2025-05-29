@@ -1,4 +1,13 @@
 
+## Changes
+- Compat with PDAPI 0.3.12+
+- Drink Volumes
+  - Latte Without Additions: 10oz
+  - Brewed Coffee: 12oz
+- Addition Volumes
+  - All Espresso Shots: 1oz
+  - Caramel & Mocha Syrup: 0.25oz
+
 ## Fixes
 - Pumpkin Spice Latte should now only load when Farmer's Delight loads
 

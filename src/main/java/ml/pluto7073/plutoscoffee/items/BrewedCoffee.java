@@ -26,7 +26,7 @@ public class BrewedCoffee extends AbstractCustomizableDrinkItem {
     public static final int COLOUR_WITH_MILK = 0x885737;
 
     public BrewedCoffee(Properties properties) {
-        super(Items.GLASS_BOTTLE, Temperature.HOT, properties);
+        super(Items.GLASS_BOTTLE, 12, properties);
     }
 
     @Override

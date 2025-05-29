@@ -16,7 +16,7 @@ import net.minecraft.world.level.Level;
 public class LatteItem extends AbstractCustomizableDrinkItem {
 
     public LatteItem(Properties settings) {
-        super(Items.GLASS_BOTTLE, Temperature.HOT, settings);
+        super(Items.GLASS_BOTTLE, 10, settings);
     }
 
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity user) {
