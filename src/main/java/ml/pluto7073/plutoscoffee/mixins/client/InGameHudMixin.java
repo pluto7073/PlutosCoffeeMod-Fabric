@@ -3,6 +3,7 @@ package ml.pluto7073.plutoscoffee.mixins.client;
 import ml.pluto7073.pdapi.util.DrinkUtil;
 import ml.pluto7073.plutoscoffee.Client;
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
+import ml.pluto7073.plutoscoffee.config.CoffeeConfig;
 import ml.pluto7073.plutoscoffee.registry.ModGuiTextures;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -37,7 +38,7 @@ public abstract class InGameHudMixin {
 
     @Inject(at = @At("HEAD"), method = "render")
     public void plutoscoffee_renderCaffeineContentDisplay(GuiGraphics graphics, float partialTick, CallbackInfo ci) {
-        if (!Client.CONFIG.shouldShowCoffeeBar()) return;
+        if (!CoffeeConfig.INSTANCE.shouldShowCoffeeBar) return;
         Player playerEntity = this.getCameraPlayer();
         //noinspection DataFlowIssue
         if (this.minecraft.gameMode.getPlayerMode() == GameType.CREATIVE) return;

@@ -1,5 +1,12 @@
 
 ## Changes
+- Config managed by PDAPI (0.3.14+)
+  - Files are exactly the same
+  - Can be edited through ModMenu with ClothConfig
+
+---
+
+## Changes
 - Compat with PDAPI 0.3.12+
 - Drink Volumes
   - Latte Without Additions: 10oz

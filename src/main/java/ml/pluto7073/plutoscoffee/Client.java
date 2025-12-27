@@ -1,5 +1,6 @@
 package ml.pluto7073.plutoscoffee;
 
+import ml.pluto7073.pdapi.config.PDClientConfig;
 import ml.pluto7073.plutoscoffee.config.CoffeeConfig;
 import ml.pluto7073.plutoscoffee.gui.CoffeeBrewerScreen;
 import ml.pluto7073.plutoscoffee.gui.CoffeeGrindrScreen;
@@ -26,8 +27,6 @@ import java.io.File;
 @Environment(EnvType.CLIENT)
 public class Client implements ClientModInitializer {
 
-    public static CoffeeConfig CONFIG;
-
     public void onInitializeClient() {
         FabricLoader.getInstance().getModContainer(PlutosCoffee.MOD_ID).ifPresent(container ->
                 ResourceManagerHelper.registerBuiltinResourcePack(new ResourceLocation(PlutosCoffee.MOD_ID, "dark_gui"), container, Component.translatable("pack.plutoscoffee.dark_gui"),ResourcePackActivationType.NORMAL));
@@ -46,7 +45,7 @@ public class Client implements ClientModInitializer {
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex > 0 ? -1 : CoffeeUtil.getCoffeeColour(stack), ModItems.BREWED_COFFEE);
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex > 0 ? -1 : CoffeeUtil.getLatteColour(stack), ModItems.LATTE);
 
-        CONFIG = new CoffeeConfig();
+        PDClientConfig.INSTANCE.addManagedConfig(CoffeeConfig.INSTANCE);
     }
 
 }
