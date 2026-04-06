@@ -23,6 +23,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
@@ -75,12 +76,10 @@ public final class CoffeeUtil {
     }
 
     public static CoffeeType getCoffeeType(ItemStack stack) {
-        DrinkUtil.convertStackFromPlutosCoffee(stack);
         return getCoffeeType(stack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY));
     }
 
     public static ItemStack setCoffeeType(ItemStack stack, CoffeeType type) {
-        DrinkUtil.convertStackFromPlutosCoffee(stack);
         ResourceLocation id = CoffeeTypes.getIdentifier(type);
         if (type == CoffeeTypes.EMPTY) {
             stack.removeTagKey(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY);
@@ -109,23 +108,22 @@ public final class CoffeeUtil {
         return TagUtil.isIn(ModItemTags.COFFEE_BEANS, item);
     }
 
-    public static int getCoffeeColour(ItemStack stack) {
-        DrinkUtil.convertStackFromPlutosCoffee(stack);
-        DrinkAddition[] addIns = DrinkUtil.getAdditionsFromStack(stack);
+    public static int getCoffeeColour(ItemStack stack, Level level) {
+        DrinkAddition[] addIns = DrinkUtil.getAdditionsFromStack(stack, level);
         if (addIns == null) {
             return BrewedCoffee.DEFAULT_COLOUR;
         }
-        return getCoffeeColour(addIns);
+        return getCoffeeColour(addIns, level);
     }
 
-    public static int getCoffeeColour(DrinkAddition[] addIns) {
+    public static int getCoffeeColour(DrinkAddition[] addIns, Level level) {
         int color = BrewedCoffee.DEFAULT_COLOUR;
-        if (Arrays.stream(addIns).map(DrinkAdditionManager::getId).anyMatch(identifier -> identifier.toString().equals("pdapi:milk"))) {
+        if (Arrays.stream(addIns).map(level.getDrinkAdditionManager()::getId).anyMatch(identifier -> identifier.toString().equals("pdapi:milk"))) {
             color = BrewedCoffee.COLOUR_WITH_MILK;
         }
         final AtomicInteger allowedMilk = new AtomicInteger(2);
         List<Integer> colors = Arrays.stream(addIns).filter(addition -> {
-            if (DrinkAdditionManager.getId(addition).toString().equals("pdapi:milk") && allowedMilk.get() > 0) {
+            if (level.getDrinkAdditionManager().getId(addition).toString().equals("pdapi:milk") && allowedMilk.get() > 0) {
                 allowedMilk.decrementAndGet();
                 return false;
             }
@@ -147,23 +145,22 @@ public final class CoffeeUtil {
         return stack;
     }
 
-    public static int getLatteColour(ItemStack stack) {
-        DrinkUtil.convertStackFromPlutosCoffee(stack);
-        DrinkAddition[] addIns = DrinkUtil.getAdditionsFromStack(stack);
+    public static int getLatteColour(ItemStack stack, Level level) {
+        DrinkAddition[] addIns = DrinkUtil.getAdditionsFromStack(stack, level);
         if (addIns == null) {
             return 0xFFFFFF;
         }
-        return getLatteColour(addIns);
+        return getLatteColour(addIns, level);
     }
 
-    public static int getLatteColour(DrinkAddition[] addIns) {
+    public static int getLatteColour(DrinkAddition[] addIns, Level level) {
         int color = 0xFFFFFF;
-        if (Arrays.stream(addIns).map(DrinkAdditionManager::getId).anyMatch(id -> id.getPath().contains("espresso_shot"))) {
+        if (Arrays.stream(addIns).map(level.getDrinkAdditionManager()::getId).anyMatch(id -> id.getPath().contains("espresso_shot"))) {
             color = BrewedCoffee.COLOUR_WITH_MILK;
         }
         final AtomicInteger allowedShots = new AtomicInteger(2);
         List<Integer> colors = Arrays.stream(addIns).filter(addition -> {
-            if (DrinkAdditionManager.getId(addition).getPath().contains("espresso_shot") && allowedShots.get() > 0) {
+            if (level.getDrinkAdditionManager().getId(addition).getPath().contains("espresso_shot") && allowedShots.get() > 0) {
                 allowedShots.decrementAndGet();
                 return false;
             }

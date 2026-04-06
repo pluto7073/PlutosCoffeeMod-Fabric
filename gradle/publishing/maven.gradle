@@ -1,0 +1,22 @@
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'plutoscoffee'
+
+            from(components.java)
+            pom.withXml {
+                Node pom = asNode()
+                pom.dependencies.'*'.findAll() {
+                    it.artifactId.text() != 'pdapi'
+                }.each() {
+                    it.parent().remove(it)
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven { url = System.getenv("PUBLISH_LOCATION") }
+    }
+}

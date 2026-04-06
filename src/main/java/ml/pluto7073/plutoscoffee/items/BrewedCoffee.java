@@ -35,8 +35,8 @@ public class BrewedCoffee extends AbstractCustomizableDrinkItem {
     }
 
     @Override
-    public float getChemicalContent(ResourceLocation id, ItemStack stack) {
-        float total = super.getChemicalContent(id, stack);
+    public float getChemicalContent(ResourceLocation id, ItemStack stack, Level level) {
+        float total = super.getChemicalContent(id, stack, level);
         if (!"pdapi:caffeine".equals(id.toString())) return total;
         CoffeeType type = CoffeeUtil.getCoffeeType(stack);
         if (type == null) return total;

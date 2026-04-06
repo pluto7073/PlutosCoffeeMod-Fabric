@@ -17,6 +17,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
@@ -42,8 +43,8 @@ public class Client implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.COFFEE_GRINDR, RenderType.cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ESPRESSO_MACHINE, RenderType.cutout());
 
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex > 0 ? -1 : CoffeeUtil.getCoffeeColour(stack), ModItems.BREWED_COFFEE);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex > 0 ? -1 : CoffeeUtil.getLatteColour(stack), ModItems.LATTE);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex > 0 ? -1 : CoffeeUtil.getCoffeeColour(stack, Minecraft.getInstance().level), ModItems.BREWED_COFFEE);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex > 0 ? -1 : CoffeeUtil.getLatteColour(stack, Minecraft.getInstance().level), ModItems.LATTE);
 
         PDClientConfig.INSTANCE.addManagedConfig(CoffeeConfig.INSTANCE);
     }

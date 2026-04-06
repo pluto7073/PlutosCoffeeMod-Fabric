@@ -1,5 +1,10 @@
 
 ## Changes
+- Updated to PDAPI 0.4.x
+
+---
+
+## Changes
 - Config managed by PDAPI (0.3.14+)
   - Files are exactly the same
   - Can be edited through ModMenu with ClothConfig

@@ -6,8 +6,18 @@ plugins {
 	id "com.matthewprenger.cursegradle" version "1.+"
 }
 
-version = project.minecraft_version + "+" + project.mod_version
+static String getBuildNo() {
+	if (System.getenv().containsKey("GITHUB_RUN_NUMBER")) {
+		return "+build." + System.getenv("GITHUB_RUN_NUMBER")
+	} else {
+		return "+dev"
+	}
+}
+
+version = project.minecraft_version + "+" + project.mod_version + getBuildNo()
 group = project.maven_group
+
+System.out.println("Version: " + version)
 
 base {
 	archivesName = project.archives_base_name
@@ -96,17 +106,6 @@ tasks.register("buildOrPublish") {
 	} else {
 		dependsOn(tasks.build)
 		println("prepared for build")
-	}
-}
-
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-		}
-	}
-
-	repositories {
 	}
 }
 

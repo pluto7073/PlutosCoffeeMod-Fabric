@@ -1,5 +1,6 @@
 package ml.pluto7073.plutoscoffee.items;
 
+import ml.pluto7073.chemicals.handlers.ConsumedInstance;
 import ml.pluto7073.pdapi.addition.chemicals.CaffeineHandler;
 import ml.pluto7073.plutoscoffee.registry.ModStats;
 import net.minecraft.ChatFormatting;
@@ -19,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+@SuppressWarnings("UnstableApiUsage")
 @MethodsReturnNonnullByDefault
 public class EspressoShotItem extends Item {
 
@@ -40,7 +42,7 @@ public class EspressoShotItem extends Item {
 
         if (!level.isClientSide) {
             if (player != null) {
-                CaffeineHandler.INSTANCE.add(player, caffeine);
+                player.addChemical(CaffeineHandler.INSTANCE, ConsumedInstance.AbsorptionType.DRINK, caffeine);
             }
         }
 
