@@ -1,5 +1,11 @@
 
 ## Changes
+- Updated to PDAPI 0.4.4+
+- Pluto's Coffee Mod now requires Java 21 and Fabric Loader 0.18+
+
+---
+
+## Changes
 - Updated to PDAPI 0.4.x
 
 ---

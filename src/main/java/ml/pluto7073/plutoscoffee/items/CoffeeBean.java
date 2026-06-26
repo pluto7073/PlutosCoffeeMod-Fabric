@@ -1,9 +1,6 @@
 package ml.pluto7073.plutoscoffee.items;
 
 import ml.pluto7073.pdapi.PDAPI;
-import ml.pluto7073.pdapi.addition.chemicals.CaffeineHandler;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 

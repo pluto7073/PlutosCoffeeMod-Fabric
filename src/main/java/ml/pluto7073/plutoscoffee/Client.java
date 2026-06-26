@@ -1,6 +1,6 @@
 package ml.pluto7073.plutoscoffee;
 
-import ml.pluto7073.pdapi.config.PDClientConfig;
+import ml.pluto7073.pdapi.client.PDClientConfig;
 import ml.pluto7073.plutoscoffee.config.CoffeeConfig;
 import ml.pluto7073.plutoscoffee.gui.CoffeeBrewerScreen;
 import ml.pluto7073.plutoscoffee.gui.CoffeeGrindrScreen;
@@ -22,8 +22,6 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-
-import java.io.File;
 
 @Environment(EnvType.CLIENT)
 public class Client implements ClientModInitializer {
