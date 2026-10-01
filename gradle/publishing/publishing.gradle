@@ -8,7 +8,7 @@ tasks.register("publishMod") {
     group "publishing"
     dependsOn(tasks.modrinth)
     dependsOn(tasks.githubRelease)
-    dependsOn(tasks.curseforge)
+    //dependsOn(tasks.curseforge)
 }
 
 static String getChangelog(File logFile) {
