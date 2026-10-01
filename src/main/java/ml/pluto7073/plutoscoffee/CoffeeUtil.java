@@ -30,10 +30,7 @@ import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -118,18 +115,19 @@ public final class CoffeeUtil {
 
     public static int getCoffeeColour(DrinkAddition[] addIns, Level level) {
         int color = BrewedCoffee.DEFAULT_COLOUR;
-        if (Arrays.stream(addIns).map(level.getDrinkAdditionManager()::getId).anyMatch(identifier -> identifier.toString().equals("pdapi:milk"))) {
+        if (Arrays.stream(addIns).filter(Objects::nonNull).map(level.getDrinkAdditionManager()::getId).anyMatch(identifier -> identifier.toString().equals("pdapi:milk"))) {
             color = BrewedCoffee.COLOUR_WITH_MILK;
         }
         final AtomicInteger allowedMilk = new AtomicInteger(2);
         List<Integer> colors = Arrays.stream(addIns).filter(addition -> {
+            if (addition == null) return false;
             if (level.getDrinkAdditionManager().getId(addition).toString().equals("pdapi:milk") && allowedMilk.get() > 0) {
                 allowedMilk.decrementAndGet();
                 return false;
             }
             return true;
         }).filter(DrinkAddition::changesColor).map(DrinkAddition::getColor).collect(Collectors.toCollection(ArrayList::new));
-        colors.add(0, color);
+        colors.addFirst(color);
         return DrinkUtil.averageColors(colors);
     }
 
@@ -155,11 +153,12 @@ public final class CoffeeUtil {
 
     public static int getLatteColour(DrinkAddition[] addIns, Level level) {
         int color = 0xFFFFFF;
-        if (Arrays.stream(addIns).map(level.getDrinkAdditionManager()::getId).anyMatch(id -> id.getPath().contains("espresso_shot"))) {
+        if (Arrays.stream(addIns).filter(Objects::nonNull).map(level.getDrinkAdditionManager()::getId).anyMatch(id -> id.getPath().contains("espresso_shot"))) {
             color = BrewedCoffee.COLOUR_WITH_MILK;
         }
         final AtomicInteger allowedShots = new AtomicInteger(2);
         List<Integer> colors = Arrays.stream(addIns).filter(addition -> {
+            if (addition == null) return false;
             if (level.getDrinkAdditionManager().getId(addition).getPath().contains("espresso_shot") && allowedShots.get() > 0) {
                 allowedShots.decrementAndGet();
                 return false;
