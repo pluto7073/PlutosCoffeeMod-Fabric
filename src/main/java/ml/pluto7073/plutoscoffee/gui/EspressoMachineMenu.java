@@ -2,7 +2,6 @@ package ml.pluto7073.plutoscoffee.gui;
 
 import ml.pluto7073.pdapi.tag.PDTags;
 import ml.pluto7073.plutoscoffee.blocks.EspressoMachineBlockEntity;
-import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
 import ml.pluto7073.plutoscoffee.recipe.PullingRecipe;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.registry.ModScreens;
@@ -119,7 +118,7 @@ public class EspressoMachineMenu extends AbstractContainerMenu {
         }
 
         public static boolean matches(ItemStack stack) {
-            return MachineWaterSources.getWaterAmount(stack) > 0;
+            return stack.is(ModItemTags.MACHINE_WATER_SOURCES);
         }
 
         public int getMaxStackSize() {

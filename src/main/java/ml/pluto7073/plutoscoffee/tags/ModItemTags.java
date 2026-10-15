@@ -9,5 +9,6 @@ public class ModItemTags {
 
     public static final TagKey<Item> COFFEE_BEANS = TagKey.create(Registries.ITEM, PlutosCoffee.asId("roasted_coffee_beans"));
     public static final TagKey<Item> COFFEE_GROUNDS = TagKey.create(Registries.ITEM, PlutosCoffee.asId("ground_coffee_beans"));
+    public static final TagKey<Item> MACHINE_WATER_SOURCES = TagKey.create(Registries.ITEM, PlutosCoffee.asId("machine_water_sources"));
 
 }

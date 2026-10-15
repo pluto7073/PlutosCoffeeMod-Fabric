@@ -5,7 +5,6 @@ import ml.pluto7073.plutoscoffee.config.CoffeeConfig;
 import ml.pluto7073.plutoscoffee.gui.CoffeeBrewerScreen;
 import ml.pluto7073.plutoscoffee.gui.CoffeeGrindrScreen;
 import ml.pluto7073.plutoscoffee.gui.EspressoMachineScreen;
-import ml.pluto7073.plutoscoffee.network.ModPacketsS2C;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.registry.ModScreens;
@@ -29,8 +28,6 @@ public class Client implements ClientModInitializer {
     public void onInitializeClient() {
         FabricLoader.getInstance().getModContainer(PlutosCoffee.MOD_ID).ifPresent(container ->
                 ResourceManagerHelper.registerBuiltinResourcePack(new ResourceLocation(PlutosCoffee.MOD_ID, "dark_gui"), container, Component.translatable("pack.plutoscoffee.dark_gui"),ResourcePackActivationType.NORMAL));
-
-        ModPacketsS2C.register();
 
         MenuScreens.register(ModScreens.BREWER_MENU_TYPE, CoffeeBrewerScreen::new);
         MenuScreens.register(ModScreens.GRINDR_SCREEN_HANDLER_TYPE, CoffeeGrindrScreen::new);

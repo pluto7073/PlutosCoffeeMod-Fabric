@@ -2,8 +2,8 @@ package ml.pluto7073.plutoscoffee.gui;
 
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.blocks.CoffeeBrewerBlockEntity;
-import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
 import ml.pluto7073.plutoscoffee.registry.ModScreens;
+import ml.pluto7073.plutoscoffee.tags.ModItemTags;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -164,7 +164,7 @@ public class CoffeeBrewerMenu extends AbstractContainerMenu {
         }
 
         public static boolean matches(ItemStack stack) {
-            return MachineWaterSources.getWaterAmount(stack) > 0;
+            return stack.is(ModItemTags.MACHINE_WATER_SOURCES);
         }
 
         public int getMaxStackSize() {
