@@ -10,14 +10,14 @@ import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
-import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
 import ml.pluto7073.plutoscoffee.compat.rei.CoffeeREI;
 import ml.pluto7073.plutoscoffee.compat.rei.display.PullingDisplay;
 import ml.pluto7073.plutoscoffee.registry.ModGuiTextures;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
-import net.minecraft.client.Minecraft;
+import ml.pluto7073.plutoscoffee.tags.ModItemTags;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class PullingCategory implements DisplayCategory<PullingDisplay> {
 
         widgets.add(Widgets.createSlot(
                 new Point(origin.x - 6, origin.y + 40))
-                .markInput().entries(EntryIngredients.ofIngredient(MachineWaterSources.asIngredient()))
+                .markInput().entries(EntryIngredients.ofIngredient(Ingredient.of(ModItemTags.MACHINE_WATER_SOURCES)))
         );
         widgets.add(Widgets.createSlot(
                 new Point(origin.x + 14, origin.y + 40))
@@ -47,7 +47,7 @@ public class PullingCategory implements DisplayCategory<PullingDisplay> {
         widgets.add(Widgets.createResultSlotBackground(new Point(origin.x + 61, origin.y + 91)));
         widgets.add(Widgets.createSlot(
                 new Point(origin.x + 61, origin.y + 91)).disableBackground()
-                .markOutput().entries(display.getOutputEntries().get(0))
+                .markOutput().entries(display.getOutputEntries().getFirst())
         );
         widgets.add(Widgets.createTooltip(new Rectangle(origin.x + 7, origin.y + 58, 9, 28), Component.translatable("category.pulling.pullTime.tooltip", display.getPullTime() / 20)));
         widgets.add(Widgets.createDrawableWidget(new DrawableConsumer() {
