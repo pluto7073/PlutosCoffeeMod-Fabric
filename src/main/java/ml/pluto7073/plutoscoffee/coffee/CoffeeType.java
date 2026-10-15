@@ -1,10 +1,24 @@
 package ml.pluto7073.plutoscoffee.coffee;
 
+import com.mojang.serialization.Codec;
+import io.netty.buffer.ByteBuf;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipProvider;
 
-public class CoffeeType {
+import java.util.function.Consumer;
+
+public class CoffeeType implements TooltipProvider {
+
+    public static final Codec<CoffeeType> COMPONENT_CODEC =
+            ResourceLocation.CODEC.xmap(CoffeeTypes::get, CoffeeTypes::getIdentifier);
+    public static final StreamCodec<ByteBuf, CoffeeType> STREAM_COMPONENT_CODEC =
+            ResourceLocation.STREAM_CODEC.map(CoffeeTypes::get, CoffeeTypes::getIdentifier);
 
     private final String baseName;
     private final Item grounds;
@@ -16,9 +30,9 @@ public class CoffeeType {
     public static CoffeeType byId(String id) {
         CoffeeType type;
         if (id.contains(":")) {
-            type =  CoffeeTypes.REGISTRY.get(new ResourceLocation(id.replace("\"", "")));
+            type =  CoffeeTypes.REGISTRY.get(ResourceLocation.parse(id.replace("\"", "")));
         } else {
-            type = CoffeeTypes.REGISTRY.get(new ResourceLocation(PlutosCoffee.MOD_ID, id.replace("\"", "")));
+            type = CoffeeTypes.REGISTRY.get(ResourceLocation.fromNamespaceAndPath(PlutosCoffee.MOD_ID, id.replace("\"", "")));
         }
         if (type == null) {
             type = CoffeeTypes.EMPTY;
@@ -50,4 +64,8 @@ public class CoffeeType {
         return caffeineContent;
     }
 
+    @Override
+    public void addToTooltip(Item.TooltipContext context, Consumer<Component> tooltipConsumer, TooltipFlag config) {
+        tooltipConsumer.accept(Component.translatable(getTranslationKey()));
+    }
 }

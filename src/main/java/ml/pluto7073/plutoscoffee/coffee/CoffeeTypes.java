@@ -25,7 +25,7 @@ public class CoffeeTypes {
     public static final CoffeeType DECAF;
 
     public static CoffeeType register(String id, CoffeeType type) {
-        REGISTRY.put(new ResourceLocation("plutoscoffee", id), type);
+        REGISTRY.put(ResourceLocation.fromNamespaceAndPath("plutoscoffee", id), type);
         return type;
     }
 
@@ -44,7 +44,7 @@ public class CoffeeTypes {
                 return i;
             }
         }
-        return new ResourceLocation("plutoscoffee:empty");
+        return ResourceLocation.fromNamespaceAndPath("plutoscoffee", "empty");
     }
 
     public static CoffeeType getFromGrounds(Item grounds) {

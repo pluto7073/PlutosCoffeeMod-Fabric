@@ -1,44 +1,41 @@
 package ml.pluto7073.plutoscoffee.blocks;
 
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
+import ml.pluto7073.pdapi.PDAPI;
+import ml.pluto7073.pdapi.component.DrinkAdditions;
+import ml.pluto7073.pdapi.component.PDComponents;
 import ml.pluto7073.pdapi.tag.PDTags;
 import ml.pluto7073.pdapi.util.BasicSingleStorage;
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
-import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
 import ml.pluto7073.plutoscoffee.gui.EspressoMachineMenu;
 import ml.pluto7073.plutoscoffee.recipe.PullingRecipe;
+import ml.pluto7073.plutoscoffee.recipe.PullingRecipeInput;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.registry.ModRecipes;
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.FilteringStorage;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.RecipeHolder;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
@@ -48,9 +45,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-@SuppressWarnings("UnstableApiUsage")
 @MethodsReturnNonnullByDefault
-public class EspressoMachineBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer, RecipeHolder {
+public class EspressoMachineBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer {
 
     public static final FluidVariant WATER = FluidVariant.of(Fluids.WATER);
 
@@ -78,7 +74,7 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
     private boolean lastTickEspresso, lastTickMilk;
 
     protected final ContainerData containerData;
-    private final RecipeManager.CachedCheck<Container, PullingRecipe> matchGetter;
+    private final RecipeManager.CachedCheck<PullingRecipeInput, PullingRecipe> matchGetter;
     private final Object2IntOpenHashMap<ResourceLocation> recipesUsed;
     private final SingleFluidStorage waterStorage = new BasicSingleStorage(WATER, FluidConstants.BUCKET, this::setChanged);
     public final Storage<FluidVariant> insert = FilteringStorage.insertOnlyOf(waterStorage);
@@ -96,9 +92,9 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
                     case WATER_PROPERTY_INDEX -> (int) waterStorage.amount;
                     case TOTAL_PULL_TIME_PROPERTY_INDEX -> {
                         if (getItem(GROUNDS_SLOT_INDEX).isEmpty()) yield 400;
-                        Optional<PullingRecipe> recipe = matchGetter.getRecipeFor(EspressoMachineBlockEntity.this, level);
+                        Optional<RecipeHolder<PullingRecipe>> recipe = matchGetter.getRecipeFor(new PullingRecipeInput(EspressoMachineBlockEntity.this), level);
                         if (recipe.isEmpty()) yield 400;
-                        yield recipe.get().pullTime;
+                        yield recipe.get().value().pullTime();
                     }
                     default -> 0;
                 };
@@ -126,6 +122,19 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
         return Component.translatable("container.espresso_machine");
     }
 
+    @Override
+    protected NonNullList<ItemStack> getItems() {
+        return inventory;
+    }
+
+    @Override
+    protected void setItems(NonNullList<ItemStack> stacks) {
+        inventory.clear();
+        for (int i = 0; i < stacks.size(); i++) {
+            inventory.set(i, stacks.get(i));
+        }
+    }
+
     public int getContainerSize() { return inventory.size(); }
 
     public boolean isEmpty() {
@@ -140,15 +149,15 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
 
         // Espresso Section
 
-        PullingRecipe recipe;
+        RecipeHolder<PullingRecipe> recipe;
 
         if (blockEntity.inventory.get(GROUNDS_SLOT_INDEX).isEmpty()) {
             recipe = null;
         } else {
-            recipe = blockEntity.matchGetter.getRecipeFor(blockEntity, level).orElse(null);
+            recipe = blockEntity.matchGetter.getRecipeFor(new PullingRecipeInput(blockEntity), level).orElse(null);
         }
 
-        boolean canPull = canPull(blockEntity.inventory, recipe);
+        boolean canPull = recipe != null && canPull(blockEntity.inventory, recipe.value());
         boolean pulling = blockEntity.pullTime > 0 && recipe != null;
 
         if (pulling) {
@@ -157,7 +166,7 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
             state = state.setValue(EspressoMachineBlock.PULLING, true);
             if (done && canPull) {
                 blockEntity.waterStorage.amount -= WATER_TO_ESPRESSO;
-                pull(level, pos, blockEntity, recipe);
+                pull(level, pos, blockEntity, recipe.value());
                 state = state.setValue(EspressoMachineBlock.PULLING, false);
                 setChanged(level, pos, state);
             } else if (!canPull) {
@@ -166,7 +175,7 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
                 setChanged(level, pos, state);
             }
         } else if (canPull && blockEntity.waterStorage.amount >= WATER_TO_ESPRESSO) {
-            blockEntity.pullTime = recipe.pullTime;
+            blockEntity.pullTime = recipe.value().pullTime();
             setChanged(level, pos, state);
         }
         boolean hasEspresso = !blockEntity.inventory.get(ESPRESSO_SLOT_INDEX).isEmpty() || !blockEntity.inventory.get(ESPRESSO_SLOT_2_INDEX).isEmpty();
@@ -203,9 +212,9 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
             if (milkStack.is(PDTags.MILK_BOTTLES) && blockEntity.steamTime >= 400) {
                 milkStack = new ItemStack(ModItems.LATTE);
             } else if (milkStack.is(ModItems.LATTE) && blockEntity.steamTime >= 500) {
-                ListTag resAdds = new ListTag();
-                if (!resAdds.contains(StringTag.valueOf("pdapi:burnt"))) resAdds.add(StringTag.valueOf("pdapi:burnt"));
-                milkStack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).put("Additions", resAdds);
+                DrinkAdditions resAdds = milkStack.getOrDefault(PDComponents.ADDITIONS, DrinkAdditions.EMPTY);
+                if (!resAdds.additions().contains(PDAPI.asId("burnt"))) resAdds = resAdds.withAddition(PDAPI.asId("burnt"));
+                milkStack.set(PDComponents.ADDITIONS, resAdds);
             }
             blockEntity.inventory.set(MILK_SLOT_INDEX, milkStack);
         } else {
@@ -223,32 +232,33 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
     private static boolean canPull(NonNullList<ItemStack> slots, PullingRecipe recipe) {
         if (recipe == null) return false;
         ItemStack grounds = slots.get(GROUNDS_SLOT_INDEX);
-        if (grounds.getCount() < recipe.groundsRequired) return false;
+        if (grounds.getCount() < recipe.groundsRequired()) return false;
         ItemStack trash = slots.get(TRASH_SLOT_INDEX);
-        if (trash.getCount() > trash.getItem().getMaxStackSize() - recipe.groundsRequired) return false;
+        if (trash.getCount() > trash.getItem().getDefaultMaxStackSize() - recipe.groundsRequired()) return false;
         return trash.is(ModItems.USED_COFFEE_GROUNDS) || trash.isEmpty();
     }
 
-    private static void pull(Level level, BlockPos pos, Container slots, PullingRecipe recipe) {
+    private static void pull(Level level, BlockPos pos, EspressoMachineBlockEntity slots, PullingRecipe recipe) {
         ItemStack input = slots.getItem(GROUNDS_SLOT_INDEX);
         ItemStack trash = slots.getItem(TRASH_SLOT_INDEX);
-        input.shrink(recipe.groundsRequired);
+        var recipeInput = new PullingRecipeInput(slots);
+        input.shrink(recipe.groundsRequired());
 
         if (trash.isEmpty()) {
-            trash = new ItemStack(ModItems.USED_COFFEE_GROUNDS, recipe.groundsRequired);
+            trash = new ItemStack(ModItems.USED_COFFEE_GROUNDS, recipe.groundsRequired());
         } else {
-            trash.grow(recipe.groundsRequired);
+            trash.grow(recipe.groundsRequired());
         }
 
         ItemStack out1 = slots.getItem(ESPRESSO_SLOT_INDEX),
                 out2 = slots.getItem(ESPRESSO_SLOT_2_INDEX);
 
-        if (recipe.base.test(out1)) {
-            out1 = recipe.assemble(slots, level.registryAccess());
+        if (recipe.base().test(out1)) {
+            out1 = recipe.assemble(recipeInput, level.registryAccess());
             slots.setItem(ESPRESSO_SLOT_INDEX, out1);
         }
-        if (recipe.base.test(out2)) {
-            out2 = recipe.assemble(slots, level.registryAccess());
+        if (recipe.base().test(out2)) {
+            out2 = recipe.assemble(recipeInput, level.registryAccess());
             slots.setItem(ESPRESSO_SLOT_2_INDEX, out2);
         }
 
@@ -258,26 +268,26 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
         level.levelEvent(10003, pos, 0);
     }
 
-    public void load(CompoundTag nbt) {
-        super.load(nbt);
+    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
+        super.loadAdditional(nbt, provider);
         inventory = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(nbt, inventory);
+        ContainerHelper.loadAllItems(nbt, inventory, provider);
         pullTime = nbt.getShort("PullTime");
         if (nbt.contains("Variant"))
-            waterStorage.variant = FluidVariant.fromNbt(nbt.getCompound("Variant"));
+            waterStorage.variant = FluidVariant.CODEC.parse(NbtOps.INSTANCE, nbt.getCompound("Variant")).getOrThrow();
         waterStorage.amount = nbt.getInt("Water");
         steamTime = nbt.getShort("SteamTime");
         CompoundTag used = nbt.getCompound("RecipesUsed");
         for (String s : used.getAllKeys()) {
-            recipesUsed.put(new ResourceLocation(s), used.getInt(s));
+            recipesUsed.put(ResourceLocation.parse(s), used.getInt(s));
         }
     }
 
-    protected void saveAdditional(CompoundTag nbt) {
-        super.saveAdditional(nbt);
-        ContainerHelper.saveAllItems(nbt, inventory);
+    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
+        super.saveAdditional(nbt, provider);
+        ContainerHelper.saveAllItems(nbt, inventory, provider);
         nbt.putShort("PullTime", (short) pullTime);
-        nbt.put("Variant", waterStorage.variant.toNbt());
+        nbt.put("Variant", FluidVariant.CODEC.encodeStart(NbtOps.INSTANCE, waterStorage.variant).getOrThrow());
         nbt.putInt("Water", (int) waterStorage.amount);
         nbt.putShort("SteamTime", (short) steamTime);
         CompoundTag used = new CompoundTag();
@@ -344,20 +354,6 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
 
     protected AbstractContainerMenu createMenu(int syncId, Inventory inventory) {
         return new EspressoMachineMenu(syncId, inventory, this, containerData);
-    }
-
-    @Override
-    public void setRecipeUsed(@Nullable Recipe<?> recipe) {
-        if (recipe != null) {
-            ResourceLocation resourceLocation = recipe.getId();
-            this.recipesUsed.addTo(resourceLocation, 1);
-        }
-
-    }
-
-    @Nullable
-    public Recipe<?> getRecipeUsed() {
-        return null;
     }
 
 }

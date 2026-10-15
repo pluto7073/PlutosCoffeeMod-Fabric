@@ -1,19 +1,22 @@
 package ml.pluto7073.plutoscoffee.coffee;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.mojang.serialization.JsonOps;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.network.s2c.SyncMachineWaterSourcesRegistryS2CPacket;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -51,7 +54,7 @@ public class MachineWaterSources implements SimpleSynchronousResourceReloadListe
         for (MachineWaterSource s : REGISTRY.values()) {
             list.addAll(Stream.of(s.ingredient().getItems()).peek(stack -> {
                 if (stack.is(ConventionalItemTags.POTIONS)) {
-                    PotionUtils.setPotion(stack, Potions.WATER);
+                    stack.set(DataComponents.POTION_CONTENTS, new PotionContents(Potions.WATER));
                 }
             }).toList());
         }
@@ -83,18 +86,12 @@ public class MachineWaterSources implements SimpleSynchronousResourceReloadListe
             ResourceLocation id = e.getKey().withPath(path -> path.replace("machine_water_sources/", "").replace(".json", ""));
             try (InputStream stream = e.getValue().open()) {
                 JsonObject data = GsonHelper.parse(new InputStreamReader(stream));
-                MachineWaterSource source = fromJson(data);
+                MachineWaterSource source = MachineWaterSource.CODEC.parse(JsonOps.INSTANCE, data).getOrThrow(JsonParseException::new);
                 register(id, source);
             } catch (Exception ex) {
                 PlutosCoffee.LOGGER.error("Failed to load Coffee Machine Water Source {}", id, ex);
             }
         }
-    }
-
-    private static MachineWaterSource fromJson(JsonObject data) {
-        Ingredient source = Ingredient.fromJson(GsonHelper.getAsJsonObject(data, "source"));
-        int water = GsonHelper.getAsInt(data, "water");
-        return new MachineWaterSource(source, water);
     }
 
 }

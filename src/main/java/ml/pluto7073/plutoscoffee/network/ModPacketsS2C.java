@@ -20,10 +20,10 @@ public class ModPacketsS2C {
     }
 
     @Environment(EnvType.CLIENT)
-    private static void receiveWaterSources(SyncMachineWaterSourcesRegistryS2CPacket packet, LocalPlayer player, PacketSender sender) {
+    private static void receiveWaterSources(SyncMachineWaterSourcesRegistryS2CPacket payload, ClientPlayNetworking.Context ctx) {
         MachineWaterSources.resetRegistry();
 
-        packet.map().forEach(MachineWaterSources::register);
+        payload.map().forEach(MachineWaterSources::register);
     }
 
 }

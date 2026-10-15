@@ -1,6 +1,8 @@
 package ml.pluto7073.plutoscoffee;
 
 import com.mojang.datafixers.util.Pair;
+import ml.pluto7073.pdapi.component.DrinkAdditions;
+import ml.pluto7073.pdapi.component.PDComponents;
 import ml.pluto7073.pdapi.util.DrinkUtil;
 import ml.pluto7073.pdapi.addition.DrinkAddition;
 import ml.pluto7073.pdapi.addition.DrinkAdditionManager;
@@ -10,10 +12,11 @@ import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
 import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
 import ml.pluto7073.plutoscoffee.items.BrewedCoffee;
 import ml.pluto7073.plutoscoffee.mixins.StructurePoolAccessor;
+import ml.pluto7073.plutoscoffee.registry.ModComponents;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.tags.ModItemTags;
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
-import net.fabricmc.fabric.api.tag.convention.v1.TagUtil;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.fabricmc.fabric.api.tag.convention.v2.TagUtil;
 import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.Registry;
@@ -53,7 +56,6 @@ public final class CoffeeUtil {
         return (l1.isEmpty()) && (l2.isEmpty());
     }
 
-    @SuppressWarnings("UnstableApiUsage")
     public static void updateWaterMachine(BaseContainerBlockEntity blockEntity, int waterSlot, SingleFluidStorage fluid) {
         ItemStack fuelStack = blockEntity.getItem(waterSlot);
         int waterAmount = MachineWaterSources.getWaterAmount(fuelStack);
@@ -73,28 +75,19 @@ public final class CoffeeUtil {
     }
 
     public static CoffeeType getCoffeeType(ItemStack stack) {
-        return getCoffeeType(stack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY));
+        return stack.get(ModComponents.COFFEE_TYPE);
     }
 
     public static ItemStack setCoffeeType(ItemStack stack, CoffeeType type) {
-        ResourceLocation id = CoffeeTypes.getIdentifier(type);
-        if (type == CoffeeTypes.EMPTY) {
-            stack.removeTagKey(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY);
-        } else {
-            stack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).putString("CoffeeType", id.toString());
-        }
+        stack.set(ModComponents.COFFEE_TYPE, type);
         return stack;
     }
 
     public static ItemStack getBaseCoffee(CoffeeType type) {
         ItemStack stack = new ItemStack(ModItems.BREWED_COFFEE);
         if (type == CoffeeTypes.EMPTY) return stack;
-        stack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).putString("CoffeeType", CoffeeTypes.getIdentifier(type).toString());
+        stack.set(ModComponents.COFFEE_TYPE, type);
         return stack;
-    }
-
-    public static CoffeeType getCoffeeType(@Nullable CompoundTag nbt) {
-        return nbt == null ? CoffeeTypes.EMPTY : CoffeeType.byId(nbt.getString("CoffeeType"));
     }
 
     public static boolean isItemACoffeeGround(Item item) {
@@ -132,14 +125,11 @@ public final class CoffeeUtil {
     }
 
     public static ItemStack getWithAdditions(ItemStack stack, String... additions) {
-        ListTag adds = new ListTag();
-        if (stack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).contains("Additions")) {
-            adds = stack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).getList("Additions", ListTag.TAG_STRING);
-        }
+        DrinkAdditions adds = stack.getOrDefault(PDComponents.ADDITIONS, DrinkAdditions.EMPTY);
         for (String s : additions) {
-            adds.add(DrinkUtil.stringAsNbt(s));
+            adds = adds.withAddition(ResourceLocation.parse(s));
         }
-        stack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).put("Additions", adds);
+        stack.set(PDComponents.ADDITIONS, adds);
         return stack;
     }
 
@@ -165,7 +155,7 @@ public final class CoffeeUtil {
             }
             return true;
         }).filter(DrinkAddition::changesColor).map(DrinkAddition::getColor).collect(Collectors.toCollection(ArrayList::new));
-        colors.add(0, color);
+        colors.addFirst(color);
         return DrinkUtil.averageColors(colors);
     }
 

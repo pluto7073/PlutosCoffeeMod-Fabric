@@ -1,17 +1,15 @@
 package ml.pluto7073.plutoscoffee.blocks;
 
+import com.mojang.serialization.MapCodec;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
 import ml.pluto7073.plutoscoffee.registry.ModStats;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -29,11 +27,12 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("deprecation")
 @MethodsReturnNonnullByDefault
 public class CoffeeGrindrBlock extends BaseEntityBlock {
 
+    public static final MapCodec<CoffeeGrindrBlock> CODEC = simpleCodec(CoffeeGrindrBlock::new);
     public static final BooleanProperty FULL_PROPERTY;
     public static final DirectionProperty FACING_PROPERTY;
     protected static final VoxelShape SHAPE;
@@ -43,6 +42,11 @@ public class CoffeeGrindrBlock extends BaseEntityBlock {
         this.registerDefaultState(this.getStateDefinition().any()
                 .setValue(FULL_PROPERTY, false)
                 .setValue(FACING_PROPERTY, Direction.NORTH));
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Override
@@ -56,6 +60,7 @@ public class CoffeeGrindrBlock extends BaseEntityBlock {
     }
 
     @Override
+    @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         return level.isClientSide ? null : createTickerHelper(type, ModBlocks.COFFEE_GRINDR_BLOCK_ENTITY_TYPE, CoffeeGrindrBlockEntity::tick);
     }
@@ -71,7 +76,7 @@ public class CoffeeGrindrBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         } else {
@@ -81,15 +86,6 @@ public class CoffeeGrindrBlock extends BaseEntityBlock {
                 player.awardStat(ModStats.INTERACT_WITH_COFFEE_GRINDR);
             }
             return InteractionResult.CONSUME;
-        }
-    }
-
-    public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        if (stack.hasCustomHoverName()) {
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (blockEntity instanceof CoffeeGrindrBlockEntity) {
-                ((CoffeeGrindrBlockEntity) blockEntity).setCustomName(stack.getHoverName());
-            }
         }
     }
 
@@ -111,7 +107,7 @@ public class CoffeeGrindrBlock extends BaseEntityBlock {
         return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(level.getBlockEntity(pos));
     }
 
-    public boolean isPathfindable(BlockState state, BlockGetter world, BlockPos pos, PathComputationType type) {
+    public boolean isPathfindable(BlockState state, PathComputationType type) {
         return false;
     }
 

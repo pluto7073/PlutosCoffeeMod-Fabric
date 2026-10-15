@@ -8,16 +8,15 @@ public class CoffeeBean extends Item {
 
     public static FoodProperties.Builder COFFEE_BEAN_FOOD_COMPONENT = new FoodProperties.Builder()
             .fast()
-            .alwaysEat()
+            .alwaysEdible()
             .nutrition(1)
-            .saturationMod(0.5f);
+            .saturationModifier(0.5f);
 
     public static FoodProperties.Builder DECAF_BEAN_FOOD_COMPONENT = new FoodProperties.Builder()
             .fast()
-            .alwaysEat()
+            .alwaysEdible()
             .nutrition(1)
-            .saturationMod(0)
-            .addChemical(PDAPI.asId("caffeine"), 0.1f);
+            .saturationModifier(0.5f);
 
     public CoffeeBean() {
         super(new Item.Properties());

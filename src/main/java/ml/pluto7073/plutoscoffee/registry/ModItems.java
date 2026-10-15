@@ -1,9 +1,14 @@
 package ml.pluto7073.plutoscoffee.registry;
 
+import ml.pluto7073.chemicals.component.ChemicalMap;
 import ml.pluto7073.pdapi.PDAPI;
 import ml.pluto7073.pdapi.addition.chemicals.CaffeineHandler;
+import ml.pluto7073.pdapi.component.DrinkAdditions;
+import ml.pluto7073.pdapi.component.PDComponents;
 import ml.pluto7073.pdapi.util.PseudoDataFixerRegistry;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
+import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
+import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
 import ml.pluto7073.plutoscoffee.items.*;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -20,11 +25,11 @@ public class ModItems {
     public static final Item COFFEE_GRINDR = new BlockItem(ModBlocks.COFFEE_GRINDR, new Item.Properties());
     public static final Item ESPRESSO_MACHINE = new BlockItem(ModBlocks.ESPRESSO_MACHINE, new Item.Properties());
     public static final Item COFFEE_BEAN = new CoffeeBean();
-    public static final Item LIGHT_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.addChemical(PDAPI.asId("caffeine"), 10).build()));
-    public static final Item MEDIUM_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.addChemical(PDAPI.asId("caffeine"), 9).build()));
-    public static final Item DARK_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.addChemical(PDAPI.asId("caffeine"), 8).build()));
-    public static final Item ESPRESSO_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.addChemical(PDAPI.asId("caffeine"), 7).build()));
-    public static final Item DECAF_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.DECAF_BEAN_FOOD_COMPONENT.build()));
+    public static final Item LIGHT_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.build()).component(ChemicalMap.COMPONENT_TYPE, new ChemicalMap.Builder().add(PDAPI.asId("caffeine"), 10).build()));
+    public static final Item MEDIUM_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.build()).component(ChemicalMap.COMPONENT_TYPE, new ChemicalMap.Builder().add(PDAPI.asId("caffeine"), 9).build()));
+    public static final Item DARK_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.build()).component(ChemicalMap.COMPONENT_TYPE, new ChemicalMap.Builder().add(PDAPI.asId("caffeine"), 8).build()));
+    public static final Item ESPRESSO_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.build()).component(ChemicalMap.COMPONENT_TYPE, new ChemicalMap.Builder().add(PDAPI.asId("caffeine"), 7).build()));
+    public static final Item DECAF_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.DECAF_BEAN_FOOD_COMPONENT.build()).component(ChemicalMap.COMPONENT_TYPE, new ChemicalMap.Builder().add(PDAPI.asId("caffeine"), 0.1f).build()));
     public static final Item GROUND_LIGHT_ROAST = new Item(new Item.Properties());
     public static final Item GROUND_MEDIUM_ROAST = new Item(new Item.Properties());
     public static final Item GROUND_DARK_ROAST = new Item(new Item.Properties());
@@ -34,14 +39,14 @@ public class ModItems {
     public static final Item CARAMEL = new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
     public static final Item MOCHA_SAUCE = new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
 
-    public static final Item BREWED_COFFEE = new BrewedCoffee(new Item.Properties().stacksTo(1));
+    public static final Item BREWED_COFFEE = new BrewedCoffee(new Item.Properties().component(PDComponents.ADDITIONS, DrinkAdditions.EMPTY).stacksTo(1));
     public static final Item BLONDE_ESPRESSO_SHOT = new EspressoShotItem(85, new Item.Properties().stacksTo(16).craftRemainder(Items.GLASS_BOTTLE));
     public static final Item ESPRESSO_SHOT = new EspressoShotItem(75, new Item.Properties().stacksTo(16).craftRemainder(Items.GLASS_BOTTLE));
     public static final Item DECAF_ESPRESSO_SHOT = new EspressoShotItem(2, new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16));
-    public static final Item LATTE = new LatteItem(new Item.Properties().stacksTo(1));
+    public static final Item LATTE = new LatteItem(new Item.Properties().component(PDComponents.ADDITIONS, DrinkAdditions.EMPTY).stacksTo(1));
 
     private static void register(String id, Item item) {
-        Registry.register(BuiltInRegistries.ITEM, new ResourceLocation(PlutosCoffee.MOD_ID, id), item);
+        Registry.register(BuiltInRegistries.ITEM, ResourceLocation.fromNamespaceAndPath(PlutosCoffee.MOD_ID, id), item);
     }
 
     public static void init() {
@@ -69,11 +74,6 @@ public class ModItems {
         register("coffee_brewer", COFFEE_BREWER);
         register("coffee_grinder", COFFEE_GRINDR);
         register("espresso_machine", ESPRESSO_MACHINE);
-
-        PseudoDataFixerRegistry.register(PlutosCoffee.asId("coffee_berry"), PlutosCoffee.asId("coffee_cherry"));
-        PseudoDataFixerRegistry.register(PlutosCoffee.asId("roasted_coffee_bean"), PlutosCoffee.asId("light_roast_bean"));
-        PseudoDataFixerRegistry.register(PlutosCoffee.asId("ground_coffee"), PlutosCoffee.asId("ground_light_roast"));
-        PseudoDataFixerRegistry.register(PlutosCoffee.asId("espresso_grounds"), PlutosCoffee.asId("ground_espresso_roast"));
     }
 
 }

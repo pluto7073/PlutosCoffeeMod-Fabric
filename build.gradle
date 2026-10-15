@@ -29,6 +29,7 @@ repositories {
 	maven { url "https://maven.plutonia.xyz/maven" }
 	maven { url = "https://maven.parchmentmc.org" }
 	maven { url = "https://maven.quiltmc.org/repository/release" }
+	mavenLocal()
 }
 
 loom {

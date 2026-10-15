@@ -1,38 +1,30 @@
 package ml.pluto7073.plutoscoffee.recipe;
 
 import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import ml.pluto7073.plutoscoffee.blocks.EspressoMachineBlockEntity;
 import ml.pluto7073.plutoscoffee.registry.ModRecipes;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
 @MethodsReturnNonnullByDefault
-public class PullingRecipe implements Recipe<Container> {
-
-    private final ResourceLocation id;
-    public final Ingredient grounds, base;
-    public final int groundsRequired, pullTime;
-    final ItemStack result;
-
-    public PullingRecipe(ResourceLocation id, Ingredient grounds, Ingredient base, int groundsRequired, int pullTime, ItemStack result) {
-        this.id = id;
-        this.grounds = grounds;
-        this.base = base;
-        this.groundsRequired = groundsRequired;
-        this.pullTime = pullTime;
-        this.result = result;
-    }
+public record PullingRecipe(Ingredient grounds, Ingredient base, int groundsRequired, int pullTime,
+                            ItemStack result) implements Recipe<PullingRecipeInput> {
 
     @Override
-    public boolean matches(Container container, Level level) {
+    public boolean matches(PullingRecipeInput container, Level level) {
         ItemStack groundsStack = container.getItem(EspressoMachineBlockEntity.GROUNDS_SLOT_INDEX);
         ItemStack baseStack1 = container.getItem(EspressoMachineBlockEntity.ESPRESSO_SLOT_INDEX);
         ItemStack baseStack2 = container.getItem(EspressoMachineBlockEntity.ESPRESSO_SLOT_2_INDEX);
@@ -40,7 +32,7 @@ public class PullingRecipe implements Recipe<Container> {
     }
 
     @Override
-    public ItemStack assemble(Container inventory, RegistryAccess registryManager) {
+    public ItemStack assemble(PullingRecipeInput inventory, HolderLookup.Provider registryManager) {
         return result.copy();
     }
 
@@ -50,17 +42,12 @@ public class PullingRecipe implements Recipe<Container> {
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess registryManager) {
+    public ItemStack getResultItem(HolderLookup.Provider registryManager) {
         return result.copy();
     }
 
     public ItemStack getResultItem() {
         return result.copy();
-    }
-
-    @Override
-    public ResourceLocation getId() {
-        return id;
     }
 
     @Override
@@ -80,35 +67,32 @@ public class PullingRecipe implements Recipe<Container> {
 
     public static class Serializer implements RecipeSerializer<PullingRecipe> {
 
+        public static final MapCodec<PullingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance ->
+                instance.group(Ingredient.CODEC.fieldOf("grounds").forGetter(PullingRecipe::grounds),
+                        Ingredient.CODEC.fieldOf("base").forGetter(PullingRecipe::base),
+                        Codec.INT.fieldOf("groundsRequired").forGetter(PullingRecipe::groundsRequired),
+                        Codec.INT.fieldOf("pullTime").forGetter(PullingRecipe::pullTime),
+                        ItemStack.CODEC.fieldOf("result").forGetter(PullingRecipe::result))
+                        .apply(instance, PullingRecipe::new));
+
+        public static final StreamCodec<RegistryFriendlyByteBuf, PullingRecipe> STREAM_CODEC = StreamCodec.composite(
+                Ingredient.CONTENTS_STREAM_CODEC, PullingRecipe::grounds,
+                Ingredient.CONTENTS_STREAM_CODEC, PullingRecipe::base,
+                ByteBufCodecs.INT, PullingRecipe::groundsRequired,
+                ByteBufCodecs.INT, PullingRecipe::pullTime,
+                ItemStack.STREAM_CODEC, PullingRecipe::result,
+                PullingRecipe::new
+        );
+
         @Override
-        public PullingRecipe fromJson(ResourceLocation id, JsonObject json) {
-            Ingredient grounds = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "grounds"));
-            Ingredient base = Ingredient.fromJson(GsonHelper.getAsJsonObject(json, "base"));
-            int groundsRequired = GsonHelper.getAsInt(json, "groundsRequired");
-            int pullTime = GsonHelper.getAsInt(json, "pullTime", 400);
-            ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
-            return new PullingRecipe(id, grounds, base, groundsRequired, pullTime, result);
+        public MapCodec<PullingRecipe> codec() {
+            return CODEC;
         }
 
         @Override
-        public PullingRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
-            Ingredient grounds = Ingredient.fromNetwork(buf);
-            Ingredient base = Ingredient.fromNetwork(buf);
-            int groundsCount = buf.readInt();
-            int pullTime = buf.readInt();
-            ItemStack result = buf.readItem();
-            return new PullingRecipe(id, grounds, base, groundsCount, pullTime, result);
+        public StreamCodec<RegistryFriendlyByteBuf, PullingRecipe> streamCodec() {
+            return STREAM_CODEC;
         }
-
-        @Override
-        public void toNetwork(FriendlyByteBuf buf, PullingRecipe recipe) {
-            recipe.grounds.toNetwork(buf);
-            recipe.base.toNetwork(buf);
-            buf.writeInt(recipe.groundsRequired);
-            buf.writeInt(recipe.pullTime);
-            buf.writeItem(recipe.result);
-        }
-
     }
 
 }

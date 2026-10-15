@@ -1,5 +1,6 @@
 package ml.pluto7073.plutoscoffee.blocks;
 
+import com.mojang.serialization.MapCodec;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
 import ml.pluto7073.plutoscoffee.registry.ModStats;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -7,12 +8,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -30,10 +28,10 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("deprecation")
 @MethodsReturnNonnullByDefault
 public class CoffeeBrewerBlock extends BaseEntityBlock {
 
+    public static final MapCodec<CoffeeBrewerBlock> CODEC = simpleCodec(CoffeeBrewerBlock::new);
     /**
      * 0 - No Bottle <br>
      * 1 - Empty Bottle <br>
@@ -45,6 +43,11 @@ public class CoffeeBrewerBlock extends BaseEntityBlock {
     public CoffeeBrewerBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.stateDefinition.any().setValue(BOTTLE_PROPERTY, 0));
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     public RenderShape getRenderShape(BlockState state) {
@@ -64,7 +67,7 @@ public class CoffeeBrewerBlock extends BaseEntityBlock {
         return SHAPE;
     }
 
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         } else {
@@ -74,15 +77,6 @@ public class CoffeeBrewerBlock extends BaseEntityBlock {
                 player.awardStat(ModStats.INTERACT_WITH_COFFEE_BREWER);
             }
             return InteractionResult.CONSUME;
-        }
-    }
-
-    public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        if (stack.hasCustomHoverName()) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof CoffeeBrewerBlockEntity) {
-                ((CoffeeBrewerBlockEntity) blockEntity).setCustomName(stack.getHoverName());
-            }
         }
     }
 
@@ -119,7 +113,7 @@ public class CoffeeBrewerBlock extends BaseEntityBlock {
         builder.add(BOTTLE_PROPERTY);
     }
 
-    public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType type) {
+    public boolean isPathfindable(BlockState state, PathComputationType type) {
         return false;
     }
 

@@ -1,7 +1,7 @@
 package ml.pluto7073.plutoscoffee.blocks;
 
+import com.mojang.serialization.MapCodec;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
-import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.registry.ModStats;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -9,11 +9,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -21,7 +19,6 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -34,10 +31,10 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("deprecation")
 @MethodsReturnNonnullByDefault
 public class EspressoMachineBlock extends BaseEntityBlock {
 
+    public static final MapCodec<EspressoMachineBlock> CODEC = simpleCodec(EspressoMachineBlock::new);
     public static final BooleanProperty HAS_ESPRESSO;
     public static final BooleanProperty PULLING;
     public static final BooleanProperty HAS_MILK;
@@ -52,6 +49,11 @@ public class EspressoMachineBlock extends BaseEntityBlock {
                 .setValue(PULLING, false)
                 .setValue(HAS_MILK, false)
                 .setValue(FACING, Direction.NORTH));
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     public RenderShape getRenderShape(BlockState state) {
@@ -71,7 +73,7 @@ public class EspressoMachineBlock extends BaseEntityBlock {
         return SHAPE;
     }
 
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (world.isClientSide) {
             return InteractionResult.SUCCESS;
         } else {
@@ -81,15 +83,6 @@ public class EspressoMachineBlock extends BaseEntityBlock {
                 player.awardStat(ModStats.INTERACT_WITH_ESPRESSO_MACHINE);
             }
             return InteractionResult.CONSUME;
-        }
-    }
-
-    public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        if (stack.hasCustomHoverName()) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof EspressoMachineBlockEntity) {
-                ((EspressoMachineBlockEntity) blockEntity).setCustomName(stack.getHoverName());
-            }
         }
     }
 
@@ -125,7 +118,7 @@ public class EspressoMachineBlock extends BaseEntityBlock {
         builder.add(HAS_ESPRESSO).add(HAS_MILK).add(PULLING).add(FACING);
     }
 
-    public boolean isPathfindable(BlockState state, BlockGetter world, BlockPos pos, PathComputationType type) {
+    protected boolean isPathfindable(BlockState state, PathComputationType type) {
         return false;
     }
 

@@ -1,22 +1,20 @@
 package ml.pluto7073.plutoscoffee.blocks;
 
-import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import ml.pluto7073.pdapi.util.BasicSingleStorage;
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
-import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
 import ml.pluto7073.plutoscoffee.gui.CoffeeBrewerMenu;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
+import ml.pluto7073.plutoscoffee.registry.ModComponents;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.FilteringStorage;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -38,7 +36,6 @@ import java.util.Iterator;
 
 import static ml.pluto7073.plutoscoffee.blocks.EspressoMachineBlockEntity.WATER;
 
-@SuppressWarnings("UnstableApiUsage")
 @MethodsReturnNonnullByDefault
 public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer {
 
@@ -87,6 +84,19 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
 
     protected Component getDefaultName() {
         return Component.translatable("container.coffee_brewer");
+    }
+
+    @Override
+    protected NonNullList<ItemStack> getItems() {
+        return inventory;
+    }
+
+    @Override
+    protected void setItems(NonNullList<ItemStack> stacks) {
+        inventory.clear();
+        for (int i = 0; i < stacks.size(); i++) {
+            inventory.set(i, stacks.get(i));
+        }
     }
 
     public int getContainerSize() {
@@ -173,7 +183,7 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
 
         CoffeeType type = CoffeeTypes.getFromGrounds(input.getItem());
         ItemStack result = new ItemStack(ModItems.BREWED_COFFEE, 1);
-        result.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).putString("CoffeeType", CoffeeTypes.getId(type));
+        result.set(ModComponents.COFFEE_TYPE, type);
         slots.set(2, result);
 
         input.shrink(1);
@@ -182,18 +192,18 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
         level.levelEvent(10001, pos, 0);
     }
 
-    public void load(CompoundTag nbt) {
-        super.load(nbt);
+    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
+        super.loadAdditional(nbt, provider);
         inventory = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(nbt, inventory);
+        ContainerHelper.loadAllItems(nbt, inventory, provider);
         brewTime = nbt.getShort("BrewTime");
         water.amount = nbt.getInt("Fuel");
     }
 
-    protected void saveAdditional(CompoundTag nbt) {
-        super.saveAdditional(nbt);
+    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider provider) {
+        super.saveAdditional(nbt, provider);
         nbt.putShort("BrewTime", (short) brewTime);
-        ContainerHelper.saveAllItems(nbt, this.inventory);
+        ContainerHelper.saveAllItems(nbt, this.inventory, provider);
         nbt.putInt("Fuel", (int) water.amount);
     }
 
