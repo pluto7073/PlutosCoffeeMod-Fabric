@@ -2,7 +2,6 @@ package ml.pluto7073.plutoscoffee;
 
 import ml.pluto7073.plutoscoffee.coffee.CoffeeGrounds;
 import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
-import ml.pluto7073.plutoscoffee.network.s2c.SyncMachineWaterSourcesRegistryS2CPacket;
 import ml.pluto7073.plutoscoffee.registry.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -34,7 +33,6 @@ public class PlutosCoffee implements ModInitializer {
         ModSounds.init();
         ModPointOfInterests.init();
         ModVillagerProfessions.init();
-        SyncMachineWaterSourcesRegistryS2CPacket.init();
 
         ModVillagerProfessions.postInit();
         ServerLifecycleEvents.SERVER_STARTING.register(PlutosCoffee::initStructurePoolElements);

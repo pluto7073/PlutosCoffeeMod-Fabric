@@ -1,7 +1,7 @@
 {
   "type": "plutoscoffee:pulling",
   "grounds": {
-    "item": "plutoscoffee:ground_espresso_roast"
+    "item": "plutoscoffee:ground_light_roast"
   },
   "base": {
     "item": "minecraft:glass_bottle"
@@ -9,7 +9,7 @@
   "groundsRequired": 2,
   "pullTime": 400,
   "result": {
-    "item": "plutoscoffee:espresso_shot",
+    "id": "plutoscoffee:blonde_espresso_shot",
     "count": 1
   }
 }

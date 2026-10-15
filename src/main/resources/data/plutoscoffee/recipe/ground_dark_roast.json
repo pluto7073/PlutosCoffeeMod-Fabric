@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "plutoscoffee:dark_roast_bean"
   },
-  "result": "plutoscoffee:ground_dark_roast",
-  "count": 1
+  "result": {
+    "id": "plutoscoffee:ground_dark_roast",
+    "count": 1
+  }
 }

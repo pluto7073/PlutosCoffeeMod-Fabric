@@ -27,7 +27,7 @@ public class Client implements ClientModInitializer {
 
     public void onInitializeClient() {
         FabricLoader.getInstance().getModContainer(PlutosCoffee.MOD_ID).ifPresent(container ->
-                ResourceManagerHelper.registerBuiltinResourcePack(new ResourceLocation(PlutosCoffee.MOD_ID, "dark_gui"), container, Component.translatable("pack.plutoscoffee.dark_gui"),ResourcePackActivationType.NORMAL));
+                ResourceManagerHelper.registerBuiltinResourcePack(PlutosCoffee.asId("dark_gui"), container, Component.translatable("pack.plutoscoffee.dark_gui"),ResourcePackActivationType.NORMAL));
 
         MenuScreens.register(ModScreens.BREWER_MENU_TYPE, CoffeeBrewerScreen::new);
         MenuScreens.register(ModScreens.GRINDR_SCREEN_HANDLER_TYPE, CoffeeGrindrScreen::new);

@@ -25,9 +25,9 @@ public record PullingRecipe(Ingredient grounds, Ingredient base, int groundsRequ
 
     @Override
     public boolean matches(PullingRecipeInput container, Level level) {
-        ItemStack groundsStack = container.getItem(EspressoMachineBlockEntity.GROUNDS_SLOT_INDEX);
-        ItemStack baseStack1 = container.getItem(EspressoMachineBlockEntity.ESPRESSO_SLOT_INDEX);
-        ItemStack baseStack2 = container.getItem(EspressoMachineBlockEntity.ESPRESSO_SLOT_2_INDEX);
+        ItemStack groundsStack = container.grounds();
+        ItemStack baseStack1 = container.leftBase();
+        ItemStack baseStack2 = container.rightBase();
         return grounds.test(groundsStack) && groundsStack.getCount() >= groundsRequired && (base.test(baseStack1) || base.test(baseStack2));
     }
 

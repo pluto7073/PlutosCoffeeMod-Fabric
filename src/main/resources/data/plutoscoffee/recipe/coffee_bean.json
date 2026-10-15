@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "plutoscoffee:coffee_cherry"
+    }
+  ],
+  "result": {
+    "id": "plutoscoffee:coffee_bean",
+    "count": 2
+  }
+}

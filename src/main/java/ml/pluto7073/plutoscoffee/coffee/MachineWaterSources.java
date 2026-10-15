@@ -5,16 +5,11 @@ import com.google.gson.JsonParseException;
 import com.mojang.serialization.JsonOps;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.alchemy.PotionContents;
-import net.minecraft.world.item.alchemy.Potions;
-import net.minecraft.world.item.crafting.Ingredient;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -56,8 +51,8 @@ public class MachineWaterSources implements SimpleSynchronousResourceReloadListe
         REGISTRY.clear();
 
         for (Map.Entry<ResourceLocation, Resource> e :
-                resourceManager.listResources("machine_water_sources", id -> id.getPath().endsWith(".json")).entrySet()) {
-            ResourceLocation id = e.getKey().withPath(path -> path.replace("machine_water_sources/", "").replace(".json", ""));
+                resourceManager.listResources("machine_water_source", id -> id.getPath().endsWith(".json")).entrySet()) {
+            ResourceLocation id = e.getKey().withPath(path -> path.replace("machine_water_source/", "").replace(".json", ""));
             try (InputStream stream = e.getValue().open()) {
                 JsonObject data = GsonHelper.parse(new InputStreamReader(stream));
                 MachineWaterSource source = MachineWaterSource.CODEC.parse(JsonOps.INSTANCE, data).getOrThrow(JsonParseException::new);

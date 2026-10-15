@@ -1,23 +1,23 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "iGi",
-    "iSi",
+    "iBi",
+    "iPi",
     "i i"
   ],
   "key": {
     "i": {
       "item": "minecraft:iron_ingot"
     },
-    "G": {
-      "item": "minecraft:glass"
+    "B": {
+      "item": "minecraft:bucket"
     },
-    "S": {
-      "item": "minecraft:stonecutter"
+    "P": {
+      "item": "minecraft:paper"
     }
   },
   "result": {
-    "item": "plutoscoffee:coffee_grinder",
+    "id": "plutoscoffee:coffee_brewer",
     "count": 1
   }
 }

@@ -23,7 +23,7 @@ public record PullingRecipeInput(ItemStack grounds, ItemStack leftBase, ItemStac
             case 0 -> grounds;
             case 1 -> leftBase;
             case 2 -> rightBase;
-            default -> throw new IllegalStateException();
+            default -> throw new IllegalStateException("No item of index " + i);
         };
     }
 

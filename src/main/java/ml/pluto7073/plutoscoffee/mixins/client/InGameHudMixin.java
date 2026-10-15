@@ -8,6 +8,7 @@ import ml.pluto7073.plutoscoffee.registry.ModGuiTextures;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
@@ -30,14 +31,10 @@ public abstract class InGameHudMixin {
 
     @Shadow protected abstract Player getCameraPlayer();
 
-    @Shadow private int screenWidth;
-
-    @Shadow private int screenHeight;
-
     @Shadow protected abstract LivingEntity getPlayerVehicleWithHealth();
 
     @Inject(at = @At("HEAD"), method = "render")
-    public void plutoscoffee_renderCaffeineContentDisplay(GuiGraphics graphics, float partialTick, CallbackInfo ci) {
+    public void plutoscoffee_renderCaffeineContentDisplay(GuiGraphics graphics, DeltaTracker tracker, CallbackInfo ci) {
         if (!CoffeeConfig.INSTANCE.shouldShowCoffeeBar) return;
         Player playerEntity = this.getCameraPlayer();
         //noinspection DataFlowIssue
@@ -45,8 +42,8 @@ public abstract class InGameHudMixin {
         if (playerEntity == null) return;
         this.minecraft.getProfiler().push("caffeineDisplay");
 
-        int centerX = this.screenWidth / 2;
-        int baseYValue = this.screenHeight - 49;
+        int centerX = graphics.guiWidth() / 2;
+        int baseYValue = graphics.guiHeight() - 49;
 
         int max = playerEntity.getMaxAirSupply();
         int maxOrCurrent = Math.min(playerEntity.getAirSupply(), max);

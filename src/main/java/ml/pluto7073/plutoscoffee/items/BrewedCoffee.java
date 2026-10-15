@@ -15,7 +15,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -55,11 +54,11 @@ public class BrewedCoffee extends AbstractCustomizableDrinkItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag context) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
         if (CoffeeUtil.getCoffeeType(stack) != CoffeeTypes.EMPTY
                 && CoffeeUtil.getCoffeeType(stack) != null)
             tooltip.add(Component.translatable(CoffeeUtil.getCoffeeType(stack).getTranslationKey()).withStyle(ChatFormatting.GRAY));
-        super.appendHoverText(stack, level, tooltip, context);
+        super.appendHoverText(stack, context, tooltip, flag);
     }
 
 }

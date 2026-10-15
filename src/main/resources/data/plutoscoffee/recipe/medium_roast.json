@@ -3,7 +3,9 @@
   "ingredient": {
     "item": "plutoscoffee:light_roast_bean"
   },
-  "result": "plutoscoffee:medium_roast_bean",
+  "result": {
+    "id": "plutoscoffee:medium_roast_bean"
+  },
   "experience": 0.25,
   "cookingtime": 200
 }

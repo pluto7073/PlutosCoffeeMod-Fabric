@@ -9,10 +9,10 @@ import net.minecraft.stats.Stats;
 
 public class ModStats {
 
-    public static final ResourceLocation DRINK_COFFEE = new ResourceLocation(PlutosCoffee.MOD_ID, "drink_coffee");
-    public static final ResourceLocation INTERACT_WITH_COFFEE_BREWER = new ResourceLocation(PlutosCoffee.MOD_ID, "interact_with_coffee_brewer");
-    public static final ResourceLocation INTERACT_WITH_COFFEE_GRINDR = new ResourceLocation(PlutosCoffee.MOD_ID, "interact_with_coffee_grinder");
-    public static final ResourceLocation INTERACT_WITH_ESPRESSO_MACHINE = new ResourceLocation(PlutosCoffee.MOD_ID, "interact_with_espresso_machine");
+    public static final ResourceLocation DRINK_COFFEE = PlutosCoffee.asId("drink_coffee");
+    public static final ResourceLocation INTERACT_WITH_COFFEE_BREWER = PlutosCoffee.asId("interact_with_coffee_brewer");
+    public static final ResourceLocation INTERACT_WITH_COFFEE_GRINDR = PlutosCoffee.asId("interact_with_coffee_grinder");
+    public static final ResourceLocation INTERACT_WITH_ESPRESSO_MACHINE = PlutosCoffee.asId("interact_with_espresso_machine");
 
     public static void registerStats() {
         Registry.register(BuiltInRegistries.CUSTOM_STAT, DRINK_COFFEE.getPath(), DRINK_COFFEE);

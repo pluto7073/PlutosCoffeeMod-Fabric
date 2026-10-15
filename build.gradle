@@ -29,6 +29,7 @@ repositories {
 	maven { url "https://maven.plutonia.xyz/maven" }
 	maven { url = "https://maven.parchmentmc.org" }
 	maven { url = "https://maven.quiltmc.org/repository/release" }
+	maven { url = "https://api.modrinth.com/maven" }
 	mavenLocal()
 }
 
@@ -66,6 +67,8 @@ dependencies {
 	modImplementation "ml.pluto7073:pdapi:${project.minecraft_version}+${project.pdapi_version}"
 
 	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
+
+	modLocalRuntime("maven.modrinth:kiwi:$kiwi_version")
 }
 
 processResources {

@@ -20,7 +20,7 @@
     }
   },
   "result": {
-    "item": "plutoscoffee:espresso_machine",
+    "id": "plutoscoffee:espresso_machine",
     "count": 1
   }
 }

@@ -3,6 +3,8 @@
   "ingredient": {
     "item": "plutoscoffee:light_roast_bean"
   },
-  "result": "plutoscoffee:ground_light_roast",
-  "count": 1
+  "result": {
+    "id": "plutoscoffee:ground_light_roast",
+    "count": 1
+  }
 }

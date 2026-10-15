@@ -1,6 +1,6 @@
 {
   "source": {
-    "tag": "c:water_buckets"
+    "tag": "c:buckets/water"
   },
   "water": 81000
 }
