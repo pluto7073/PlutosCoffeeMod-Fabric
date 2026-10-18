@@ -89,7 +89,7 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
                 return switch (index) {
                     case PULL_TIME_PROPERTY_INDEX -> pullTime;
                     case STEAM_TIME_PROPERTY_INDEX -> steamTime;
-                    case WATER_PROPERTY_INDEX -> (int) waterStorage.amount;
+                    case WATER_PROPERTY_INDEX -> (int) (waterStorage.amount / 81);
                     case TOTAL_PULL_TIME_PROPERTY_INDEX -> {
                         if (getItem(GROUNDS_SLOT_INDEX).isEmpty()) yield 400;
                         Optional<RecipeHolder<PullingRecipe>> recipe = matchGetter.getRecipeFor(new PullingRecipeInput(EspressoMachineBlockEntity.this), level);
@@ -105,7 +105,6 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
                 switch (index) {
                     case PULL_TIME_PROPERTY_INDEX -> pullTime = value;
                     case STEAM_TIME_PROPERTY_INDEX -> steamTime = value;
-                    case WATER_PROPERTY_INDEX -> waterStorage.amount = value;
                 }
             }
 

@@ -64,15 +64,14 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
             public int get(int index) {
                 return switch (index) {
                     case BREW_TIME_PROPERTY_INDEX -> CoffeeBrewerBlockEntity.this.brewTime;
-                    case FUEL_PROPERTY_INDEX -> (int) CoffeeBrewerBlockEntity.this.water.amount;
+                    case FUEL_PROPERTY_INDEX -> (int) (CoffeeBrewerBlockEntity.this.water.amount / 81);
                     default -> 0;
                 };
             }
 
             public void set(int index, int value) {
-                switch (index) {
-                    case BREW_TIME_PROPERTY_INDEX -> CoffeeBrewerBlockEntity.this.brewTime = value;
-                    case FUEL_PROPERTY_INDEX -> CoffeeBrewerBlockEntity.this.water.amount = value;
+                if (index == BREW_TIME_PROPERTY_INDEX) {
+                    CoffeeBrewerBlockEntity.this.brewTime = value;
                 }
             }
 

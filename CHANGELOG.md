@@ -1,5 +1,10 @@
 
 ## Changes
+- Updated to 1.21.1
+
+---
+
+## Changes
 - Added a new item tag `#plutoscoffee:machine_water_sources` that should be used alongside the data files for machine water sources that dictates what items can be placed in the machines.
 - Prepared a couple of things for the 1.21.1 version
 

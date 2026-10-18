@@ -27,7 +27,7 @@ public class EspressoMachineScreen extends AbstractContainerScreen<EspressoMachi
         super.render(context, mouseX, mouseY, delta);
         this.renderTooltip(context, mouseX, mouseY);
         if (mouseX >= i + 60 && mouseX <= i + 78 && mouseY >= j + 44 && mouseY <= j + 48) {
-            context.renderTooltip(this.font, Component.translatable("container.machine.water_tooltip", menu.getWater() / 81), mouseX, mouseY);
+            context.renderTooltip(this.font, Component.translatable("container.machine.water_tooltip", menu.getWater()), mouseX, mouseY);
         }
     }
 
@@ -37,7 +37,7 @@ public class EspressoMachineScreen extends AbstractContainerScreen<EspressoMachi
         //context.blit(TEXTURE, i, j, 0, 0, this.imageWidth, this.imageHeight);
         ModGuiTextures.ESPRESSO_MACHINE.render(context, i, j);
         int k = menu.getWater();
-        int l = Mth.clamp((18 * k + 81000 - 1) / 81000, 0, 18);
+        int l = Mth.clamp((18 * k + 1000 - 1) / 1000, 0, 18);
         if (l > 0) {
             //context.blit(TEXTURE, i + 60, j + 44, 176, 29, l, 4);
             ModGuiTextures.WATER.renderOnMenu(context, i + 60, j + 44, l, 4);

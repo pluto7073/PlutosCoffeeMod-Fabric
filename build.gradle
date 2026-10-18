@@ -67,8 +67,6 @@ dependencies {
 	modImplementation "ml.pluto7073:pdapi:${project.minecraft_version}+${project.pdapi_version}"
 
 	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
-
-	modLocalRuntime("maven.modrinth:kiwi:$kiwi_version")
 }
 
 processResources {
