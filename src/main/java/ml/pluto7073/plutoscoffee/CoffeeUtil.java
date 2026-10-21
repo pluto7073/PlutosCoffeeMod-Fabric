@@ -105,32 +105,6 @@ public final class CoffeeUtil {
         return TagUtil.isIn(ModItemTags.COFFEE_BEANS, item);
     }
 
-    public static int getCoffeeColour(ItemStack stack, Level level) {
-        DrinkAddition[] addIns = DrinkUtil.getAdditionsFromStack(stack, level);
-        if (addIns == null) {
-            return BrewedCoffee.DEFAULT_COLOUR;
-        }
-        return getCoffeeColour(addIns, level);
-    }
-
-    public static int getCoffeeColour(DrinkAddition[] addIns, Level level) {
-        int color = BrewedCoffee.DEFAULT_COLOUR;
-        if (Arrays.stream(addIns).filter(Objects::nonNull).map(level.getDrinkAdditionManager()::getId).anyMatch(identifier -> identifier.toString().equals("pdapi:milk"))) {
-            color = BrewedCoffee.COLOUR_WITH_MILK;
-        }
-        final AtomicInteger allowedMilk = new AtomicInteger(2);
-        List<Integer> colors = Arrays.stream(addIns).filter(addition -> {
-            if (addition == null) return false;
-            if (level.getDrinkAdditionManager().getId(addition).toString().equals("pdapi:milk") && allowedMilk.get() > 0) {
-                allowedMilk.decrementAndGet();
-                return false;
-            }
-            return true;
-        }).filter(DrinkAddition::changesColor).map(DrinkAddition::getColor).collect(Collectors.toCollection(ArrayList::new));
-        colors.addFirst(color);
-        return DrinkUtil.averageColors(colors);
-    }
-
     public static ItemStack getWithAdditions(ItemStack stack, String... additions) {
         ListTag adds = new ListTag();
         if (stack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).contains("Additions")) {
@@ -141,32 +115,6 @@ public final class CoffeeUtil {
         }
         stack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).put("Additions", adds);
         return stack;
-    }
-
-    public static int getLatteColour(ItemStack stack, Level level) {
-        DrinkAddition[] addIns = DrinkUtil.getAdditionsFromStack(stack, level);
-        if (addIns == null) {
-            return 0xFFFFFF;
-        }
-        return getLatteColour(addIns, level);
-    }
-
-    public static int getLatteColour(DrinkAddition[] addIns, Level level) {
-        int color = 0xFFFFFF;
-        if (Arrays.stream(addIns).filter(Objects::nonNull).map(level.getDrinkAdditionManager()::getId).anyMatch(id -> id.getPath().contains("espresso_shot"))) {
-            color = BrewedCoffee.COLOUR_WITH_MILK;
-        }
-        final AtomicInteger allowedShots = new AtomicInteger(2);
-        List<Integer> colors = Arrays.stream(addIns).filter(addition -> {
-            if (addition == null) return false;
-            if (level.getDrinkAdditionManager().getId(addition).getPath().contains("espresso_shot") && allowedShots.get() > 0) {
-                allowedShots.decrementAndGet();
-                return false;
-            }
-            return true;
-        }).filter(DrinkAddition::changesColor).map(DrinkAddition::getColor).collect(Collectors.toCollection(ArrayList::new));
-        colors.add(0, color);
-        return DrinkUtil.averageColors(colors);
     }
 
     public static int calculateHealthBarHeightPixels(int health, int maxHeartsPerRow, int rowHeight) {

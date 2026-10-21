@@ -1,10 +1,12 @@
 package ml.pluto7073.plutoscoffee;
 
 import ml.pluto7073.pdapi.client.PDClientConfig;
+import ml.pluto7073.pdapi.util.ColorUtil;
 import ml.pluto7073.plutoscoffee.config.CoffeeConfig;
 import ml.pluto7073.plutoscoffee.gui.CoffeeBrewerScreen;
 import ml.pluto7073.plutoscoffee.gui.CoffeeGrindrScreen;
 import ml.pluto7073.plutoscoffee.gui.EspressoMachineScreen;
+import ml.pluto7073.plutoscoffee.items.BrewedCoffee;
 import ml.pluto7073.plutoscoffee.registry.ModBlocks;
 import ml.pluto7073.plutoscoffee.registry.ModItems;
 import ml.pluto7073.plutoscoffee.registry.ModScreens;
@@ -38,8 +40,8 @@ public class Client implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.COFFEE_GRINDR, RenderType.cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ESPRESSO_MACHINE, RenderType.cutout());
 
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex > 0 ? -1 : CoffeeUtil.getCoffeeColour(stack, Minecraft.getInstance().level), ModItems.BREWED_COFFEE);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex > 0 ? -1 : CoffeeUtil.getLatteColour(stack, Minecraft.getInstance().level), ModItems.LATTE);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex > 0 ? -1 : ColorUtil.getColorForDrinkWithDefault(stack, BrewedCoffee.DEFAULT_COLOUR, 2, Minecraft.getInstance().level), ModItems.BREWED_COFFEE);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex > 0 ? -1 : ColorUtil.getColorForDrinkWithDefault(stack, 0xFFFFFF, 3, Minecraft.getInstance().level), ModItems.LATTE);
 
         PDClientConfig.INSTANCE.addManagedConfig(CoffeeConfig.INSTANCE);
     }
