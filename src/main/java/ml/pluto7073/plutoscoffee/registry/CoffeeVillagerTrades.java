@@ -18,11 +18,11 @@ import net.minecraft.world.entity.npc.VillagerTrades;
 
 import java.util.function.Predicate;
 
-public class ModVillagerProfessions {
+public class CoffeeVillagerTrades {
 
     public static final VillagerProfession BARISTA;
 
-    private static final Predicate<Holder<PoiType>> WORKSTATION_PREDICATE = (entry) -> entry.is(ModPointOfInterests.DRINK_WORKSTATION);
+    private static final Predicate<Holder<PoiType>> WORKSTATION_PREDICATE = (entry) -> entry.is(CoffeePOIs.DRINK_WORKSTATION);
 
     static {
         BARISTA = register("barista",
@@ -42,16 +42,16 @@ public class ModVillagerProfessions {
     public static void postInit() {
         VillagerTrades.TRADES.put(BARISTA, new Int2ObjectOpenHashMap<>(ImmutableMap.of(
                 1, new VillagerTrades.ItemListing[]{
-                        new VillagerTrades.EmeraldForItems(ModItems.COFFEE_CHERRY, 24, 16, 2),
-                        new VillagerTrades.ItemsForEmeralds(ModItems.MOCHA_SAUCE, 1, 3, 16, 2),
-                        new VillagerTrades.EmeraldForItems(ModItems.COFFEE_BEAN, 22, 16, 2),
-                        new VillagerTrades.EmeraldForItems(ModItems.USED_COFFEE_GROUNDS, 26, 16, 2)
+                        new VillagerTrades.EmeraldForItems(CoffeeItems.COFFEE_CHERRY, 24, 16, 2),
+                        new VillagerTrades.ItemsForEmeralds(CoffeeItems.MOCHA_SAUCE, 1, 3, 16, 2),
+                        new VillagerTrades.EmeraldForItems(CoffeeItems.COFFEE_BEAN, 22, 16, 2),
+                        new VillagerTrades.EmeraldForItems(CoffeeItems.USED_COFFEE_GROUNDS, 26, 16, 2)
                 },
                 2, new VillagerTrades.ItemListing[]{
-                        new VillagerTrades.ItemsAndEmeraldsToItems(ModItems.LIGHT_ROAST_BEAN, 3, 2, ModItems.GROUND_LIGHT_ROAST, 12, 12, 5),
-                        new VillagerTrades.ItemsAndEmeraldsToItems(ModItems.MEDIUM_ROAST_BEAN, 3, 2, ModItems.GROUND_MEDIUM_ROAST, 12, 12, 5),
-                        new VillagerTrades.ItemsAndEmeraldsToItems(ModItems.DARK_ROAST_BEAN, 3, 2, ModItems.GROUND_DARK_ROAST, 12, 12, 5),
-                        new VillagerTrades.ItemsAndEmeraldsToItems(ModItems.ESPRESSO_ROAST_BEAN, 3, 2, ModItems.GROUND_ESPRESSO_ROAST, 12, 12, 5)
+                        new VillagerTrades.ItemsAndEmeraldsToItems(CoffeeItems.LIGHT_ROAST_BEAN, 3, 2, CoffeeItems.GROUND_LIGHT_ROAST, 12, 12, 5),
+                        new VillagerTrades.ItemsAndEmeraldsToItems(CoffeeItems.MEDIUM_ROAST_BEAN, 3, 2, CoffeeItems.GROUND_MEDIUM_ROAST, 12, 12, 5),
+                        new VillagerTrades.ItemsAndEmeraldsToItems(CoffeeItems.DARK_ROAST_BEAN, 3, 2, CoffeeItems.GROUND_DARK_ROAST, 12, 12, 5),
+                        new VillagerTrades.ItemsAndEmeraldsToItems(CoffeeItems.ESPRESSO_ROAST_BEAN, 3, 2, CoffeeItems.GROUND_ESPRESSO_ROAST, 12, 12, 5)
                 },
                 3, new VillagerTrades.ItemListing[]{
                         new VillagerTrades.ItemsForEmeralds(CoffeeUtil.getBaseCoffee(CoffeeTypes.LIGHT_ROAST), 3, 1, 12, 10),
@@ -65,12 +65,12 @@ public class ModVillagerProfessions {
                         new VillagerTrades.ItemsForEmeralds(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), "pdapi:glow_berries"), 7, 1, 12, 20),
                         new VillagerTrades.ItemsForEmeralds(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), "pdapi:honey", "pdapi:sugar"), 5, 1, 12, 20),
                         new VillagerTrades.ItemsForEmeralds(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), "plutoscoffee:mocha_syrup", "plutoscoffee:caramel"), 8, 1, 12, 20),
-                        new VillagerTrades.ItemsAndEmeraldsToItems(ModItems.DARK_ROAST_BEAN, 16, 2, ModItems.DECAF_ROAST_BEAN, 16, 12, 20)
+                        new VillagerTrades.ItemsAndEmeraldsToItems(CoffeeItems.DARK_ROAST_BEAN, 16, 2, CoffeeItems.DECAF_ROAST_BEAN, 16, 12, 20)
                 },
                 5, new VillagerTrades.ItemListing[]{
-                        new VillagerTrades.ItemsForEmeralds(ModItems.COFFEE_BREWER, 24, 1, 12, 25),
-                        new VillagerTrades.ItemsForEmeralds(ModItems.COFFEE_GRINDR, 20, 1, 12, 25),
-                        new VillagerTrades.ItemsForEmeralds(ModItems.ESPRESSO_MACHINE, 30, 1, 12, 25)
+                        new VillagerTrades.ItemsForEmeralds(CoffeeItems.COFFEE_BREWER, 24, 1, 12, 25),
+                        new VillagerTrades.ItemsForEmeralds(CoffeeItems.COFFEE_GRINDR, 20, 1, 12, 25),
+                        new VillagerTrades.ItemsForEmeralds(CoffeeItems.ESPRESSO_MACHINE, 30, 1, 12, 25)
                 }
         )));
     }

@@ -1,7 +1,7 @@
 package ml.pluto7073.plutoscoffee.blocks;
 
-import ml.pluto7073.plutoscoffee.registry.ModBlocks;
-import ml.pluto7073.plutoscoffee.registry.ModStats;
+import ml.pluto7073.plutoscoffee.registry.CoffeeBlocks;
+import ml.pluto7073.plutoscoffee.registry.CoffeeStats;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -57,7 +57,7 @@ public class CoffeeGrindrBlock extends BaseEntityBlock {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : createTickerHelper(type, ModBlocks.COFFEE_GRINDR_BLOCK_ENTITY_TYPE, CoffeeGrindrBlockEntity::tick);
+        return level.isClientSide ? null : createTickerHelper(type, CoffeeBlocks.COFFEE_GRINDR_BLOCK_ENTITY_TYPE, CoffeeGrindrBlockEntity::tick);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class CoffeeGrindrBlock extends BaseEntityBlock {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof CoffeeGrindrBlockEntity) {
                 player.openMenu((CoffeeGrindrBlockEntity) blockEntity);
-                player.awardStat(ModStats.INTERACT_WITH_COFFEE_GRINDR);
+                player.awardStat(CoffeeStats.INTERACT_WITH_COFFEE_GRINDR);
             }
             return InteractionResult.CONSUME;
         }

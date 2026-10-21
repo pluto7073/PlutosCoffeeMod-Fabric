@@ -1,6 +1,6 @@
 package ml.pluto7073.plutoscoffee.blocks;
 
-import ml.pluto7073.plutoscoffee.registry.ModItems;
+import ml.pluto7073.plutoscoffee.registry.CoffeeItems;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -42,7 +42,7 @@ public class CoffeeCrop extends CropBlock {
 
     @Environment(EnvType.CLIENT)
     protected ItemLike getBaseSeedId() {
-        return ModItems.COFFEE_CHERRY;
+        return CoffeeItems.COFFEE_CHERRY;
     }
 
     public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
@@ -57,7 +57,7 @@ public class CoffeeCrop extends CropBlock {
             return InteractionResult.PASS;
         } else if (age >= 7) {
             int rand = 1 + level.random.nextInt(2);
-            popResource(level, pos, new ItemStack(ModItems.COFFEE_CHERRY, rand + (fullyGrown ? 1 : 0)));
+            popResource(level, pos, new ItemStack(CoffeeItems.COFFEE_CHERRY, rand + (fullyGrown ? 1 : 0)));
             level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() * 0.4f);
             BlockState blockState = state.setValue(AGE, 5);
             level.setBlock(pos, blockState, 2);

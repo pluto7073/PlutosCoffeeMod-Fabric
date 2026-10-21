@@ -8,7 +8,7 @@ import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 
-public class ModScreens {
+public class CoffeeMenus {
 
     public static final MenuType<CoffeeBrewerMenu> BREWER_MENU_TYPE;
     public static final MenuType<CoffeeGrindrMenu> GRINDR_SCREEN_HANDLER_TYPE;

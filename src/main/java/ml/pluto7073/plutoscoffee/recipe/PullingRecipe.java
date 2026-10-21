@@ -2,7 +2,7 @@ package ml.pluto7073.plutoscoffee.recipe;
 
 import com.google.gson.JsonObject;
 import ml.pluto7073.plutoscoffee.blocks.EspressoMachineBlockEntity;
-import ml.pluto7073.plutoscoffee.registry.ModRecipes;
+import ml.pluto7073.plutoscoffee.registry.CoffeeRecipes;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
@@ -70,12 +70,12 @@ public class PullingRecipe implements Recipe<Container> {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return ModRecipes.PULLING_RECIPE_SERIALIZER;
+        return CoffeeRecipes.PULLING_RECIPE_SERIALIZER;
     }
 
     @Override
     public RecipeType<?> getType() {
-        return ModRecipes.PULLING_RECIPE_TYPE;
+        return CoffeeRecipes.PULLING_RECIPE_TYPE;
     }
 
     public static class Serializer implements RecipeSerializer<PullingRecipe> {

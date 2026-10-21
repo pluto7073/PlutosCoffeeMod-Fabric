@@ -15,7 +15,7 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 
 @SuppressWarnings("UnstableApiUsage")
-public class ModBlocks {
+public class CoffeeBlocks {
 
     public static final Block COFFEE_CROP = new CoffeeCrop(FabricBlockSettings.create().mapColor(MapColor.COLOR_GREEN).noCollision().ticksRandomly().breakInstantly().sounds(SoundType.CROP).pistonBehavior(PushReaction.DESTROY));
     public static final Block COFFEE_BREWER = new CoffeeBrewerBlock(FabricBlockSettings.create().mapColor(MapColor.COLOR_GRAY).requiresTool().strength(0.5F).luminance((state) -> 1).nonOpaque());

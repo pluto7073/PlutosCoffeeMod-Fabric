@@ -2,7 +2,7 @@ package ml.pluto7073.plutoscoffee.items;
 
 import ml.pluto7073.chemicals.handlers.ConsumedInstance;
 import ml.pluto7073.pdapi.addition.chemicals.CaffeineHandler;
-import ml.pluto7073.plutoscoffee.registry.ModStats;
+import ml.pluto7073.plutoscoffee.registry.CoffeeStats;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -48,7 +48,7 @@ public class EspressoShotItem extends Item {
 
         if (player != null) {
             player.awardStat(Stats.ITEM_USED.get(this));
-            player.awardStat(ModStats.DRINK_COFFEE);
+            player.awardStat(CoffeeStats.DRINK_COFFEE);
             if (!player.getAbilities().instabuild) {
                 stack.shrink(1);
             }

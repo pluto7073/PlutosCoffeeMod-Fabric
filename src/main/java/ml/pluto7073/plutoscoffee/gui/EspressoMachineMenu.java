@@ -2,9 +2,8 @@ package ml.pluto7073.plutoscoffee.gui;
 
 import ml.pluto7073.pdapi.tag.PDTags;
 import ml.pluto7073.plutoscoffee.blocks.EspressoMachineBlockEntity;
-import ml.pluto7073.plutoscoffee.recipe.PullingRecipe;
-import ml.pluto7073.plutoscoffee.registry.ModItems;
-import ml.pluto7073.plutoscoffee.registry.ModScreens;
+import ml.pluto7073.plutoscoffee.registry.CoffeeItems;
+import ml.pluto7073.plutoscoffee.registry.CoffeeMenus;
 import ml.pluto7073.plutoscoffee.tags.ModItemTags;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.Container;
@@ -16,7 +15,6 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 
 @MethodsReturnNonnullByDefault
 public class EspressoMachineMenu extends AbstractContainerMenu {
@@ -30,7 +28,7 @@ public class EspressoMachineMenu extends AbstractContainerMenu {
     }
 
     public EspressoMachineMenu(int syncId, Inventory playerInventory, Container container, ContainerData containerData) {
-        super(ModScreens.ESPRESSO_SCREEN_HANDLER_TYPE, syncId);
+        super(CoffeeMenus.ESPRESSO_SCREEN_HANDLER_TYPE, syncId);
         checkContainerSize(container, EspressoMachineBlockEntity.INVENTORY_SIZE);
         this.container = container;
         this.containerData = containerData;
@@ -144,7 +142,7 @@ public class EspressoMachineMenu extends AbstractContainerMenu {
         }
 
         public boolean mayPlace(ItemStack stack) {
-            return stack.is(PDTags.MILK_BOTTLES) || stack.is(ModItems.LATTE);
+            return stack.is(PDTags.MILK_BOTTLES) || stack.is(CoffeeItems.LATTE);
         }
 
         public int getMaxStackSize() { return 1; }

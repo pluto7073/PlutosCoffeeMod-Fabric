@@ -1,7 +1,7 @@
 package ml.pluto7073.plutoscoffee.coffee;
 
 import com.google.common.collect.ImmutableMap;
-import ml.pluto7073.plutoscoffee.registry.ModItems;
+import ml.pluto7073.plutoscoffee.registry.CoffeeItems;
 import net.minecraft.world.item.Item;
 
 import java.util.HashMap;
@@ -29,11 +29,11 @@ public class CoffeeGrounds {
     }
 
     static {
-        register(ModItems.LIGHT_ROAST_BEAN, ModItems.GROUND_LIGHT_ROAST);
-        register(ModItems.MEDIUM_ROAST_BEAN, ModItems.GROUND_MEDIUM_ROAST);
-        register(ModItems.DARK_ROAST_BEAN, ModItems.GROUND_DARK_ROAST);
-        register(ModItems.ESPRESSO_ROAST_BEAN, ModItems.GROUND_ESPRESSO_ROAST);
-        register(ModItems.DECAF_ROAST_BEAN, ModItems.GROUND_DECAF_ROAST);
+        register(CoffeeItems.LIGHT_ROAST_BEAN, CoffeeItems.GROUND_LIGHT_ROAST);
+        register(CoffeeItems.MEDIUM_ROAST_BEAN, CoffeeItems.GROUND_MEDIUM_ROAST);
+        register(CoffeeItems.DARK_ROAST_BEAN, CoffeeItems.GROUND_DARK_ROAST);
+        register(CoffeeItems.ESPRESSO_ROAST_BEAN, CoffeeItems.GROUND_ESPRESSO_ROAST);
+        register(CoffeeItems.DECAF_ROAST_BEAN, CoffeeItems.GROUND_DECAF_ROAST);
     }
 
     public static void init() {}

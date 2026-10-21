@@ -7,7 +7,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
-public enum ModGuiTextures {
+public enum CoffeeGuiTextures {
 
     CAFFEINE_DISPLAY_OUTLINE(0, 0, 80, 8),
     CAFFEINE_DISPLAY_FILL(0, 8, 80, 8),
@@ -27,19 +27,19 @@ public enum ModGuiTextures {
     public final int startX, startY;
     public final int fullWidth, fullHeight;
 
-    ModGuiTextures(String id, int w, int h) {
+    CoffeeGuiTextures(String id, int w, int h) {
         this(id, 0, 0, w, h);
     }
 
-    ModGuiTextures(String id, int startX, int startY, int width, int height) {
+    CoffeeGuiTextures(String id, int startX, int startY, int width, int height) {
         this(id, startX, startY, width, height, width, height);
     }
 
-    ModGuiTextures(int startX, int startY, int width, int height) {
+    CoffeeGuiTextures(int startX, int startY, int width, int height) {
         this("pc_icons", startX, startY, width, height, 80, 16);
     }
 
-    ModGuiTextures(String id, int startX, int startY, int width, int height, int fullWidth, int fullHeight) {
+    CoffeeGuiTextures(String id, int startX, int startY, int width, int height, int fullWidth, int fullHeight) {
         this.id = PlutosCoffee.asId("textures/gui/" + id + ".png");
         this.width = width;
         this.height = height;

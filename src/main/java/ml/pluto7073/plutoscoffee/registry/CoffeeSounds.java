@@ -5,7 +5,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
 
-public class ModSounds {
+public class CoffeeSounds {
 
     public static final SoundEvent COFFEE_GRINDER = SoundEvent.createVariableRangeEvent(PlutosCoffee.asId("block.coffee_grinder.grind"));
 

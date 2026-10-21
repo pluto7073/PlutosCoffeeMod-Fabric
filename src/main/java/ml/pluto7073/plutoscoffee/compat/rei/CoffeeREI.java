@@ -15,8 +15,8 @@ import ml.pluto7073.plutoscoffee.compat.rei.category.PullingCategory;
 import ml.pluto7073.plutoscoffee.compat.rei.display.GrindingDisplay;
 import ml.pluto7073.plutoscoffee.compat.rei.display.PullingDisplay;
 import ml.pluto7073.plutoscoffee.recipe.PullingRecipe;
-import ml.pluto7073.plutoscoffee.registry.ModItems;
-import ml.pluto7073.plutoscoffee.registry.ModRecipes;
+import ml.pluto7073.plutoscoffee.registry.CoffeeItems;
+import ml.pluto7073.plutoscoffee.registry.CoffeeRecipes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -29,15 +29,15 @@ public class CoffeeREI implements REIClientPlugin {
     public void registerCategories(CategoryRegistry registry) {
         registry.add(new PullingCategory());
         registry.configure(PULLING_DISPLAY, configuration -> configuration.setPlusButtonArea(ButtonArea.defaultArea()));
-        registry.addWorkstations(PULLING_DISPLAY, EntryStacks.of(ModItems.ESPRESSO_MACHINE));
+        registry.addWorkstations(PULLING_DISPLAY, EntryStacks.of(CoffeeItems.ESPRESSO_MACHINE));
 
         registry.add(new GrindingCategory());
-        registry.addWorkstations(GRINDING_DISPLAY, EntryStacks.of(ModItems.COFFEE_GRINDR));
+        registry.addWorkstations(GRINDING_DISPLAY, EntryStacks.of(CoffeeItems.COFFEE_GRINDR));
     }
 
     @Override
     public void registerDisplays(DisplayRegistry registry) {
-        registry.registerRecipeFiller(PullingRecipe.class, ModRecipes.PULLING_RECIPE_TYPE, PullingDisplay::new);
+        registry.registerRecipeFiller(PullingRecipe.class, CoffeeRecipes.PULLING_RECIPE_TYPE, PullingDisplay::new);
         registry.registerFiller(GrindingRecipe.class, GrindingDisplay::new);
 
         CoffeeGrounds.getBeansToGroundsRegistry().forEach((beans, grounds) -> registry.add(new GrindingRecipe(Ingredient.of(beans), new ItemStack(grounds))));

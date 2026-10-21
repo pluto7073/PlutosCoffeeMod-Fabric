@@ -2,7 +2,7 @@ package ml.pluto7073.plutoscoffee.gui;
 
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.blocks.CoffeeBrewerBlockEntity;
-import ml.pluto7073.plutoscoffee.registry.ModScreens;
+import ml.pluto7073.plutoscoffee.registry.CoffeeMenus;
 import ml.pluto7073.plutoscoffee.tags.ModItemTags;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.Container;
@@ -28,7 +28,7 @@ public class CoffeeBrewerMenu extends AbstractContainerMenu {
     }
 
     public CoffeeBrewerMenu(int syncId, Inventory inventory, Container container, ContainerData containerData) {
-        super(ModScreens.BREWER_MENU_TYPE, syncId);
+        super(CoffeeMenus.BREWER_MENU_TYPE, syncId);
         checkContainerSize(container, 3);
         checkContainerDataCount(containerData, CoffeeBrewerBlockEntity.PROPERTY_COUNT);
         this.inventory = container;

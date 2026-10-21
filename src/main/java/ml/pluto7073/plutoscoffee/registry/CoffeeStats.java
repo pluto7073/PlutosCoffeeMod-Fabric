@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.StatFormatter;
 import net.minecraft.stats.Stats;
 
-public class ModStats {
+public class CoffeeStats {
 
     public static final ResourceLocation DRINK_COFFEE = new ResourceLocation(PlutosCoffee.MOD_ID, "drink_coffee");
     public static final ResourceLocation INTERACT_WITH_COFFEE_BREWER = new ResourceLocation(PlutosCoffee.MOD_ID, "interact_with_coffee_brewer");

@@ -2,15 +2,12 @@ package ml.pluto7073.plutoscoffee;
 
 import com.mojang.datafixers.util.Pair;
 import ml.pluto7073.pdapi.util.DrinkUtil;
-import ml.pluto7073.pdapi.addition.DrinkAddition;
-import ml.pluto7073.pdapi.addition.DrinkAdditionManager;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
 import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
-import ml.pluto7073.plutoscoffee.items.BrewedCoffee;
 import ml.pluto7073.plutoscoffee.mixins.StructurePoolAccessor;
-import ml.pluto7073.plutoscoffee.registry.ModItems;
+import ml.pluto7073.plutoscoffee.registry.CoffeeItems;
 import ml.pluto7073.plutoscoffee.tags.ModItemTags;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 import net.fabricmc.fabric.api.tag.convention.v1.TagUtil;
@@ -23,7 +20,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
@@ -31,9 +27,6 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static ml.pluto7073.plutoscoffee.blocks.EspressoMachineBlockEntity.WATER;
 
@@ -87,7 +80,7 @@ public final class CoffeeUtil {
     }
 
     public static ItemStack getBaseCoffee(CoffeeType type) {
-        ItemStack stack = new ItemStack(ModItems.BREWED_COFFEE);
+        ItemStack stack = new ItemStack(CoffeeItems.BREWED_COFFEE);
         if (type == CoffeeTypes.EMPTY) return stack;
         stack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).putString("CoffeeType", CoffeeTypes.getIdentifier(type).toString());
         return stack;

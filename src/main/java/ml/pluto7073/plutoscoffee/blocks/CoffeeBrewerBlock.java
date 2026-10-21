@@ -1,7 +1,7 @@
 package ml.pluto7073.plutoscoffee.blocks;
 
-import ml.pluto7073.plutoscoffee.registry.ModBlocks;
-import ml.pluto7073.plutoscoffee.registry.ModStats;
+import ml.pluto7073.plutoscoffee.registry.CoffeeBlocks;
+import ml.pluto7073.plutoscoffee.registry.CoffeeStats;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -57,7 +57,7 @@ public class CoffeeBrewerBlock extends BaseEntityBlock {
 
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : createTickerHelper(type, ModBlocks.COFFEE_BREWER_BLOCK_ENTITY_TYPE, CoffeeBrewerBlockEntity::tick);
+        return level.isClientSide ? null : createTickerHelper(type, CoffeeBlocks.COFFEE_BREWER_BLOCK_ENTITY_TYPE, CoffeeBrewerBlockEntity::tick);
     }
 
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
@@ -71,7 +71,7 @@ public class CoffeeBrewerBlock extends BaseEntityBlock {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof CoffeeBrewerBlockEntity) {
                 player.openMenu((CoffeeBrewerBlockEntity) blockEntity);
-                player.awardStat(ModStats.INTERACT_WITH_COFFEE_BREWER);
+                player.awardStat(CoffeeStats.INTERACT_WITH_COFFEE_BREWER);
             }
             return InteractionResult.CONSUME;
         }

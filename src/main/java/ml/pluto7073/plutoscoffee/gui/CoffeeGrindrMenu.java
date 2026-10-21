@@ -1,7 +1,7 @@
 package ml.pluto7073.plutoscoffee.gui;
 
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
-import ml.pluto7073.plutoscoffee.registry.ModScreens;
+import ml.pluto7073.plutoscoffee.registry.CoffeeMenus;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -25,7 +25,7 @@ public class CoffeeGrindrMenu extends AbstractContainerMenu {
     }
 
     public CoffeeGrindrMenu(int syncId, Inventory playerInventory, Container container, ContainerData containerData) {
-        super(ModScreens.GRINDR_SCREEN_HANDLER_TYPE, syncId);
+        super(CoffeeMenus.GRINDR_SCREEN_HANDLER_TYPE, syncId);
         checkContainerSize(container, 2);
         this.container = container;
         this.containerData = containerData;

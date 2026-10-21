@@ -1,8 +1,8 @@
 package ml.pluto7073.plutoscoffee.items;
 
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
-import ml.pluto7073.plutoscoffee.registry.ModItems;
-import ml.pluto7073.plutoscoffee.registry.ModStats;
+import ml.pluto7073.plutoscoffee.registry.CoffeeItems;
+import ml.pluto7073.plutoscoffee.registry.CoffeeStats;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -23,14 +23,14 @@ public class LatteItem extends AbstractCustomizableDrinkItem {
         Player playerEntity = user instanceof Player ? (Player) user : null;
 
         if (playerEntity != null) {
-            playerEntity.awardStat(ModStats.DRINK_COFFEE);
+            playerEntity.awardStat(CoffeeStats.DRINK_COFFEE);
         }
 
         return super.finishUsingItem(stack, level, user);
     }
 
     public static ItemStack getStandardLatte() {
-        ItemStack stack = new ItemStack(ModItems.LATTE);
+        ItemStack stack = new ItemStack(CoffeeItems.LATTE);
         ListTag adds = new ListTag();
         adds.add(StringTag.valueOf("plutoscoffee:espresso_shot"));
         adds.add(StringTag.valueOf("plutoscoffee:espresso_shot"));
