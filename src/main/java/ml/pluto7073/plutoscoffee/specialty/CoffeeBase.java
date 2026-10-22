@@ -6,12 +6,13 @@ import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.registry.CoffeeDrinkBases;
 import ml.pluto7073.plutoscoffee.registry.CoffeeItems;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 
 public record CoffeeBase(CoffeeType type) implements SpecialtyDrinkBase {
 
     @Override
-    public ItemStack buildItemStack() {
+    public ItemStack buildItemStack(HolderLookup.Provider provider) {
         return CoffeeUtil.getBaseCoffee(type);
     }
 
