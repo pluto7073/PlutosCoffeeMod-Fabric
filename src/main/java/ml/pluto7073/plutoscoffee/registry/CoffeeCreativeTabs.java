@@ -1,6 +1,5 @@
 package ml.pluto7073.plutoscoffee.registry;
 
-import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import ml.pluto7073.pdapi.item.PDItems;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
@@ -45,11 +44,11 @@ public class CoffeeCreativeTabs {
             stacks.accept(new ItemStack(CoffeeItems.GROUND_ESPRESSO_ROAST, 1));
             stacks.accept(new ItemStack(CoffeeItems.GROUND_DECAF_ROAST));
             ItemStack lightRoast = new ItemStack(CoffeeItems.BREWED_COFFEE, 1);
-            lightRoast.set(ModComponents.COFFEE_TYPE, CoffeeTypes.LIGHT_ROAST);
+            lightRoast.set(CoffeeComponents.COFFEE_TYPE, CoffeeTypes.LIGHT_ROAST);
             ItemStack mediumRoast = lightRoast.copy();
-            mediumRoast.set(ModComponents.COFFEE_TYPE, CoffeeTypes.MEDIUM_ROAST);
+            mediumRoast.set(CoffeeComponents.COFFEE_TYPE, CoffeeTypes.MEDIUM_ROAST);
             ItemStack darkRoast = mediumRoast.copy();
-            darkRoast.set(ModComponents.COFFEE_TYPE, CoffeeTypes.DARK_ROAST);
+            darkRoast.set(CoffeeComponents.COFFEE_TYPE, CoffeeTypes.DARK_ROAST);
             stacks.accept(lightRoast);
             stacks.accept(mediumRoast);
             stacks.accept(darkRoast);

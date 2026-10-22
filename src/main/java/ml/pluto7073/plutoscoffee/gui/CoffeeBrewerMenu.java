@@ -3,7 +3,7 @@ package ml.pluto7073.plutoscoffee.gui;
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.blocks.CoffeeBrewerBlockEntity;
 import ml.pluto7073.plutoscoffee.registry.CoffeeMenus;
-import ml.pluto7073.plutoscoffee.tags.ModItemTags;
+import ml.pluto7073.plutoscoffee.tags.ModTags;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -164,7 +164,7 @@ public class CoffeeBrewerMenu extends AbstractContainerMenu {
         }
 
         public static boolean matches(ItemStack stack) {
-            return stack.is(ModItemTags.MACHINE_WATER_SOURCES);
+            return stack.is(ModTags.MACHINE_WATER_SOURCES);
         }
 
         public int getMaxStackSize() {

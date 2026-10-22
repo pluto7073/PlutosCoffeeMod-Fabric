@@ -14,7 +14,7 @@ import ml.pluto7073.plutoscoffee.compat.rei.CoffeeREI;
 import ml.pluto7073.plutoscoffee.compat.rei.display.PullingDisplay;
 import ml.pluto7073.plutoscoffee.registry.CoffeeGuiTextures;
 import ml.pluto7073.plutoscoffee.registry.CoffeeItems;
-import ml.pluto7073.plutoscoffee.tags.ModItemTags;
+import ml.pluto7073.plutoscoffee.tags.ModTags;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -34,7 +34,7 @@ public class PullingCategory implements DisplayCategory<PullingDisplay> {
 
         widgets.add(Widgets.createSlot(
                 new Point(origin.x - 6, origin.y + 40))
-                .markInput().entries(EntryIngredients.ofIngredient(Ingredient.of(ModItemTags.MACHINE_WATER_SOURCES)))
+                .markInput().entries(EntryIngredients.ofIngredient(Ingredient.of(ModTags.MACHINE_WATER_SOURCES)))
         );
         widgets.add(Widgets.createSlot(
                 new Point(origin.x + 14, origin.y + 40))

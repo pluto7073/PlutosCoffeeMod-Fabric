@@ -34,11 +34,4 @@ public class LatteItem extends AbstractCustomizableDrinkItem {
         return super.finishUsingItem(stack, level, user);
     }
 
-    public static ItemStack getStandardLatte() {
-        ItemStack stack = new ItemStack(CoffeeItems.LATTE);
-        stack.set(PDComponents.ADDITIONS, DrinkAdditions.of(
-                List.of(PlutosCoffee.asId("espresso_shot"), PlutosCoffee.asId("espresso_shot"))));
-        return stack;
-    }
-
 }

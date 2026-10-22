@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecraft:campfire"
+      "id": "minecraft:campfire"
     },
     "title": "Ouch that Burns!",
     "description": "Drink a burnt latte (why did you do this?)",
@@ -19,7 +19,11 @@
           "items": [
             "plutoscoffee:latte"
           ],
-          "nbt": "{DrinkData:{Additions:[\"pdapi:burnt\"]}}"
+          "components": {
+            "pdapi:additions": [
+              "pdapi:burnt"
+            ]
+          }
         }
       }
     }

@@ -21,16 +21,4 @@ public class CoffeeBaseSerializer implements SpecialtyDrinkBaseSerializer {
         return CODEC;
     }
 
-    @Override
-    public void toNetwork(FriendlyByteBuf buf, SpecialtyDrinkBase base) {
-        if (!(base instanceof CoffeeBase(CoffeeType type))) return;
-        buf.writeResourceLocation(CoffeeTypes.getIdentifier(type));
-    }
-
-    @Override
-    public SpecialtyDrinkBase fromNetwork(FriendlyByteBuf buf) {
-        ResourceLocation id = buf.readResourceLocation();
-        CoffeeType type = CoffeeTypes.get(id);
-        return new CoffeeBase(type);
-    }
 }

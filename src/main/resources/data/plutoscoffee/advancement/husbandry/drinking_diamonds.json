@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecraft:diamond"
+      "id": "minecraft:diamond"
     },
     "title": "Drinking Diamonds",
     "description": "Drink a coffee with a diamond in it",
@@ -20,7 +20,11 @@
             "plutoscoffee:brewed_coffee",
             "plutoscoffee:latte"
           ],
-          "nbt": "{DrinkData:{Additions:[\"pdapi:diamond\"]}}"
+          "components": {
+            "pdapi:additions": [
+              "pdapi:diamond"
+            ]
+          }
         }
       }
     }

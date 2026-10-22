@@ -1,8 +1,12 @@
 {
   "display": {
     "icon": {
-      "item": "plutoscoffee:brewed_coffee",
-      "nbt": "{DrinkData:{Additions:[\"pdapi:milk\"]}}"
+      "id": "plutoscoffee:brewed_coffee",
+      "components": {
+        "pdapi:additions": [
+          "pdapi:milk"
+        ]
+      }
     },
     "title": "Caffeinated!",
     "description": "Brew a cup coffee",

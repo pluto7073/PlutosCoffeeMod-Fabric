@@ -2,6 +2,8 @@ package ml.pluto7073.plutoscoffee.blocks;
 
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import ml.pluto7073.pdapi.PDAPI;
+import ml.pluto7073.pdapi.PDRegistries;
+import ml.pluto7073.pdapi.addition.DrinkAddition;
 import ml.pluto7073.pdapi.component.DrinkAdditions;
 import ml.pluto7073.pdapi.component.PDComponents;
 import ml.pluto7073.pdapi.tag.PDTags;
@@ -19,10 +21,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.FilteringStorage;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
+import net.minecraft.core.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.chat.Component;
@@ -212,7 +211,9 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
                 milkStack = new ItemStack(CoffeeItems.LATTE);
             } else if (milkStack.is(CoffeeItems.LATTE) && blockEntity.steamTime >= 500) {
                 DrinkAdditions resAdds = milkStack.getOrDefault(PDComponents.ADDITIONS, DrinkAdditions.EMPTY);
-                if (!resAdds.additions().contains(PDAPI.asId("burnt"))) resAdds = resAdds.withAddition(PDAPI.asId("burnt"));
+                Holder<DrinkAddition> burnt = level.registryAccess().registryOrThrow(PDRegistries.DRINK_ADDITION_KEY)
+                        .getHolder(PDAPI.asId("burnt")).orElseThrow();
+                if (!resAdds.additions().contains(burnt)) resAdds = resAdds.withAddition(burnt);
                 milkStack.set(PDComponents.ADDITIONS, resAdds);
             }
             blockEntity.inventory.set(MILK_SLOT_INDEX, milkStack);

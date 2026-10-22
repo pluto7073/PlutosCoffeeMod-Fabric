@@ -8,7 +8,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 
 import java.util.function.UnaryOperator;
 
-public class ModComponents {
+public class CoffeeComponents {
 
     public static final DataComponentType<CoffeeType> COFFEE_TYPE = register("coffee_type", builder ->
             builder.persistent(CoffeeType.COMPONENT_CODEC).networkSynchronized(CoffeeType.STREAM_COMPONENT_CODEC));

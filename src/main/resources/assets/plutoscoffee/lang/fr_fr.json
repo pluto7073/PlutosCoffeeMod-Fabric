@@ -52,5 +52,8 @@
   "drink.plutoscoffee.mocha": "Mocaccino",
   "drink.plutoscoffee.sweet_caramel_latte": "Café Crème au Caramel",
   "drink.plutoscoffee.red_eye": "Red Eye",
-  "drink.plutoscoffee.compat/farmersdelight/pumpkin_spice_latte": "Café Crème au Potiron"
+  "drink.plutoscoffee.compat/farmersdelight/pumpkin_spice_latte": "Café Crème au Potiron",
+  "tag.item.plutoscoffee.ground_coffee_beans": "Grains de Café Moulus",
+  "tag.item.plutoscoffee.machine_water_sources": "Sources de l'eau pour la cafetière",
+  "tag.item.plutoscoffee.roasted_coffee_beans": "Grains de Café Cuits"
 }

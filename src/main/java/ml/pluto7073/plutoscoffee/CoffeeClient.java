@@ -40,8 +40,8 @@ public class CoffeeClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(CoffeeBlocks.COFFEE_GRINDR, RenderType.cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(CoffeeBlocks.ESPRESSO_MACHINE, RenderType.cutout());
 
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex > 0 ? -1 : ColorUtil.getColorForDrinkWithDefault(stack, BrewedCoffee.DEFAULT_COLOUR, 2, Minecraft.getInstance().level), CoffeeItems.BREWED_COFFEE);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex > 0 ? -1 : ColorUtil.getColorForDrinkWithDefault(stack, 0xFFFFFF, 3, Minecraft.getInstance().level), CoffeeItems.LATTE);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex > 0 ? -1 : ColorUtil.getColorForDrinkWithDefault(stack, BrewedCoffee.DEFAULT_COLOUR, 2), CoffeeItems.BREWED_COFFEE);
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> tintIndex > 0 ? -1 : ColorUtil.getColorForDrinkWithDefault(stack, 0xFFFFFF, 3), CoffeeItems.LATTE);
 
         PDClientConfig.INSTANCE.addManagedConfig(CoffeeConfig.INSTANCE);
     }

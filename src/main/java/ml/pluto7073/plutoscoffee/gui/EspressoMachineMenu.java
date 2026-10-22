@@ -4,7 +4,7 @@ import ml.pluto7073.pdapi.tag.PDTags;
 import ml.pluto7073.plutoscoffee.blocks.EspressoMachineBlockEntity;
 import ml.pluto7073.plutoscoffee.registry.CoffeeItems;
 import ml.pluto7073.plutoscoffee.registry.CoffeeMenus;
-import ml.pluto7073.plutoscoffee.tags.ModItemTags;
+import ml.pluto7073.plutoscoffee.tags.ModTags;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -98,7 +98,7 @@ public class EspressoMachineMenu extends AbstractContainerMenu {
         }
 
         public boolean mayPlace(ItemStack stack) {
-            return stack.is(ModItemTags.COFFEE_GROUNDS);
+            return stack.is(ModTags.COFFEE_GROUNDS);
         }
 
         public int getMaxStackSize() {
@@ -116,7 +116,7 @@ public class EspressoMachineMenu extends AbstractContainerMenu {
         }
 
         public static boolean matches(ItemStack stack) {
-            return stack.is(ModItemTags.MACHINE_WATER_SOURCES);
+            return stack.is(ModTags.MACHINE_WATER_SOURCES);
         }
 
         public int getMaxStackSize() {

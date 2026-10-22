@@ -7,7 +7,7 @@ import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
 import ml.pluto7073.plutoscoffee.gui.CoffeeBrewerMenu;
 import ml.pluto7073.plutoscoffee.registry.CoffeeBlocks;
 import ml.pluto7073.plutoscoffee.registry.CoffeeItems;
-import ml.pluto7073.plutoscoffee.registry.ModComponents;
+import ml.pluto7073.plutoscoffee.registry.CoffeeComponents;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.FilteringStorage;
@@ -182,7 +182,7 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
 
         CoffeeType type = CoffeeTypes.getFromGrounds(input.getItem());
         ItemStack result = new ItemStack(CoffeeItems.BREWED_COFFEE, 1);
-        result.set(ModComponents.COFFEE_TYPE, type);
+        result.set(CoffeeComponents.COFFEE_TYPE, type);
         slots.set(2, result);
 
         input.shrink(1);

@@ -1,24 +1,22 @@
 package ml.pluto7073.plutoscoffee;
 
 import com.mojang.datafixers.util.Pair;
+import ml.pluto7073.pdapi.PDAPI;
 import ml.pluto7073.pdapi.component.DrinkAdditions;
 import ml.pluto7073.pdapi.component.PDComponents;
-import ml.pluto7073.pdapi.util.DrinkUtil;
-import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
 import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
 import ml.pluto7073.plutoscoffee.mixins.StructurePoolAccessor;
-import ml.pluto7073.plutoscoffee.registry.ModComponents;
+import ml.pluto7073.plutoscoffee.registry.CoffeeComponents;
 import ml.pluto7073.plutoscoffee.registry.CoffeeItems;
-import ml.pluto7073.plutoscoffee.tags.ModItemTags;
+import ml.pluto7073.plutoscoffee.tags.ModTags;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.fabricmc.fabric.api.tag.convention.v2.TagUtil;
 import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -27,7 +25,6 @@ import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -68,36 +65,27 @@ public final class CoffeeUtil {
     }
 
     public static CoffeeType getCoffeeType(ItemStack stack) {
-        return stack.get(ModComponents.COFFEE_TYPE);
+        return stack.get(CoffeeComponents.COFFEE_TYPE);
     }
 
     public static ItemStack setCoffeeType(ItemStack stack, CoffeeType type) {
-        stack.set(ModComponents.COFFEE_TYPE, type);
+        stack.set(CoffeeComponents.COFFEE_TYPE, type);
         return stack;
     }
 
     public static ItemStack getBaseCoffee(CoffeeType type) {
         ItemStack stack = new ItemStack(CoffeeItems.BREWED_COFFEE);
         if (type == CoffeeTypes.EMPTY) return stack;
-        stack.set(ModComponents.COFFEE_TYPE, type);
+        stack.set(CoffeeComponents.COFFEE_TYPE, type);
         return stack;
     }
 
     public static boolean isItemACoffeeGround(Item item) {
-        return TagUtil.isIn(ModItemTags.COFFEE_GROUNDS, item);
+        return TagUtil.isIn(ModTags.COFFEE_GROUNDS, item);
     }
 
     public static boolean isItemACoffeeBean(Item item) {
-        return TagUtil.isIn(ModItemTags.COFFEE_BEANS, item);
-    }
-
-    public static ItemStack getWithAdditions(ItemStack stack, String... additions) {
-        DrinkAdditions adds = stack.getOrDefault(PDComponents.ADDITIONS, DrinkAdditions.EMPTY);
-        for (String s : additions) {
-            adds = adds.withAddition(ResourceLocation.parse(s));
-        }
-        stack.set(PDComponents.ADDITIONS, adds);
-        return stack;
+        return TagUtil.isIn(ModTags.COFFEE_BEANS, item);
     }
 
     public static int calculateHealthBarHeightPixels(int health, int maxHeartsPerRow, int rowHeight) {

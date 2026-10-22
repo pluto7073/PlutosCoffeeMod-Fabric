@@ -3,9 +3,11 @@
   "pools": [
     {
       "rolls": {
+        "type": "minecraft:uniform",
         "min": 0,
         "max": 2
       },
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -14,6 +16,7 @@
             {
               "function": "minecraft:set_count",
               "count": {
+                "type": "minecraft:uniform",
                 "min": 1,
                 "max": 5
               }
@@ -27,6 +30,7 @@
             {
               "function": "minecraft:set_count",
               "count": {
+                "type": "minecraft:uniform",
                 "min": 1,
                 "max": 5
               }
@@ -40,6 +44,7 @@
             {
               "function": "minecraft:set_count",
               "count": {
+                "type": "minecraft:uniform",
                 "min": 1,
                 "max": 5
               }
@@ -53,6 +58,7 @@
             {
               "function": "minecraft:set_count",
               "count": {
+                "type": "minecraft:uniform",
                 "min": 1,
                 "max": 5
               }
@@ -63,6 +69,7 @@
     },
     {
       "rolls": {
+        "type": "minecraft:uniform",
         "min": 0,
         "max": 2
       },
@@ -74,6 +81,7 @@
             {
               "function": "minecraft:set_count",
               "count": {
+                "type": "minecraft:uniform",
                 "min": 1,
                 "max": 5
               }
@@ -87,6 +95,7 @@
             {
               "function": "minecraft:set_count",
               "count": {
+                "type": "minecraft:uniform",
                 "min": 1,
                 "max": 5
               }
@@ -100,6 +109,7 @@
             {
               "function": "minecraft:set_count",
               "count": {
+                "type": "minecraft:uniform",
                 "min": 1,
                 "max": 5
               }
@@ -113,6 +123,7 @@
             {
               "function": "minecraft:set_count",
               "count": {
+                "type": "minecraft:uniform",
                 "min": 1,
                 "max": 5
               }
@@ -123,6 +134,7 @@
     },
     {
       "rolls": {
+        "type": "minecraft:uniform",
         "min": 0,
         "max": 1
       },
@@ -132,8 +144,13 @@
           "name": "plutoscoffee:latte",
           "functions": [
             {
-              "function": "minecraft:set_nbt",
-              "tag": "{DrinkData:{Additions:[\"plutoscoffee:espresso_shot\",\"plutoscoffee:espresso_shot\"]}}"
+              "function": "minecraft:set_components",
+              "components": {
+                "pdapi:additions": [
+                  "plutoscoffee:espresso_shot",
+                  "plutoscoffee:espresso_shot"
+                ]
+              }
             }
           ]
         },
@@ -142,8 +159,10 @@
           "name": "plutoscoffee:brewed_coffee",
           "functions": [
             {
-              "function": "minecraft:set_nbt",
-              "tag": "{DrinkData:{CoffeeType:\"plutoscoffee:light_roast\"}}"
+              "function": "minecraft:set_components",
+              "components": {
+                "plutoscoffee:coffee_type": "plutoscoffee:light_roast"
+              }
             }
           ]
         },
@@ -152,8 +171,10 @@
           "name": "plutoscoffee:brewed_coffee",
           "functions": [
             {
-              "function": "minecraft:set_nbt",
-              "tag": "{DrinkData:{CoffeeType:\"plutoscoffee:medium_roast\"}}"
+              "function": "minecraft:set_components",
+              "components": {
+                "plutoscoffee:coffee_type": "plutoscoffee:medium_roast"
+              }
             }
           ]
         },
@@ -162,8 +183,10 @@
           "name": "plutoscoffee:brewed_coffee",
           "functions": [
             {
-              "function": "minecraft:set_nbt",
-              "tag": "{DrinkData:{CoffeeType:\"plutoscoffee:dark_roast\"}}"
+              "function": "minecraft:set_components",
+              "components": {
+                "plutoscoffee:coffee_type": "plutoscoffee:dark_roast"
+              }
             }
           ]
         }
@@ -171,9 +194,11 @@
     },
     {
       "rolls": {
+        "type": "minecraft:uniform",
         "min": 0,
         "max": 2
       },
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -182,6 +207,7 @@
             {
               "function": "minecraft:set_count",
               "count": {
+                "type": "minecraft:uniform",
                 "min": 1,
                 "max": 3
               }
@@ -195,6 +221,7 @@
             {
               "function": "minecraft:set_count",
               "count": {
+                "type": "minecraft:uniform",
                 "min": 1,
                 "max": 3
               }
@@ -208,6 +235,7 @@
             {
               "function": "minecraft:set_count",
               "count": {
+                "type": "minecraft:uniform",
                 "min": 1,
                 "max": 3
               }
@@ -221,6 +249,7 @@
             {
               "function": "minecraft:set_count",
               "count": {
+                "type": "minecraft:uniform",
                 "min": 1,
                 "max": 3
               }
@@ -234,6 +263,7 @@
             {
               "function": "minecraft:set_count",
               "count": {
+                "type": "minecraft:uniform",
                 "min": 1,
                 "max": 3
               }
@@ -257,6 +287,7 @@
             {
               "function": "minecraft:set_count",
               "count": {
+                "type": "minecraft:uniform",
                 "min": 1,
                 "max": 3
               }
@@ -270,6 +301,7 @@
             {
               "function": "minecraft:set_count",
               "count": {
+                "type": "minecraft:uniform",
                 "min": 1,
                 "max": 3
               }
@@ -280,6 +312,7 @@
     },
     {
       "rolls": 1,
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -288,6 +321,7 @@
             {
               "function": "minecraft:set_count",
               "count": {
+                "type": "minecraft:uniform",
                 "min": 1,
                 "max": 4
               }
@@ -298,9 +332,11 @@
     },
     {
       "rolls": {
+        "type": "minecraft:uniform",
         "min": 0,
         "max": 1
       },
+      "bonus_rolls": 0,
       "entries": [
         {
           "type": "minecraft:item",
@@ -309,6 +345,7 @@
             {
               "function": "minecraft:set_count",
               "count": {
+                "type": "minecraft:uniform",
                 "min": 1,
                 "max": 4
               }
@@ -317,5 +354,6 @@
         }
       ]
     }
-  ]
+  ],
+  "random_sequence": "plutoscoffee:chests/cafe_chest"
 }

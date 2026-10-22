@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecraft:sugar"
+      "id": "minecraft:sugar"
     },
     "title": "Do you want some coffee with your sugar?",
     "description": "Drink a coffee with 10 Milk and 10 Sugar",
@@ -19,7 +19,30 @@
           "items": [
             "plutoscoffee:brewed_coffee"
           ],
-          "nbt": "{DrinkData:{Additions:[\"pdapi:milk\",\"pdapi:milk\",\"pdapi:milk\",\"pdapi:milk\",\"pdapi:milk\",\"pdapi:milk\",\"pdapi:milk\",\"pdapi:milk\",\"pdapi:milk\",\"pdapi:milk\",\"pdapi:sugar\",\"pdapi:sugar\",\"pdapi:sugar\",\"pdapi:sugar\",\"pdapi:sugar\",\"pdapi:sugar\",\"pdapi:sugar\",\"pdapi:sugar\",\"pdapi:sugar\",\"pdapi:sugar\"]}}"
+          "components": {
+            "pdapi:additions": [
+              "pdapi:milk",
+              "pdapi:milk",
+              "pdapi:milk",
+              "pdapi:milk",
+              "pdapi:milk",
+              "pdapi:milk",
+              "pdapi:milk",
+              "pdapi:milk",
+              "pdapi:milk",
+              "pdapi:milk",
+              "pdapi:sugar",
+              "pdapi:sugar",
+              "pdapi:sugar",
+              "pdapi:sugar",
+              "pdapi:sugar",
+              "pdapi:sugar",
+              "pdapi:sugar",
+              "pdapi:sugar",
+              "pdapi:sugar",
+              "pdapi:sugar"
+            ]
+          }
         }
       }
     }

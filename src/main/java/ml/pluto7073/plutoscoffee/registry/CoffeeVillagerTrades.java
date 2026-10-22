@@ -3,21 +3,36 @@ package ml.pluto7073.plutoscoffee.registry;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import ml.pluto7073.pdapi.PDRegistries;
+import ml.pluto7073.pdapi.addition.DrinkAddition;
+import ml.pluto7073.pdapi.component.DrinkAdditions;
+import ml.pluto7073.pdapi.component.PDComponents;
 import ml.pluto7073.pdapi.item.PDItems;
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.PlutosCoffee;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
 import ml.pluto7073.plutoscoffee.items.LatteItem;
+import ml.pluto7073.plutoscoffee.tags.ModTags;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.ItemCost;
+import net.minecraft.world.item.trading.MerchantOffer;
+import org.apache.commons.compress.utils.Lists;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -60,14 +75,14 @@ public class CoffeeVillagerTrades {
                         new VillagerTrades.ItemsForEmeralds(CoffeeUtil.getBaseCoffee(CoffeeTypes.LIGHT_ROAST), 3, 1, 12, 10),
                         new VillagerTrades.ItemsForEmeralds(CoffeeUtil.getBaseCoffee(CoffeeTypes.MEDIUM_ROAST), 3, 1, 12, 10),
                         new VillagerTrades.ItemsForEmeralds(CoffeeUtil.getBaseCoffee(CoffeeTypes.DARK_ROAST), 3, 1, 12, 10),
-                        new VillagerTrades.ItemsForEmeralds(LatteItem.getStandardLatte(), 5, 1, 12, 15),
+                        new LatteWithRandomAdditions(5, 12, 15),
                         new VillagerTrades.EmeraldForItems(PDItems.MILK_BOTTLE, 16, 12, 5)
                 },
                 4, new VillagerTrades.ItemListing[] {
-                        new VillagerTrades.ItemsForEmeralds(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), "pdapi:chorus_fruit"), 10, 1, 12, 20),
-                        new VillagerTrades.ItemsForEmeralds(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), "pdapi:glow_berries"), 7, 1, 12, 20),
-                        new VillagerTrades.ItemsForEmeralds(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), "pdapi:honey", "pdapi:sugar"), 5, 1, 12, 20),
-                        new VillagerTrades.ItemsForEmeralds(CoffeeUtil.getWithAdditions(LatteItem.getStandardLatte(), "plutoscoffee:mocha_syrup", "plutoscoffee:caramel"), 8, 1, 12, 20),
+                        new LatteWithRandomAdditions(5, 12, 20),
+                        new LatteWithRandomAdditions(5, 12, 20),
+                        new LatteWithRandomAdditions(5, 12, 20),
+                        new LatteWithRandomAdditions(5, 12, 20),
                         new VillagerTrades.ItemsAndEmeraldsToItems(new ItemCost(CoffeeItems.DARK_ROAST_BEAN, 16), 2, new ItemStack(CoffeeItems.DECAF_ROAST_BEAN, 16), 12, 20, 5, Optional.empty())
                 },
                 5, new VillagerTrades.ItemListing[]{
@@ -80,6 +95,76 @@ public class CoffeeVillagerTrades {
 
     private static VillagerProfession register(String id, VillagerProfession profession ) {
         return Registry.register(BuiltInRegistries.VILLAGER_PROFESSION, PlutosCoffee.asId(id), profession);
+    }
+
+    public static class LatteForEmeralds implements VillagerTrades.ItemListing {
+
+        private final int price;
+        private final int maxUses;
+        private final int experience;
+
+        public LatteForEmeralds(int price, int maxUses, int experience) {
+            this.price = price;
+            this.maxUses = maxUses;
+            this.experience = experience;
+        }
+
+        @Override
+        public @Nullable MerchantOffer getOffer(Entity entity, RandomSource random) {
+            Registry<DrinkAddition> registry = entity.level().registryAccess().registryOrThrow(PDRegistries.DRINK_ADDITION_KEY);
+            ItemStack latte = getLatte(registry);
+            return new MerchantOffer(new ItemCost(Items.EMERALD, price), Optional.empty(), latte, maxUses, experience, 0.05f);
+        }
+    }
+
+    public static class LatteWithRandomAdditions implements VillagerTrades.ItemListing {
+
+        private final int price;
+        private final int maxUses;
+        private final int experience;
+
+        public LatteWithRandomAdditions(int price, int maxUses, int experience) {
+            this.price = price;
+            this.maxUses = maxUses;
+            this.experience = experience;
+        }
+
+        @Override
+        public @Nullable MerchantOffer getOffer(Entity entity, RandomSource random) {
+            Registry<DrinkAddition> registry = entity.level().registryAccess().registryOrThrow(PDRegistries.DRINK_ADDITION_KEY);
+            ItemStack latte = getLatte(registry);
+            List<Holder<DrinkAddition>> toAdd = Lists.newArrayList();
+            int price = this.price;
+            int commonCount = random.nextInt(1, 4);
+            boolean uncommon = random.nextInt(4) < 3;
+            boolean rare = random.nextInt(4) == 0;
+            for (int i = 0; i < commonCount; i++) {
+                registry.getRandomElementOf(ModTags.COMMON_TRADEABLE_ADDITIONS, random)
+                        .ifPresent(toAdd::add);
+            }
+            if (uncommon) {
+                registry.getRandomElementOf(ModTags.UNCOMMON_TRADEABLE_ADDITIONS, random)
+                        .ifPresent(toAdd::add);
+                price += 1;
+            }
+            if (rare) {
+                registry.getRandomElementOf(ModTags.RARE_TRADEABLE_ADDITIONS, random)
+                        .ifPresent(toAdd::add);
+                price += 4;
+            }
+            //noinspection DataFlowIssue
+            latte.set(PDComponents.ADDITIONS,
+                    DrinkAdditions.or(latte.get(PDComponents.ADDITIONS), DrinkAdditions.of(toAdd)));
+            return new MerchantOffer(new ItemCost(Items.EMERALD, price), Optional.empty(), latte, maxUses, experience, 0.05f);
+        }
+
+    }
+
+    private static ItemStack getLatte(Registry<DrinkAddition> registry) {
+        ItemStack stack = new ItemStack(CoffeeItems.LATTE);
+        Holder<DrinkAddition> espressoShot = registry.getHolder(PlutosCoffee.asId("espresso_shot")).orElseThrow();
+        stack.set(PDComponents.ADDITIONS, DrinkAdditions.of(List.of(espressoShot, espressoShot)));
+        return stack;
     }
 
 }

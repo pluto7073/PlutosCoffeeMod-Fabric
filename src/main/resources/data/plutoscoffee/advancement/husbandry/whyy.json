@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecraft:netherite_ingot"
+      "id": "minecraft:netherite_ingot"
     },
     "title": "WHYYYYY?!",
     "description": "Drink a coffee with a netherite ingot in it",
@@ -20,7 +20,11 @@
             "plutoscoffee:brewed_coffee",
             "plutoscoffee:latte"
           ],
-          "nbt": "{DrinkData:{Additions:[\"pdapi:netherite\"]}}"
+          "components": {
+            "pdapi:additions": [
+              "pdapi:netherite"
+            ]
+          }
         }
       }
     }

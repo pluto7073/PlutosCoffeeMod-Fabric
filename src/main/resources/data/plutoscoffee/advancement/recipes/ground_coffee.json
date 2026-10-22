@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "display": {
     "icon": {
-      "item": "minecraft:stone"
+      "id": "minecraft:stone"
     },
     "title": "",
     "description": "",
