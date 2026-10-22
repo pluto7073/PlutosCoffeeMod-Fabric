@@ -9,7 +9,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.level.block.Block;
 
-public class ModPointOfInterests {
+public class CoffeePOIs {
 
     public static final ResourceKey<PoiType> DRINK_WORKSTATION;
 

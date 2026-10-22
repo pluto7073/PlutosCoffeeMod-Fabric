@@ -3,7 +3,7 @@ package ml.pluto7073.plutoscoffee.blocks;
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeGrounds;
 import ml.pluto7073.plutoscoffee.gui.CoffeeGrindrMenu;
-import ml.pluto7073.plutoscoffee.registry.ModBlocks;
+import ml.pluto7073.plutoscoffee.registry.CoffeeBlocks;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -43,7 +43,7 @@ public class CoffeeGrindrBlockEntity extends BaseContainerBlockEntity implements
 
 
     public CoffeeGrindrBlockEntity(BlockPos blockPos, BlockState blockState) {
-        super(ModBlocks.COFFEE_GRINDR_BLOCK_ENTITY_TYPE, blockPos, blockState);
+        super(CoffeeBlocks.COFFEE_GRINDR_BLOCK_ENTITY_TYPE, blockPos, blockState);
         inventory = NonNullList.withSize(2, ItemStack.EMPTY);
         containerData = new ContainerData() {
             @Override

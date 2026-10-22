@@ -1,6 +1,6 @@
 package ml.pluto7073.plutoscoffee.gui;
 
-import ml.pluto7073.plutoscoffee.registry.ModGuiTextures;
+import ml.pluto7073.plutoscoffee.registry.CoffeeGuiTextures;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -35,12 +35,12 @@ public class EspressoMachineScreen extends AbstractContainerScreen<EspressoMachi
         int i = (this.width - this.imageWidth) / 2;
         int j = (this.height - this.imageHeight) / 2;
         //context.blit(TEXTURE, i, j, 0, 0, this.imageWidth, this.imageHeight);
-        ModGuiTextures.ESPRESSO_MACHINE.render(context, i, j);
+        CoffeeGuiTextures.ESPRESSO_MACHINE.render(context, i, j);
         int k = menu.getWater();
         int l = Mth.clamp((18 * k + 1000 - 1) / 1000, 0, 18);
         if (l > 0) {
             //context.blit(TEXTURE, i + 60, j + 44, 176, 29, l, 4);
-            ModGuiTextures.WATER.renderOnMenu(context, i + 60, j + 44, l, 4);
+            CoffeeGuiTextures.WATER.renderOnMenu(context, i + 60, j + 44, l, 4);
         }
 
         int m = menu.getPullTime();
@@ -48,13 +48,13 @@ public class EspressoMachineScreen extends AbstractContainerScreen<EspressoMachi
             int n = (int) (28.0F * (1.0F - (float) m / menu.getTotalPullTime()));
             if (n > 0) {
                 //context.blit(TEXTURE, i + 97, j + 16, 176, 0, 9, n);
-                ModGuiTextures.PROGRESS_ARROW.renderOnMenu(context, i + 97, j + 16, 9, n);
+                CoffeeGuiTextures.PROGRESS_ARROW.renderOnMenu(context, i + 97, j + 16, 9, n);
             }
 
             n = BUBBLE_PROGRESS[m / 2 % 7];
             if (n > 0) {
                 //context.blit(TEXTURE, i + 63, j + 14 + 29 - n, 185, 29 - n, 12, n);
-                ModGuiTextures.PROGRESS_BUBBLE.renderCustomUV(context, i + 63, j + 43 - n, 185, 29 - n, 12, n);
+                CoffeeGuiTextures.PROGRESS_BUBBLE.renderCustomUV(context, i + 63, j + 43 - n, 185, 29 - n, 12, n);
             }
         }
 
@@ -67,16 +67,16 @@ public class EspressoMachineScreen extends AbstractContainerScreen<EspressoMachi
                 else if (m < 500) temp = 1;
                 else temp = 2;
                 switch (temp) {
-                    case 0 -> ModGuiTextures.STEAM_COLD.renderOnMenu(context, i + 128, j + 52 - n, 5, n);
-                    case 1 -> ModGuiTextures.STEAM_HOT.renderOnMenu(context, i + 128, j + 52 - n, 5, n);
-                    case 2 -> ModGuiTextures.STEAM_BURNT.renderOnMenu(context, i + 128, j + 52 - n, 5, n);
+                    case 0 -> CoffeeGuiTextures.STEAM_COLD.renderOnMenu(context, i + 128, j + 52 - n, 5, n);
+                    case 1 -> CoffeeGuiTextures.STEAM_HOT.renderOnMenu(context, i + 128, j + 52 - n, 5, n);
+                    case 2 -> CoffeeGuiTextures.STEAM_BURNT.renderOnMenu(context, i + 128, j + 52 - n, 5, n);
                 }
                 //context.blit(TEXTURE, i + 128, j + 52 - n, tempU, 33, 5, n);
             }
 
             n = BUBBLE_PROGRESS[(600 - m) / 2 % 7];
             if (n > 0) {
-                ModGuiTextures.PROGRESS_BUBBLE.renderCustomUV(context, i + 138, j + 73 - n, 185, 29 - n, 12, n);
+                CoffeeGuiTextures.PROGRESS_BUBBLE.renderCustomUV(context, i + 138, j + 73 - n, 185, 29 - n, 12, n);
                 //context.blit(TEXTURE, i + 138, j + 44 + 29 - n, 185, 29 - n, 12, n);
             }
         }

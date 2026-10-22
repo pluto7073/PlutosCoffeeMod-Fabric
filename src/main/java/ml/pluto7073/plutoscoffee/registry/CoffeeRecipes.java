@@ -8,7 +8,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 
-public class ModRecipes {
+public class CoffeeRecipes {
 
     public static final RecipeType<PullingRecipe> PULLING_RECIPE_TYPE = Registry.register(BuiltInRegistries.RECIPE_TYPE, PlutosCoffee.asId("pulling"), new RecipeType<PullingRecipe>() {
         public String toString() {

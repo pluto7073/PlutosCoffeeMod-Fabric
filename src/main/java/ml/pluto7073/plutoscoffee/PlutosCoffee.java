@@ -22,19 +22,19 @@ public class PlutosCoffee implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ModDrinkBases.init();
-        ModBlocks.init();
-        ModItems.init();
-        ModMisc.init();
-        ModScreens.init();
-        ModStats.registerStats();
+        CoffeeDrinkBases.init();
+        CoffeeBlocks.init();
+        CoffeeItems.init();
+        CoffeeCreativeTabs.init();
+        CoffeeMenus.init();
+        CoffeeStats.registerStats();
         CoffeeGrounds.init();
-        ModRecipes.init();
-        ModSounds.init();
-        ModPointOfInterests.init();
-        ModVillagerProfessions.init();
+        CoffeeRecipes.init();
+        CoffeeSounds.init();
+        CoffeePOIs.init();
+        CoffeeVillagerTrades.init();
 
-        ModVillagerProfessions.postInit();
+        CoffeeVillagerTrades.postInit();
         ServerLifecycleEvents.SERVER_STARTING.register(PlutosCoffee::initStructurePoolElements);
         ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new MachineWaterSources());
 

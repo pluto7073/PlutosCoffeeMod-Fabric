@@ -10,9 +10,9 @@ import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.gui.EspressoMachineMenu;
 import ml.pluto7073.plutoscoffee.recipe.PullingRecipe;
 import ml.pluto7073.plutoscoffee.recipe.PullingRecipeInput;
-import ml.pluto7073.plutoscoffee.registry.ModBlocks;
-import ml.pluto7073.plutoscoffee.registry.ModItems;
-import ml.pluto7073.plutoscoffee.registry.ModRecipes;
+import ml.pluto7073.plutoscoffee.registry.CoffeeBlocks;
+import ml.pluto7073.plutoscoffee.registry.CoffeeItems;
+import ml.pluto7073.plutoscoffee.registry.CoffeeRecipes;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.base.SingleFluidStorage;
@@ -81,7 +81,7 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
 
 
     public EspressoMachineBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlocks.ESPRESSO_MACHINE_BLOCK_ENTITY_TYPE, pos, state);
+        super(CoffeeBlocks.ESPRESSO_MACHINE_BLOCK_ENTITY_TYPE, pos, state);
         this.inventory = NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY);
         this.containerData = new ContainerData() {
             @Override
@@ -113,7 +113,7 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
                 return PROPERTY_COUNT;
             }
         };
-        this.matchGetter = RecipeManager.createCheck(ModRecipes.PULLING_RECIPE_TYPE);
+        this.matchGetter = RecipeManager.createCheck(CoffeeRecipes.PULLING_RECIPE_TYPE);
         this.recipesUsed = new Object2IntOpenHashMap<>();
     }
 
@@ -203,14 +203,14 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
 
         ItemStack milkStack = blockEntity.inventory.get(MILK_SLOT_INDEX);
 
-        boolean steaming = (milkStack.is(PDTags.MILK_BOTTLES) || milkStack.is(ModItems.LATTE)) && blockEntity.waterStorage.amount >= WATER_TO_STEAM;
+        boolean steaming = (milkStack.is(PDTags.MILK_BOTTLES) || milkStack.is(CoffeeItems.LATTE)) && blockEntity.waterStorage.amount >= WATER_TO_STEAM;
         if (steaming) {
             blockEntity.steamTime++;
             if (blockEntity.steamTime > 600) blockEntity.steamTime = 600;
 
             if (milkStack.is(PDTags.MILK_BOTTLES) && blockEntity.steamTime >= 400) {
-                milkStack = new ItemStack(ModItems.LATTE);
-            } else if (milkStack.is(ModItems.LATTE) && blockEntity.steamTime >= 500) {
+                milkStack = new ItemStack(CoffeeItems.LATTE);
+            } else if (milkStack.is(CoffeeItems.LATTE) && blockEntity.steamTime >= 500) {
                 DrinkAdditions resAdds = milkStack.getOrDefault(PDComponents.ADDITIONS, DrinkAdditions.EMPTY);
                 if (!resAdds.additions().contains(PDAPI.asId("burnt"))) resAdds = resAdds.withAddition(PDAPI.asId("burnt"));
                 milkStack.set(PDComponents.ADDITIONS, resAdds);
@@ -234,7 +234,7 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
         if (grounds.getCount() < recipe.groundsRequired()) return false;
         ItemStack trash = slots.get(TRASH_SLOT_INDEX);
         if (trash.getCount() > trash.getItem().getDefaultMaxStackSize() - recipe.groundsRequired()) return false;
-        return trash.is(ModItems.USED_COFFEE_GROUNDS) || trash.isEmpty();
+        return trash.is(CoffeeItems.USED_COFFEE_GROUNDS) || trash.isEmpty();
     }
 
     private static void pull(Level level, BlockPos pos, EspressoMachineBlockEntity slots, PullingRecipe recipe) {
@@ -244,7 +244,7 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
         input.shrink(recipe.groundsRequired());
 
         if (trash.isEmpty()) {
-            trash = new ItemStack(ModItems.USED_COFFEE_GROUNDS, recipe.groundsRequired());
+            trash = new ItemStack(CoffeeItems.USED_COFFEE_GROUNDS, recipe.groundsRequired());
         } else {
             trash.grow(recipe.groundsRequired());
         }
@@ -323,9 +323,9 @@ public class EspressoMachineBlockEntity extends BaseContainerBlockEntity impleme
 
     public boolean isValid(int slot, ItemStack stack) {
         return switch (slot) {
-            case GROUNDS_SLOT_INDEX -> stack.is(ModItems.GROUND_ESPRESSO_ROAST);
+            case GROUNDS_SLOT_INDEX -> stack.is(CoffeeItems.GROUND_ESPRESSO_ROAST);
             case ESPRESSO_SLOT_INDEX,ESPRESSO_SLOT_2_INDEX -> getItem(slot).isEmpty() && stack.is(Items.GLASS_BOTTLE);
-            case MILK_SLOT_INDEX -> getItem(slot).isEmpty() && (stack.is(PDTags.MILK_BOTTLES) || stack.is(ModItems.LATTE));
+            case MILK_SLOT_INDEX -> getItem(slot).isEmpty() && (stack.is(PDTags.MILK_BOTTLES) || stack.is(CoffeeItems.LATTE));
             case WATER_SLOT_INDEX -> stack.is(Items.WATER_BUCKET);
             default -> false;
         };

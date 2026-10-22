@@ -11,7 +11,7 @@ import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import ml.pluto7073.plutoscoffee.compat.rei.CoffeeREI;
 import ml.pluto7073.plutoscoffee.compat.rei.display.GrindingDisplay;
-import ml.pluto7073.plutoscoffee.registry.ModItems;
+import ml.pluto7073.plutoscoffee.registry.CoffeeItems;
 import net.minecraft.network.chat.Component;
 
 import java.util.List;
@@ -45,6 +45,6 @@ public class GrindingCategory implements DisplayCategory<GrindingDisplay> {
 
     @Override
     public Renderer getIcon() {
-        return EntryStacks.of(ModItems.COFFEE_GRINDR);
+        return EntryStacks.of(CoffeeItems.COFFEE_GRINDR);
     }
 }

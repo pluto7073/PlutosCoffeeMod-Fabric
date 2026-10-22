@@ -4,7 +4,7 @@ import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
-import ml.pluto7073.plutoscoffee.registry.ModStats;
+import ml.pluto7073.plutoscoffee.registry.CoffeeStats;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -47,7 +47,7 @@ public class BrewedCoffee extends AbstractCustomizableDrinkItem {
         Player player = user instanceof Player ? (Player) user : null;
 
         if (player != null) {
-            player.awardStat(ModStats.DRINK_COFFEE);
+            player.awardStat(CoffeeStats.DRINK_COFFEE);
         }
 
         return super.finishUsingItem(stack, level, user);

@@ -1,10 +1,9 @@
 package ml.pluto7073.plutoscoffee.mixins.client;
 
-import ml.pluto7073.pdapi.util.DrinkUtil;
-import ml.pluto7073.plutoscoffee.Client;
+import ml.pluto7073.pdapi.addition.chemicals.CaffeineHandler;
 import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.config.CoffeeConfig;
-import ml.pluto7073.plutoscoffee.registry.ModGuiTextures;
+import ml.pluto7073.plutoscoffee.registry.CoffeeGuiTextures;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
@@ -65,12 +64,12 @@ public abstract class InGameHudMixin {
             }
         }
 
-        float currentCaffeine = Math.min(3000f, DrinkUtil.getPlayerCaffeine(playerEntity));
+        float currentCaffeine = Math.min(3000f, CaffeineHandler.INSTANCE.get(playerEntity));
         int scaledCaffeineOutput = Math.round(currentCaffeine * (71f/3000f));
         //graphics.blit(ICONS, centerX + 10, baseYValue, 0, 0, 80, 8, 80, 16);
         //graphics.blit(ICONS, centerX + 10, baseYValue, 0, 9, scaledCaffeineOutput, 8, 80, 16);
-        ModGuiTextures.CAFFEINE_DISPLAY_OUTLINE.renderSection(graphics, centerX + 10, baseYValue, 80, 8);
-        ModGuiTextures.CAFFEINE_DISPLAY_FILL.renderSection(graphics, centerX + 10, baseYValue - 1, scaledCaffeineOutput, 8);
+        CoffeeGuiTextures.CAFFEINE_DISPLAY_OUTLINE.renderSection(graphics, centerX + 10, baseYValue, 80, 8);
+        CoffeeGuiTextures.CAFFEINE_DISPLAY_FILL.renderSection(graphics, centerX + 10, baseYValue - 1, scaledCaffeineOutput, 8);
 
         this.minecraft.getProfiler().pop();
     }

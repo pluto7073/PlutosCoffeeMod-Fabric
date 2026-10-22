@@ -12,8 +12,8 @@ import me.shedaniel.rei.api.common.util.EntryIngredients;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import ml.pluto7073.plutoscoffee.compat.rei.CoffeeREI;
 import ml.pluto7073.plutoscoffee.compat.rei.display.PullingDisplay;
-import ml.pluto7073.plutoscoffee.registry.ModGuiTextures;
-import ml.pluto7073.plutoscoffee.registry.ModItems;
+import ml.pluto7073.plutoscoffee.registry.CoffeeGuiTextures;
+import ml.pluto7073.plutoscoffee.registry.CoffeeItems;
 import ml.pluto7073.plutoscoffee.tags.ModItemTags;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -56,8 +56,8 @@ public class PullingCategory implements DisplayCategory<PullingDisplay> {
             @Override
             public void render(GuiGraphics graphics, int mouseX, int mouseY, float delta) {
                 int n = (int) (28.0F * (1.0F - (float) tick / display.getPullTime()));
-                ModGuiTextures.PROGRESS_OUTLINE.render(graphics, origin.x + 7, origin.y + 58);
-                ModGuiTextures.PROGRESS_ARROW.renderOnMenu(graphics, origin.x + 7, origin.y + 58, 9, n);
+                CoffeeGuiTextures.PROGRESS_OUTLINE.render(graphics, origin.x + 7, origin.y + 58);
+                CoffeeGuiTextures.PROGRESS_ARROW.renderOnMenu(graphics, origin.x + 7, origin.y + 58, 9, n);
                 tick--;
                 if (tick <= 0) tick = display.getPullTime();
             }
@@ -72,7 +72,7 @@ public class PullingCategory implements DisplayCategory<PullingDisplay> {
 
     @Override
     public Renderer getIcon() {
-        return EntryStacks.of(ModItems.ESPRESSO_MACHINE);
+        return EntryStacks.of(CoffeeItems.ESPRESSO_MACHINE);
     }
 
     @Override

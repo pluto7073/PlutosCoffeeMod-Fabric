@@ -38,7 +38,7 @@
       "ml.pluto7073.plutoscoffee.PlutosCoffee"
     ],
     "client": [
-      "ml.pluto7073.plutoscoffee.Client"
+      "ml.pluto7073.plutoscoffee.CoffeeClient"
     ],
     "modmenu": [
       "ml.pluto7073.plutoscoffee.compat.modmenu.CoffeeModMenuApiImpl"

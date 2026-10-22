@@ -1,7 +1,7 @@
 package ml.pluto7073.plutoscoffee.coffee;
 
 import com.mojang.serialization.Codec;
-import ml.pluto7073.plutoscoffee.registry.ModItems;
+import ml.pluto7073.plutoscoffee.registry.CoffeeItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -58,11 +58,11 @@ public class CoffeeTypes {
 
     static {
         EMPTY = register("empty", new CoffeeType("empty", Items.AIR, 0));
-        LIGHT_ROAST = register("light_roast", new CoffeeType("light_roast", ModItems.GROUND_LIGHT_ROAST, 125));
-        MEDIUM_ROAST = register("medium_roast", new CoffeeType("medium_roast", ModItems.GROUND_MEDIUM_ROAST, 120));
-        DARK_ROAST = register("dark_roast", new CoffeeType("dark_roast", ModItems.GROUND_DARK_ROAST, 115));
-        ESPRESSO = register("espresso", new CoffeeType("espresso", ModItems.GROUND_ESPRESSO_ROAST, 100));
-        DECAF = register("decaf", new CoffeeType("decaf", ModItems.GROUND_DECAF_ROAST, 7));
+        LIGHT_ROAST = register("light_roast", new CoffeeType("light_roast", CoffeeItems.GROUND_LIGHT_ROAST, 125));
+        MEDIUM_ROAST = register("medium_roast", new CoffeeType("medium_roast", CoffeeItems.GROUND_MEDIUM_ROAST, 120));
+        DARK_ROAST = register("dark_roast", new CoffeeType("dark_roast", CoffeeItems.GROUND_DARK_ROAST, 115));
+        ESPRESSO = register("espresso", new CoffeeType("espresso", CoffeeItems.GROUND_ESPRESSO_ROAST, 100));
+        DECAF = register("decaf", new CoffeeType("decaf", CoffeeItems.GROUND_DECAF_ROAST, 7));
     }
 
 }

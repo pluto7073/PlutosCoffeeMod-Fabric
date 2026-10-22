@@ -5,9 +5,9 @@ import ml.pluto7073.plutoscoffee.CoffeeUtil;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
 import ml.pluto7073.plutoscoffee.gui.CoffeeBrewerMenu;
-import ml.pluto7073.plutoscoffee.registry.ModBlocks;
+import ml.pluto7073.plutoscoffee.registry.CoffeeBlocks;
+import ml.pluto7073.plutoscoffee.registry.CoffeeItems;
 import ml.pluto7073.plutoscoffee.registry.ModComponents;
-import ml.pluto7073.plutoscoffee.registry.ModItems;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.FilteringStorage;
@@ -58,7 +58,7 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
     protected final ContainerData containerData;
 
     public CoffeeBrewerBlockEntity(BlockPos pos, BlockState state) {
-        super (ModBlocks.COFFEE_BREWER_BLOCK_ENTITY_TYPE, pos, state);
+        super (CoffeeBlocks.COFFEE_BREWER_BLOCK_ENTITY_TYPE, pos, state);
         inventory = NonNullList.withSize(3, ItemStack.EMPTY);
         containerData = new ContainerData() {
             public int get(int index) {
@@ -158,7 +158,7 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
             return 0;
         } else if (inventory.get(2).is(Items.GLASS_BOTTLE)) {
             return 1;
-        } else if (inventory.get(2).is(ModItems.BREWED_COFFEE)) {
+        } else if (inventory.get(2).is(CoffeeItems.BREWED_COFFEE)) {
             return 2;
         } else {
             return 0;
@@ -181,7 +181,7 @@ public class CoffeeBrewerBlockEntity extends BaseContainerBlockEntity implements
         ItemStack input = slots.get(INPUT_SLOT_INDEX);
 
         CoffeeType type = CoffeeTypes.getFromGrounds(input.getItem());
-        ItemStack result = new ItemStack(ModItems.BREWED_COFFEE, 1);
+        ItemStack result = new ItemStack(CoffeeItems.BREWED_COFFEE, 1);
         result.set(ModComponents.COFFEE_TYPE, type);
         slots.set(2, result);
 

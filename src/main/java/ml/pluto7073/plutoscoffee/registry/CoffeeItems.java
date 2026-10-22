@@ -18,12 +18,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.item.Items;
 
-public class ModItems {
+public class CoffeeItems {
 
-    public static final Item COFFEE_CHERRY = new ItemNameBlockItem(ModBlocks.COFFEE_CROP, new Item.Properties());
-    public static final Item COFFEE_BREWER = new BlockItem(ModBlocks.COFFEE_BREWER, new Item.Properties());
-    public static final Item COFFEE_GRINDR = new BlockItem(ModBlocks.COFFEE_GRINDR, new Item.Properties());
-    public static final Item ESPRESSO_MACHINE = new BlockItem(ModBlocks.ESPRESSO_MACHINE, new Item.Properties());
+    public static final Item COFFEE_CHERRY = new ItemNameBlockItem(CoffeeBlocks.COFFEE_CROP, new Item.Properties());
+    public static final Item COFFEE_BREWER = new BlockItem(CoffeeBlocks.COFFEE_BREWER, new Item.Properties());
+    public static final Item COFFEE_GRINDR = new BlockItem(CoffeeBlocks.COFFEE_GRINDR, new Item.Properties());
+    public static final Item ESPRESSO_MACHINE = new BlockItem(CoffeeBlocks.ESPRESSO_MACHINE, new Item.Properties());
     public static final Item COFFEE_BEAN = new CoffeeBean();
     public static final Item LIGHT_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.build()).component(ChemicalMap.COMPONENT_TYPE, new ChemicalMap.Builder().add(PDAPI.asId("caffeine"), 10).build()));
     public static final Item MEDIUM_ROAST_BEAN = new Item(new Item.Properties().food(CoffeeBean.COFFEE_BEAN_FOOD_COMPONENT.build()).component(ChemicalMap.COMPONENT_TYPE, new ChemicalMap.Builder().add(PDAPI.asId("caffeine"), 9).build()));

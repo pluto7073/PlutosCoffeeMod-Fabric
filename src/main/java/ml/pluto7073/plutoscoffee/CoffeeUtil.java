@@ -4,16 +4,13 @@ import com.mojang.datafixers.util.Pair;
 import ml.pluto7073.pdapi.component.DrinkAdditions;
 import ml.pluto7073.pdapi.component.PDComponents;
 import ml.pluto7073.pdapi.util.DrinkUtil;
-import ml.pluto7073.pdapi.addition.DrinkAddition;
-import ml.pluto7073.pdapi.addition.DrinkAdditionManager;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeType;
 import ml.pluto7073.plutoscoffee.coffee.CoffeeTypes;
 import ml.pluto7073.plutoscoffee.coffee.MachineWaterSources;
-import ml.pluto7073.plutoscoffee.items.BrewedCoffee;
 import ml.pluto7073.plutoscoffee.mixins.StructurePoolAccessor;
 import ml.pluto7073.plutoscoffee.registry.ModComponents;
-import ml.pluto7073.plutoscoffee.registry.ModItems;
+import ml.pluto7073.plutoscoffee.registry.CoffeeItems;
 import ml.pluto7073.plutoscoffee.tags.ModItemTags;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.fabricmc.fabric.api.tag.convention.v2.TagUtil;
@@ -26,7 +23,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
@@ -34,9 +30,6 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static ml.pluto7073.plutoscoffee.blocks.EspressoMachineBlockEntity.WATER;
 
@@ -84,7 +77,7 @@ public final class CoffeeUtil {
     }
 
     public static ItemStack getBaseCoffee(CoffeeType type) {
-        ItemStack stack = new ItemStack(ModItems.BREWED_COFFEE);
+        ItemStack stack = new ItemStack(CoffeeItems.BREWED_COFFEE);
         if (type == CoffeeTypes.EMPTY) return stack;
         stack.set(ModComponents.COFFEE_TYPE, type);
         return stack;
@@ -98,32 +91,6 @@ public final class CoffeeUtil {
         return TagUtil.isIn(ModItemTags.COFFEE_BEANS, item);
     }
 
-    public static int getCoffeeColour(ItemStack stack, Level level) {
-        DrinkAddition[] addIns = DrinkUtil.getAdditionsFromStack(stack, level);
-        if (addIns == null) {
-            return BrewedCoffee.DEFAULT_COLOUR;
-        }
-        return getCoffeeColour(addIns, level);
-    }
-
-    public static int getCoffeeColour(DrinkAddition[] addIns, Level level) {
-        int color = BrewedCoffee.DEFAULT_COLOUR;
-        if (Arrays.stream(addIns).filter(Objects::nonNull).map(level.getDrinkAdditionManager()::getId).anyMatch(identifier -> identifier.toString().equals("pdapi:milk"))) {
-            color = BrewedCoffee.COLOUR_WITH_MILK;
-        }
-        final AtomicInteger allowedMilk = new AtomicInteger(2);
-        List<Integer> colors = Arrays.stream(addIns).filter(addition -> {
-            if (addition == null) return false;
-            if (level.getDrinkAdditionManager().getId(addition).toString().equals("pdapi:milk") && allowedMilk.get() > 0) {
-                allowedMilk.decrementAndGet();
-                return false;
-            }
-            return true;
-        }).filter(DrinkAddition::changesColor).map(DrinkAddition::getColor).collect(Collectors.toCollection(ArrayList::new));
-        colors.addFirst(color);
-        return DrinkUtil.averageColors(colors);
-    }
-
     public static ItemStack getWithAdditions(ItemStack stack, String... additions) {
         DrinkAdditions adds = stack.getOrDefault(PDComponents.ADDITIONS, DrinkAdditions.EMPTY);
         for (String s : additions) {
@@ -131,32 +98,6 @@ public final class CoffeeUtil {
         }
         stack.set(PDComponents.ADDITIONS, adds);
         return stack;
-    }
-
-    public static int getLatteColour(ItemStack stack, Level level) {
-        DrinkAddition[] addIns = DrinkUtil.getAdditionsFromStack(stack, level);
-        if (addIns == null) {
-            return 0xFFFFFF;
-        }
-        return getLatteColour(addIns, level);
-    }
-
-    public static int getLatteColour(DrinkAddition[] addIns, Level level) {
-        int color = 0xFFFFFF;
-        if (Arrays.stream(addIns).filter(Objects::nonNull).map(level.getDrinkAdditionManager()::getId).anyMatch(id -> id.getPath().contains("espresso_shot"))) {
-            color = BrewedCoffee.COLOUR_WITH_MILK;
-        }
-        final AtomicInteger allowedShots = new AtomicInteger(2);
-        List<Integer> colors = Arrays.stream(addIns).filter(addition -> {
-            if (addition == null) return false;
-            if (level.getDrinkAdditionManager().getId(addition).getPath().contains("espresso_shot") && allowedShots.get() > 0) {
-                allowedShots.decrementAndGet();
-                return false;
-            }
-            return true;
-        }).filter(DrinkAddition::changesColor).map(DrinkAddition::getColor).collect(Collectors.toCollection(ArrayList::new));
-        colors.addFirst(color);
-        return DrinkUtil.averageColors(colors);
     }
 
     public static int calculateHealthBarHeightPixels(int health, int maxHeartsPerRow, int rowHeight) {

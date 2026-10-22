@@ -5,7 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import ml.pluto7073.plutoscoffee.blocks.EspressoMachineBlockEntity;
-import ml.pluto7073.plutoscoffee.registry.ModRecipes;
+import ml.pluto7073.plutoscoffee.registry.CoffeeRecipes;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
@@ -57,12 +57,12 @@ public record PullingRecipe(Ingredient grounds, Ingredient base, int groundsRequ
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return ModRecipes.PULLING_RECIPE_SERIALIZER;
+        return CoffeeRecipes.PULLING_RECIPE_SERIALIZER;
     }
 
     @Override
     public RecipeType<?> getType() {
-        return ModRecipes.PULLING_RECIPE_TYPE;
+        return CoffeeRecipes.PULLING_RECIPE_TYPE;
     }
 
     public static class Serializer implements RecipeSerializer<PullingRecipe> {

@@ -14,7 +14,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
-public class ModMisc {
+public class CoffeeCreativeTabs {
 
     // Item Groups
     public static final ResourceKey<CreativeModeTab> PC_GROUP;
@@ -24,27 +24,27 @@ public class ModMisc {
     static {
         // Item Groups
         PC_GROUP = ResourceKey.create(Registries.CREATIVE_MODE_TAB, PlutosCoffee.asId("pc_group"));
-        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, PC_GROUP, FabricItemGroup.builder().icon(() -> new ItemStack(ModItems.MEDIUM_ROAST_BEAN))
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, PC_GROUP, FabricItemGroup.builder().icon(() -> new ItemStack(CoffeeItems.MEDIUM_ROAST_BEAN))
                 .title(Component.translatable("itemGroup.plutoscoffee.pc_group"))
                 .build());
         ItemGroupEvents.modifyEntriesEvent(PC_GROUP).register(stacks -> {
-            stacks.accept(new ItemStack(ModItems.COFFEE_BREWER, 1));
-            stacks.accept(new ItemStack(ModItems.COFFEE_GRINDR, 1));
-            stacks.accept(new ItemStack(ModItems.ESPRESSO_MACHINE, 1));
+            stacks.accept(new ItemStack(CoffeeItems.COFFEE_BREWER, 1));
+            stacks.accept(new ItemStack(CoffeeItems.COFFEE_GRINDR, 1));
+            stacks.accept(new ItemStack(CoffeeItems.ESPRESSO_MACHINE, 1));
             stacks.accept(new ItemStack(PDItems.DRINK_WORKSTATION, 1));
-            stacks.accept(new ItemStack(ModItems.COFFEE_CHERRY, 1));
-            stacks.accept(new ItemStack(ModItems.COFFEE_BEAN, 1));
-            stacks.accept(new ItemStack(ModItems.LIGHT_ROAST_BEAN, 1));
-            stacks.accept(new ItemStack(ModItems.MEDIUM_ROAST_BEAN, 1));
-            stacks.accept(new ItemStack(ModItems.DARK_ROAST_BEAN, 1));
-            stacks.accept(new ItemStack(ModItems.ESPRESSO_ROAST_BEAN, 1));
-            stacks.accept(new ItemStack(ModItems.DECAF_ROAST_BEAN));
-            stacks.accept(new ItemStack(ModItems.GROUND_LIGHT_ROAST, 1));
-            stacks.accept(new ItemStack(ModItems.GROUND_MEDIUM_ROAST, 1));
-            stacks.accept(new ItemStack(ModItems.GROUND_DARK_ROAST, 1));
-            stacks.accept(new ItemStack(ModItems.GROUND_ESPRESSO_ROAST, 1));
-            stacks.accept(new ItemStack(ModItems.GROUND_DECAF_ROAST));
-            ItemStack lightRoast = new ItemStack(ModItems.BREWED_COFFEE, 1);
+            stacks.accept(new ItemStack(CoffeeItems.COFFEE_CHERRY, 1));
+            stacks.accept(new ItemStack(CoffeeItems.COFFEE_BEAN, 1));
+            stacks.accept(new ItemStack(CoffeeItems.LIGHT_ROAST_BEAN, 1));
+            stacks.accept(new ItemStack(CoffeeItems.MEDIUM_ROAST_BEAN, 1));
+            stacks.accept(new ItemStack(CoffeeItems.DARK_ROAST_BEAN, 1));
+            stacks.accept(new ItemStack(CoffeeItems.ESPRESSO_ROAST_BEAN, 1));
+            stacks.accept(new ItemStack(CoffeeItems.DECAF_ROAST_BEAN));
+            stacks.accept(new ItemStack(CoffeeItems.GROUND_LIGHT_ROAST, 1));
+            stacks.accept(new ItemStack(CoffeeItems.GROUND_MEDIUM_ROAST, 1));
+            stacks.accept(new ItemStack(CoffeeItems.GROUND_DARK_ROAST, 1));
+            stacks.accept(new ItemStack(CoffeeItems.GROUND_ESPRESSO_ROAST, 1));
+            stacks.accept(new ItemStack(CoffeeItems.GROUND_DECAF_ROAST));
+            ItemStack lightRoast = new ItemStack(CoffeeItems.BREWED_COFFEE, 1);
             lightRoast.set(ModComponents.COFFEE_TYPE, CoffeeTypes.LIGHT_ROAST);
             ItemStack mediumRoast = lightRoast.copy();
             mediumRoast.set(ModComponents.COFFEE_TYPE, CoffeeTypes.MEDIUM_ROAST);
@@ -53,12 +53,12 @@ public class ModMisc {
             stacks.accept(lightRoast);
             stacks.accept(mediumRoast);
             stacks.accept(darkRoast);
-            stacks.accept(new ItemStack(ModItems.BLONDE_ESPRESSO_SHOT));
-            stacks.accept(new ItemStack(ModItems.ESPRESSO_SHOT));
-            stacks.accept(new ItemStack(ModItems.DECAF_ESPRESSO_SHOT));
-            stacks.accept(new ItemStack(ModItems.CARAMEL));
+            stacks.accept(new ItemStack(CoffeeItems.BLONDE_ESPRESSO_SHOT));
+            stacks.accept(new ItemStack(CoffeeItems.ESPRESSO_SHOT));
+            stacks.accept(new ItemStack(CoffeeItems.DECAF_ESPRESSO_SHOT));
+            stacks.accept(new ItemStack(CoffeeItems.CARAMEL));
             stacks.accept(new ItemStack(PDItems.MILK_BOTTLE));
-            stacks.accept(new ItemStack(ModItems.MOCHA_SAUCE));
+            stacks.accept(new ItemStack(CoffeeItems.MOCHA_SAUCE));
         });
     }
 

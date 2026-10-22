@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 
-public class ModBlocks {
+public class CoffeeBlocks {
 
     public static final Block COFFEE_CROP = new CoffeeCrop(Properties.of().mapColor(MapColor.COLOR_GREEN).noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY));
     public static final Block COFFEE_BREWER = new CoffeeBrewerBlock(Properties.of().mapColor(MapColor.COLOR_GRAY).requiresCorrectToolForDrops().strength(0.5F).lightLevel((state) -> 1).noOcclusion());
